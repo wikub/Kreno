@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 49153,
+            "driver": "PostgreSQL",
+            "name": "keno",
+            "database": "app",
+            "username": "symfony",
+            "password": "ChangeMe"
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+@import '~bootstrap';
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+
+@import 'layout/header.scss';
+@import 'layout/sidebar.scss';
+
+body {
+    background-color: rgb(255, 255, 255);
+}

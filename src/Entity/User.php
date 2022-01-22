@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -52,15 +54,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $phonenumber;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=UserCategory::class, inversedBy="users")
      */
-    private $category;
-
-    private static $categoryLabel = [
-        0 => 'Aucune',
-        1 => 'Coordo',
-        2 => 'Bénéficiaire'
-    ];
+    private $userCategory;
 
     /**
      * @ORM\Column(type="integer")
@@ -79,15 +75,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="integer", options={"default" : 0})
+     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="user")
      */
-    private $enable;
+    private $jobs;
 
-    private static $enableLabel = [
-        0 => 'Desactivé',
-        1 => 'Activé'
-    ];
+    /**
+     * @ORM\Column(type="boolean", options={"default" : true})
+     */
+    private $enabled;
 
+    public function __construct()
+    {
+        $this->jobs = new ArrayCollection();
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -208,27 +209,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCategory(): ?int
+    public function getUserCategory(): ?UserCategory
     {
-        return $this->category;
+        return $this->userCategory;
     }
 
-    public function getCategoryLabel(): ?string
+    public function setUserCategory(?UserCategory $userCategory): self
     {
-        if( array_key_exists($this->category, self::$categoryLabel) )
-            return self::$categoryLabel[$this->category];
-        
-        return '';
-    }
-
-    public static function getCategoryLabels(): ?array
-    {
-        return self::$categoryLabel;
-    }
-
-    public function setCategory(int $category): self
-    {
-        $this->category = $category;
+        $this->userCategory = $userCategory;
 
         return $this;
     }
@@ -270,27 +258,44 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getEnable(): ?int
+    /**
+     * @return Collection|Job[]
+     */
+    public function getJobs(): Collection
     {
-        return $this->enable;
+        return $this->jobs;
     }
 
-    public function getEnableLabel(): ?string
+    public function addJob(Job $job): self
     {
-        if( array_key_exists($this->enable, self::$enableLabel) )
-            return self::$enableLabel[$this->enable];
-        
-        return '';
+        if (!$this->jobs->contains($job)) {
+            $this->jobs[] = $job;
+            $job->setUser($this);
+        }
+
+        return $this;
     }
 
-    public static function getEnableLabels(): ?array
+    public function removeJob(Job $job): self
     {
-        return self::$enableLabel;
+        if ($this->jobs->removeElement($job)) {
+            // set the owning side to null (unless already changed)
+            if ($job->getUser() === $this) {
+                $job->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
-    public function setEnable(int $enable): self
+    public function getEnabled(): ?bool
     {
-        $this->enable = $enable;
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
 
         return $this;
     }

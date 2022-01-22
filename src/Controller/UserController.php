@@ -83,27 +83,35 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/enable/{enable}", name="user_enable", methods={"GET"})
+     * @Route("/{id}/enable", name="user_enable", methods={"GET"})
      */
-    public function enable(User $user, int $enable, EntityManagerInterface $entityManager): Response
+    public function enable(User $user, EntityManagerInterface $entityManager): Response
     {
-        $user->setEnable($enable);
+        $user->setEnabled(true);
         $entityManager->persist($user);
         $entityManager->flush();
+    
+        $this->addFlash(
+            'notice',
+            'Le membre a été activé'
+        );
 
-        if( $enable == 0)
-        {
-            $this->addFlash(
-                'notice',
-                'Le membre a été desactivé'
-            );
-        } else {
-            $this->addFlash(
-                'notice',
-                'Le membre a été activé'
-            );
-        }
+        return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+    }
 
+    /**
+     * @Route("/{id}/disable", name="user_disable", methods={"GET"})
+     */
+    public function disable(User $user, EntityManagerInterface $entityManager): Response
+    {
+        $user->setEnabled(false);
+        $entityManager->persist($user);
+        $entityManager->flush();
+        $this->addFlash(
+            'notice',
+            'Le membre a été desactivé'
+        );
+        
         return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
     }
 

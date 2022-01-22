@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\UserCategory;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -32,9 +34,15 @@ class UserType extends AbstractType
                 'label' => 'Téléphone',
                 'required' => false
             ])
-            ->add('category', ChoiceType::class, [
+            ->add('userCategory', EntityType::class, [
                 'label' => 'Catégorie',
-                'choices' => array_flip(User::getCategoryLabels())
+                'class' => UserCategory::class,
+                'choice_label' => 'name',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('uc')
+                        ->where('uc.enabled = TRUE')
+                        ->orderBy('uc.name', 'ASC');
+                },
             ])
             ->add('subscriptionType', ChoiceType::class, [
                 'label' => 'Inscription',

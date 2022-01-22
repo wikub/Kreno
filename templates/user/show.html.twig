@@ -4,8 +4,10 @@
 
 {% block body %}
     <div class="pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2"><i class="fas fa-users"></i>Modification membre #{{user.id}}</h1>
+        <h1 class="h2"><i class="fas fa-users"></i> Modification membre #{{user.id}}</h1>
     </div>
+
+    {% include '_elements/_flashMessage.html.twig' %}
 
     <div class="table-responsive">
         <table class="table">
@@ -38,6 +40,10 @@
                     <th>Inscription</th>
                     <td>{{ user.subscriptionTypeLabel }}</td>
                 </tr>
+                <tr>
+                    <th>Statut</th>
+                    <td>{{ user.enableLabel }}</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -46,6 +52,11 @@
         <div class="btn-group mt-3">
             <a href="{{ path('user_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> Retour</a>
             <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-primary"><i class="fas fa-user-edit"></i> Modifier</a>
+            {% if user.enable == 1 %}
+            <a href="{{ path('user_enable', {'id': user.id, 'enable': 0}) }}" class="btn btn-secondary">Desactiver</a>
+            {% else %}
+            <a href="{{ path('user_enable', {'id': user.id, 'enable': 1}) }}" class="btn btn-secondary">Activer</a>
+            {% endif %}
         </div>
     </div>
 

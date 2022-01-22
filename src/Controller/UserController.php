@@ -83,6 +83,31 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/enable/{enable}", name="user_enable", methods={"GET"})
+     */
+    public function enable(User $user, int $enable, EntityManagerInterface $entityManager): Response
+    {
+        $user->setEnable($enable);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        if( $enable == 0)
+        {
+            $this->addFlash(
+                'notice',
+                'Le membre a été desactivé'
+            );
+        } else {
+            $this->addFlash(
+                'notice',
+                'Le membre a été activé'
+            );
+        }
+
+        return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+    }
+
+    /**
      * @Route("/{id}", name="user_delete", methods={"POST"})
      */
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
@@ -106,4 +131,6 @@ class UserController extends AbstractController
         }
         return $randomString;
     }
+
+
 }

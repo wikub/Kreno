@@ -78,6 +78,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $email;
 
+    /**
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $enable;
+
+    private static $enableLabel = [
+        0 => 'Desactivé',
+        1 => 'Activé'
+    ];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -256,6 +266,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(?string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getEnable(): ?int
+    {
+        return $this->enable;
+    }
+
+    public function getEnableLabel(): ?string
+    {
+        if( array_key_exists($this->enable, self::$enableLabel) )
+            return self::$enableLabel[$this->enable];
+        
+        return '';
+    }
+
+    public static function getEnableLabels(): ?array
+    {
+        return self::$enableLabel;
+    }
+
+    public function setEnable(int $enable): self
+    {
+        $this->enable = $enable;
 
         return $this;
     }

@@ -3,52 +3,50 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-users"></i>Modification membre #{{user.id}}</h1>
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ user.username }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ user.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ user.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Telephone</th>
-                <td>{{ user.telephone }}</td>
-            </tr>
-            <tr>
-                <th>Categorie</th>
-                <td>{{ user.categorie }}</td>
-            </tr>
-            <tr>
-                <th>Inscription</th>
-                <td>{{ user.inscription }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Username</th>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ user.name }}</td>
+                </tr>
+                <tr>
+                    <th>Prenom</th>
+                    <td>{{ user.firstname }}</td>
+                </tr>
+                <tr>
+                    <th>Courrier</th>
+                    <td>{% if user.email %}<a href="mailto:{{user.email}}">{{ user.email }}</a>{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Telephone</th>
+                    <td>{{ user.phonenumber }}</td>
+                </tr>
+                <tr>
+                    <th>Categorie</th>
+                    <td>{{ user.categoryLabel }}</td>
+                </tr>
+                <tr>
+                    <th>Inscription</th>
+                    <td>{{ user.subscriptionTypeLabel }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <a href="{{ path('user_index') }}">back to list</a>
+    <div class="text-center">
+        <div class="btn-group mt-3">
+            <a href="{{ path('user_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> Retour</a>
+            <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-primary"><i class="fas fa-user-edit"></i> Modifier</a>
+        </div>
+    </div>
 
-    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('user/_delete_form.html.twig') }}
 {% endblock %}

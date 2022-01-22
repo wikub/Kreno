@@ -39,27 +39,44 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nom;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $prenom;
+    private $firstname;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $telephone;
+    private $phonenumber;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $categorie;
+    private $category;
+
+    private static $categoryLabel = [
+        0 => 'Aucune',
+        1 => 'Coordo',
+        2 => 'Bénéficiaire'
+    ];
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $inscription;
+    private $subscriptionType;
+
+    private static $subscriptionTypeLabel = [
+        0 => 'Aucun',
+        1 => 'Régulier',
+        2 => 'Volant'
+    ];
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $email;
 
     public function getId(): ?int
     {
@@ -145,62 +162,100 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getNom(): ?string
+    public function getName(): ?string
     {
-        return $this->nom;
+        return $this->name;
     }
 
-    public function setNom(string $nom): self
+    public function setName(string $name): self
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->prenom;
+        return $this->firstname;
     }
 
-    public function setPrenom(string $prenom): self
+    public function setFirstname(string $firstname): self
     {
-        $this->prenom = $prenom;
+        $this->firstname = $firstname;
 
         return $this;
     }
 
-    public function getTelephone(): ?string
+    public function getPhonenumber(): ?string
     {
-        return $this->telephone;
+        return $this->phonenumber;
     }
 
-    public function setTelephone(?string $telephone): self
+    public function setPhonenumber(?string $phonenumber): self
     {
-        $this->telephone = $telephone;
+        $this->phonenumber = $phonenumber;
 
         return $this;
     }
 
-    public function getCategorie(): ?int
+    public function getCategory(): ?int
     {
-        return $this->categorie;
+        return $this->category;
     }
 
-    public function setCategorie(int $categorie): self
+    public function getCategoryLabel(): ?string
     {
-        $this->categorie = $categorie;
+        if( array_key_exists($this->category, self::$categoryLabel) )
+            return self::$categoryLabel[$this->category];
+        
+        return '';
+    }
+
+    public static function getCategoryLabels(): ?array
+    {
+        return self::$categoryLabel;
+    }
+
+    public function setCategory(int $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
 
-    public function getInscription(): ?int
+    public function getSubscriptionType(): ?int
     {
-        return $this->inscription;
+        return $this->subscriptionType;
     }
 
-    public function setInscription(int $inscription): self
+    public function getSubscriptionTypeLabel(): ?string
     {
-        $this->inscription = $inscription;
+        if( array_key_exists($this->subscriptionType, self::$subscriptionTypeLabel) )
+            return self::$subscriptionTypeLabel[$this->subscriptionType];
+        
+        return '';
+    }
+
+    public static function getSubscriptionTypeLabels(): ?array
+    {
+        return self::$subscriptionTypeLabel;
+    }
+
+    public function setSubscriptionType(int $subscriptionType): self
+    {
+        $this->subscriptionType = $subscriptionType;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

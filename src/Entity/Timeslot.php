@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TimeslotRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,17 @@ class Timeslot
      * @ORM\ManyToOne(targetEntity=TimeslotType::class, inversedBy="timeslots")
      */
     private $timeslotType;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="timeslot", orphanRemoval=true, cascade={"persist"})
+     */
+    private $jobs;
+
+    public function __construct()
+    {
+        $this->enabled = true;
+        $this->jobs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +133,36 @@ class Timeslot
     public function setTimeslotType(?TimeslotType $timeslotType): self
     {
         $this->timeslotType = $timeslotType;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Job[]
+     */
+    public function getJobs(): Collection
+    {
+        return $this->jobs;
+    }
+
+    public function addJob(Job $job): self
+    {
+        if (!$this->jobs->contains($job)) {
+            $this->jobs[] = $job;
+            $job->setTimeslot($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJob(Job $job): self
+    {
+        if ($this->jobs->removeElement($job)) {
+            // set the owning side to null (unless already changed)
+            if ($job->getTimeslot() === $this) {
+                $job->setTimeslot(null);
+            }
+        }
 
         return $this;
     }

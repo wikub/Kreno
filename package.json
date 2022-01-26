@@ -18,6 +18,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@a2lix/symfony-collection": "^0.4.0",
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@popperjs/core": "^2.10.2",
         "bootstrap": "^5.1.3",

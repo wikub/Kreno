@@ -27,6 +27,12 @@ class Job
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Timeslot::class, inversedBy="jobs")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $timeslot;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +58,18 @@ class Job
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getTimeslot(): ?Timeslot
+    {
+        return $this->timeslot;
+    }
+
+    public function setTimeslot(?Timeslot $timeslot): self
+    {
+        $this->timeslot = $timeslot;
 
         return $this;
     }

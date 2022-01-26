@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créneau #{{ timeslot.id}}{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-calendar-alt"></i> Créneau #{{ timeslot.id}}</h1>
+    </div>
+
+    <div class="table-responsive mb-3">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ timeslot.name }}</td>
+                </tr>
+                <tr>
+                    <th>Type</th>
+                    <td>{{ timeslot.timeslotType?timeslot.timeslotType.name}}
+                </tr>
+                <tr>
+                    <th>Début</th>
+                    <td>{{ timeslot.start ? timeslot.start|date('d/m/Y H:i') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Fin</th>
+                    <td>{{ timeslot.finish ? timeslot.finish|date('d/m/Y H:i') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ timeslot.description }}</td>
+                </tr>
+                <tr>
+                    <th>Actif</th>
+                    <td>{{ timeslot.enabled ? '<span class="text-success">Oui</span>' : '<span class="text-warning">Non</span>' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mb-3">
+        <h3>Postes</h3>
+    </div>
+
+    <div class="table-responsive">
+        <table class="jobs table table-bordered">
+            <thead>
+                <tr>
+                    <th>Catégorie</th>
+                    <th>Membre</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in timeslot.jobs %}
+                <tr>
+                    <td>{{job.userCategory?job.userCategory.name}}</td>
+                    <td>{{job.user?job.user.firstName}} {{job.user?job.user.name}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="text-center">
+        <div class="btn-group mt-3">
+            <a href="{{ path('timeslot_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> Retour</a>
+            <a href="{{ path('timeslot_edit', {'id': timeslot.id}) }}" class="btn btn-primary"><i class="fas fa-edit"></i> Modifier</a>
+            {% include 'timeslot/_delete_form.html.twig' %}
+            {% if timeslot.enabled %}
+            <a href="{{ path('timeslot_disable', {'id': timeslot.id}) }}" class="btn btn-warning"><i class="fas fa-power-off"></i> Desactiver</a>
+            {% else %}
+            <a href="{{ path('timeslot_enable', {'id': timeslot.id}) }}" class="btn btn-success"><i class="fas fa-power-off"></i> Activer</a>
+            {% endif %}
+            
+        </div>
+    </div>
+{% endblock %}

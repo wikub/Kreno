@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créneaux{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-calendar-alt"></i> Créneaux <a href="{{ path('timeslot_new') }}" class="btn btn-primary btn-sm" role="button"><i class="fas fa-plus"></i></a></h1>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Créneaux</th>
+                    <th>Début</th>
+                    <th>Fin</th>
+                    <th>Type</th>
+                    <th>Actif</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for timeslot in timeslots %}
+                <tr>
+                    <td><a class="btn btn-primary btn-sm" href="{{ path('timeslot_show', {'id':timeslot.id}) }}">{{ timeslot.name }}</td>
+                    <td>{{ timeslot.start ? timeslot.start|date('d/m/Y H:i') : '' }}</td>
+                    <td>{{ timeslot.finish ? timeslot.finish|date('d/m/Y H:i') : '' }}</td>
+                    <td>{{ timeslot.timeslotType ? timeslot.timeslotType.name }}</tD>
+                    <td>{{ timeslot.enabled ? 'Oui' : 'Non' }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

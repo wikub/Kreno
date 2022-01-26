@@ -1,0 +1,53 @@
+{% form_theme form with ['_form/_form_theme.html.twig', _self] %}
+{% import _self as formMacros %}
+
+{% macro printJobRow(job) %}
+    <tr data-item>
+        <td>{{ form_widget(job.userCategory) }}</td>
+        <td>{{ form_widget(job.user) }}</td>
+        <td>
+            <button type="button" class="btn btn-danger btn-sm" data-entry-action="remove">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </td>
+    </tr>
+{% endmacro %}
+
+{{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.timeslotType) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.start) }}
+    {{ form_row(form.finish) }}
+
+
+    <div data-container>
+        <h3 class="mt-3">Postes <button type="button" class="add_item_link btn btn-primary btn-sm" data-collection-holder-class="jobs" data-entry-action="add">Add a job</button></h3>
+
+        <div class="table-responsive">
+            <table class="jobs table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Catégorie</th>
+                        <th>Membre</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody
+                    data-index="{{ form.jobs|length > 0 ? form.jobs|last.vars.name + 1 : 0 }}"
+                    data-prototype="{{ formMacros.printJobRow(form.jobs.vars.prototype)|e('html_attr') }}"
+                >
+                {% for job in form.jobs %}
+                    {{ formMacros.printJobRow(job) }}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="btn-group float-end mt-3">
+        <a href="{{ path('timeslot_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
+        <button class="btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Enregister') }}</button>
+    </div>
+
+{{ form_end(form) }}

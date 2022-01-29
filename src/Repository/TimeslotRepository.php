@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Timeslot;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +20,21 @@ class TimeslotRepository extends ServiceEntityRepository
         parent::__construct($registry, Timeslot::class);
     }
 
+    public function findByWeek(DateTime $date)
+    {
+        $start = clone($date->modify('last monday midnight'));
+        $finish = clone($date->modify('next monday midnight'));
+
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.start >= :start')
+            ->andWhere('t.finish < :finish')
+            ->setParameter('start', $start)
+            ->setParameter('finish', $finish)
+            ->orderBy('t.start', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     // /**
     //  * @return Timeslot[] Returns an array of Timeslot objects
     //  */

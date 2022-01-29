@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PlanningController!{% endblock %}
+
+{% block body %}
+<div class="pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-calendar-alt"></i> Planning</h1>
+</div>
+
+<div>
+    <div class="row align-items-start mb-3">
+        {% for day in week %}
+        <div class="col text-center">
+            {{ day.date|date('l d/m') }}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row align-items-start">
+        {% for day in week %}
+        <div class="col">
+            {% for timeslot in day.timeslots %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        {{ timeslot.name }}
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            {{ timeslot.start|date('H:i') }} à {{ timeslot.finish|date('H:i') }}
+                        </p>
+                        <p class="card-text">
+                        {% for job in timeslot.jobs %}
+                        <span class="badge {{ job.user?'bg-primary':'bg-warning'}} ">
+                            {% if job.user %}
+                            {{job.user.firstname}} {{job.user.name}}
+                            {% else %}
+                            {{ job.userCategory.name }} libre
+                            {% endif %}
+                        </span>
+                        {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

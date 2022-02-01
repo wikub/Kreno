@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CommitmentContract{% endblock %}
+
+{% block body %}
+    <h1>CommitmentContract</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ commitment_contract.id }}</td>
+            </tr>
+            <tr>
+                <th>Start</th>
+                <td>{{ commitment_contract.start ? commitment_contract.start|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Finish</th>
+                <td>{{ commitment_contract.finish ? commitment_contract.finish|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('commitment_contract_index') }}">back to list</a>
+
+    <a href="{{ path('commitment_contract_edit', {'id': commitment_contract.id}) }}">edit</a>
+
+    {{ include('commitment_contract/_delete_form.html.twig') }}
+{% endblock %}

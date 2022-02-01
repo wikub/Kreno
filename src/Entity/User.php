@@ -84,9 +84,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $enabled;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CommitmentContract::class, mappedBy="user")
+     */
+    private $commitmentContracts;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
+        $this->commitmentContracts = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -299,4 +305,44 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|CommitmentContract[]
+     */
+    public function getCommitmentContracts(): Collection
+    {
+        return $this->commitmentContracts;
+    }
+
+    public function addCommitmentContract(CommitmentContract $commitmentContract): self
+    {
+        if (!$this->commitmentContracts->contains($commitmentContract)) {
+            $this->commitmentContracts[] = $commitmentContract;
+            $commitmentContract->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommitmentContract(CommitmentContract $commitmentContract): self
+    {
+        if ($this->commitmentContracts->removeElement($commitmentContract)) {
+            // set the owning side to null (unless already changed)
+            if ($commitmentContract->getUser() === $this) {
+                $commitmentContract->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCurrentCommitmentContract(): ?CommitmentContract
+    {
+        $current = $this->commitmentContracts->filter(function($contract){
+            return $contract->getFinish() == null;
+        })->first();;
+
+        if( $current ) return $current;
+        return null;
+    } 
 }

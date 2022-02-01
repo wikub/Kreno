@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CommitmentContract index{% endblock %}
+
+{% block body %}
+    <h1>CommitmentContract index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Start</th>
+                <th>Finish</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for commitment_contract in commitment_contracts %}
+            <tr>
+                <td>{{ commitment_contract.id }}</td>
+                <td>{{ commitment_contract.start ? commitment_contract.start|date('Y-m-d') : '' }}</td>
+                <td>{{ commitment_contract.finish ? commitment_contract.finish|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('commitment_contract_show', {'id': commitment_contract.id}) }}">show</a>
+                    <a href="{{ path('commitment_contract_edit', {'id': commitment_contract.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('commitment_contract_new') }}">Create new</a>
+{% endblock %}

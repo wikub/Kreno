@@ -54,10 +54,31 @@ class Timeslot
      */
     private $jobs;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $commentValidation;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="timeslotsValidation")
+     */
+    private $userValidation;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $validationAt;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $status = [];
+
     public function __construct()
     {
         $this->enabled = true;
         $this->jobs = new ArrayCollection();
+        $this->status = ['draft'];
     }
 
     public function getId(): ?int
@@ -163,6 +184,54 @@ class Timeslot
                 $job->setTimeslot(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCommentValidation(): ?string
+    {
+        return $this->commentValidation;
+    }
+
+    public function setCommentValidation(?string $commentValidation): self
+    {
+        $this->commentValidation = $commentValidation;
+
+        return $this;
+    }
+
+    public function getUserValidation(): ?User
+    {
+        return $this->userValidation;
+    }
+
+    public function setUserValidation(?User $userValidation): self
+    {
+        $this->userValidation = $userValidation;
+
+        return $this;
+    }
+
+    public function getValidationAt(): ?\DateTimeImmutable
+    {
+        return $this->validationAt;
+    }
+
+    public function setValidationAt(?\DateTimeImmutable $validationAt): self
+    {
+        $this->validationAt = $validationAt;
+
+        return $this;
+    }
+
+    public function getStatus(): ?array
+    {
+        return $this->status;
+    }
+
+    public function setStatus(array $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

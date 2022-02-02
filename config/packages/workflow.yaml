@@ -1,0 +1,42 @@
+framework:
+    workflows:
+        timeslot:
+            type: 'workflow'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'status'
+            supports:
+                - App\Entity\Timeslot
+            initial_marking: draft
+            places:
+                - draft
+                - subscription_open
+                - subscription_close
+                - in_progress
+                - wainting_validation
+                - validated
+ 
+            transitions:
+                to_subscription_open:
+                    guard: "is_granted('ROLE_USER_MANAGER')"
+                    from: draft
+                    to: subscription_open
+                to_subscription_close:
+                    guard: "is_granted('ROLE_USER_MANAGER')"
+                    from: subscription_open
+                    to: subscription_close
+                to_in_progress:
+                    guard: "is_granted('ROLE_USER_MANAGER')"
+                    from: subscription_close
+                    to: in_progress
+                to_waiting_validation:
+                    guard: "is_granted('ROLE_USER_MANAGER')"
+                    from: [in_progress, subscription_close]
+                    to:   wainting_validation
+                to_validated:
+                    guard: "is_granted('ROLE_USER_MANAGER')"
+                    from: wainting_validation
+                    to:   validated
+

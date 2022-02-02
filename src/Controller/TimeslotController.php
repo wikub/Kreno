@@ -11,14 +11,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Workflow\Registry;
 
 /**
- * @Route("/timeslot")
+ * @Route("/timeslot", name="timeslot_")
  */
 class TimeslotController extends AbstractController
 {
+    private $workflows;
+ 
+    public function __construct(Registry $workflows)
+    {
+        $this->workflows = $workflows;
+    }
+
     /**
-     * @Route("/", name="timeslot_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
     public function index(TimeslotRepository $timeslotRepository): Response
     {
@@ -28,7 +36,7 @@ class TimeslotController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="timeslot_new", methods={"GET", "POST"})
+     * @Route("/new", name="new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -50,7 +58,7 @@ class TimeslotController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="timeslot_show", methods={"GET"})
+     * @Route("/{id}", name="show", methods={"GET"})
      */
     public function show(Timeslot $timeslot): Response
     {
@@ -60,7 +68,7 @@ class TimeslotController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="timeslot_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Timeslot $timeslot, EntityManagerInterface $entityManager): Response
     {
@@ -79,8 +87,10 @@ class TimeslotController extends AbstractController
         ]);
     }
 
+    
+
     /**
-     * @Route("/{id}/enable", name="timeslot_enable", methods={"GET"})
+     * @Route("/{id}/enable", name="enable", methods={"GET"})
      */
     public function enable(Timeslot $timeslot, EntityManagerInterface $entityManager): Response
     {
@@ -97,7 +107,7 @@ class TimeslotController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/disable", name="timeslot_disable", methods={"GET"})
+     * @Route("/{id}/disable", name="disable", methods={"GET"})
      */
     public function disable(Timeslot $timeslot, EntityManagerInterface $entityManager): Response
     {
@@ -113,7 +123,7 @@ class TimeslotController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="timeslot_delete", methods={"POST"})
+     * @Route("/{id}", name="delete", methods={"POST"})
      */
     public function delete(Request $request, Timeslot $timeslot, EntityManagerInterface $entityManager): Response
     {

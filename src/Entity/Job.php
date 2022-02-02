@@ -33,6 +33,11 @@ class Job
      */
     private $timeslot;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=JobDoneType::class, inversedBy="jobs")
+     */
+    private $jobDone;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +75,18 @@ class Job
     public function setTimeslot(?Timeslot $timeslot): self
     {
         $this->timeslot = $timeslot;
+
+        return $this;
+    }
+
+    public function getJobDone(): ?JobDoneType
+    {
+        return $this->jobDone;
+    }
+
+    public function setJobDone(?JobDoneType $jobDone): self
+    {
+        $this->jobDone = $jobDone;
 
         return $this;
     }

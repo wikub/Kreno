@@ -89,10 +89,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $commitmentContracts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Timeslot::class, mappedBy="userValidation")
+     */
+    private $timeslotsValidation;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
         $this->commitmentContracts = new ArrayCollection();
+        $this->timeslotsValidation = new ArrayCollection();
+        $this->enabled = true;
     }
     
     public function getId(): ?int
@@ -344,5 +351,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         if( $current ) return $current;
         return null;
+    }
+
+    /**
+     * @return Collection|Timeslot[]
+     */
+    public function getTimeslotsValidation(): Collection
+    {
+        return $this->timeslotsValidation;
+    }
+
+    public function addTimeslotsValidation(Timeslot $timeslotsValidation): self
+    {
+        if (!$this->timeslotsValidation->contains($timeslotsValidation)) {
+            $this->timeslotsValidation[] = $timeslotsValidation;
+            $timeslotsValidation->setUserValidation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTimeslotsValidation(Timeslot $timeslotsValidation): self
+    {
+        if ($this->timeslotsValidation->removeElement($timeslotsValidation)) {
+            // set the owning side to null (unless already changed)
+            if ($timeslotsValidation->getUserValidation() === $this) {
+                $timeslotsValidation->setUserValidation(null);
+            }
+        }
+
+        return $this;
     } 
 }

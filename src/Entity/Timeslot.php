@@ -91,6 +91,11 @@ class Timeslot
         return $this->name;
     }
 
+    public function getDisplayName(): string
+    {
+        return $this->start->format('d/m/Y h:i').' '.$this->finish->format('d/m/Y h:i').' '.$this->timeslotType->getName();
+    }
+
     public function setName(string $name): self
     {
         $this->name = $name;

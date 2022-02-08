@@ -18,11 +18,6 @@ class Job
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=UserCategory::class, inversedBy="jobs")
-     */
-    private $userCategory;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="jobs")
      */
     private $user;

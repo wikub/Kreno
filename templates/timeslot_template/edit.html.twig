@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TimeslotTemplate{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-calendar-alt"></i> Modification créneau modèle #{{ timeslot_template.id }}</h1>
+    </div>
+
+    {{ include('timeslot_template/_form.html.twig', {'button_label': 'Update'}) }}
+
+    {% include 'timeslot_template/_delete_form.html.twig' %}
+
+{% endblock %}

@@ -35,11 +35,6 @@ class UserCategory
     private $enabled;
 
     /**
-     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="userCategory")
-     */
-    private $jobs;
-
-    /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="userCategory")
      */
     private $users;

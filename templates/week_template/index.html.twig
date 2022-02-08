@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modèles de semaine{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-calendar-alt"></i> Modèles de semaine <a href="{{ path('week_template_new') }}" class="btn btn-primary btn-sm" role="button"><i class="fas fa-plus"></i></a></h1>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for week_template in week_templates %}
+                <tr>
+                    <td><a class="btn btn-primary btn-sm" href="{{ path('week_template_show', {'id':week_template.id}) }}">{{ week_template.name }}</td>
+                    <td>{{ include('week_template/_delete_form.html.twig') }}</td>
+                </tr>
+
+            {% else %}
+                <tr>
+                    <td colspan="1">Aucun modèle</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

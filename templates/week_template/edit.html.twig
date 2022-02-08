@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit WeekTemplate{% endblock %}
+
+{% block body %}
+    <h1>Edit WeekTemplate</h1>
+
+    {{ include('week_template/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('week_template_index') }}">back to list</a>
+
+    {{ include('week_template/_delete_form.html.twig') }}
+{% endblock %}

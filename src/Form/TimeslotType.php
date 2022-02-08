@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Timeslot;
 use App\Entity\TimeslotType as EntityTimeslotType;
+use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -43,6 +44,16 @@ class TimeslotType extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('tt')
                         ->orderBy('tt.name', 'ASC');
+                },
+            ])
+            ->add('manager', EntityType::class, [
+                'label' => 'Coordo',
+                'class' => User::class,
+                'choice_label' => 'displayName',
+                'required' => false,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.firstname', 'ASC', 'u.name',  'ASC');
                 },
             ])
             ->add('jobs', CollectionType::class, [

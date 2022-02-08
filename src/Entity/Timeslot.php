@@ -74,6 +74,11 @@ class Timeslot
      */
     private $status = [];
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="timeslotsManager")
+     */
+    private $manager;
+
     public function __construct()
     {
         $this->enabled = true;
@@ -237,6 +242,18 @@ class Timeslot
     public function setStatus(array $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getManager(): ?User
+    {
+        return $this->manager;
+    }
+
+    public function setManager(?User $manager): self
+    {
+        $this->manager = $manager;
 
         return $this;
     }

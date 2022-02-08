@@ -15,17 +15,7 @@ class JobType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('userCategory', EntityType::class, [
-            'label' => 'Catégorie',
-            'class' => UserCategory::class,
-            'choice_label' => 'name',
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('uc')
-                    ->where('uc.enabled = TRUE')
-                    ->orderBy('uc.name', 'ASC');
-            },
-        ])
-        ->add('user', EntityType::class, [
+        $builder->add('user', EntityType::class, [
             'label' => 'Membre',
             'required' => false,
             'class' => User::class,

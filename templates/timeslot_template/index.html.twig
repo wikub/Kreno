@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TimeslotTemplate index{% endblock %}
+
+{% block body %}
+    <h1>TimeslotTemplate index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>DayWeek</th>
+                <th>Start</th>
+                <th>Finish</th>
+                <th>Description</th>
+                <th>NbJob</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for timeslot_template in timeslot_templates %}
+            <tr>
+                <td>{{ timeslot_template.id }}</td>
+                <td>{{ timeslot_template.name }}</td>
+                <td>{{ timeslot_template.dayWeek }}</td>
+                <td>{{ timeslot_template.start ? timeslot_template.start|date('H:i:s') : '' }}</td>
+                <td>{{ timeslot_template.finish ? timeslot_template.finish|date('H:i:s') : '' }}</td>
+                <td>{{ timeslot_template.description }}</td>
+                <td>{{ timeslot_template.nbJob }}</td>
+                <td>
+                    <a href="{{ path('timeslot_template_show', {'id': timeslot_template.id}) }}">show</a>
+                    <a href="{{ path('timeslot_template_edit', {'id': timeslot_template.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('timeslot_template_new') }}">Create new</a>
+{% endblock %}

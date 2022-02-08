@@ -3,11 +3,11 @@
 {% block title %}Edit WeekTemplate{% endblock %}
 
 {% block body %}
-    <h1>Edit WeekTemplate</h1>
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-calendar-alt"></i> Nouveau modèle de semaine</h1>
+    </div>
 
     {{ include('week_template/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('week_template_index') }}">back to list</a>
 
-    {{ include('week_template/_delete_form.html.twig') }}
 {% endblock %}

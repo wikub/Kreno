@@ -12,6 +12,7 @@
             <thead>
                 <tr>
                     <th>Nom</th>
+                    <th>Type</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -19,9 +20,9 @@
             {% for week_template in week_templates %}
                 <tr>
                     <td><a class="btn btn-primary btn-sm" href="{{ path('week_template_show', {'id':week_template.id}) }}">{{ week_template.name }}</td>
-                    <td>{{ include('week_template/_delete_form.html.twig') }}</td>
+                    <td>{{ week_template.weekTypeLabel }}</td>
+                    <td><a href="{{ path('week_template_edit', {'id':week_template.id}) }}" class="btn btn-link"><i class="far fa-edit"></i></a>  {{ include('week_template/_mini_delete_form.html.twig') }}</td>
                 </tr>
-
             {% else %}
                 <tr>
                     <td colspan="1">Aucun modèle</td>

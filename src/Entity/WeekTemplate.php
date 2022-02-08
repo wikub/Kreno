@@ -29,6 +29,18 @@ class WeekTemplate
      */
     private $timeslotTemplates;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $weekType;
+
+    public static $weekTypeLabel = [
+        1 => 'A',
+        2 => 'B',
+        3 => 'C',
+        4 => 'D'
+    ];
+
     public function __construct()
     {
         $this->timeslotTemplates = new ArrayCollection();
@@ -77,6 +89,30 @@ class WeekTemplate
                 $timeslotTemplate->setWeekTemplate(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWeekType(): ?int
+    {
+        return $this->weekType;
+    }
+
+    public function getWeekTypeLabel(): ?string
+    {
+        if( !key_exists($this->weekType, self::$weekTypeLabel) ) return '';
+
+        return self::$weekTypeLabel[$this->weekType];
+    }
+
+    public static function getWeekTypeLabels(): array
+    {
+        return self::$weekTypeLabel;
+    }
+
+    public function setWeekType(int $weekType): self
+    {
+        $this->weekType = $weekType;
 
         return $this;
     }

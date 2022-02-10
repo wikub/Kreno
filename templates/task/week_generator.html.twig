@@ -1,0 +1,23 @@
+{% form_theme form with ['_form/_form_theme.html.twig', _self] %}
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-flask"></i> Tâches </h1>
+    </div>
+
+    {{ form_start(form) }}
+        {{ form_row(form.start) }}
+        {{ form_row(form.finish) }}
+
+
+        <div class="btn-group float-end mt-3">
+            <a href="{{ path('task_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
+            <button class="btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Enregister') }}</button>
+        </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

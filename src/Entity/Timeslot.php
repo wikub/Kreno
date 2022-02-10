@@ -6,6 +6,7 @@ use App\Repository\TimeslotRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=TimeslotRepository::class)
@@ -78,6 +79,18 @@ class Timeslot
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="timeslotsManager")
      */
     private $manager;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Week::class, inversedBy="timeslots")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $week;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     * @Gedmo\Timestampable(on="create")
+     */
+    private $createdAt;
 
     public function __construct()
     {
@@ -254,6 +267,30 @@ class Timeslot
     public function setManager(?User $manager): self
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function getWeek(): ?Week
+    {
+        return $this->week;
+    }
+
+    public function setWeek(?Week $week): self
+    {
+        $this->week = $week;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

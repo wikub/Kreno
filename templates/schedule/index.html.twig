@@ -9,14 +9,14 @@
 
 <div>
     <div class="row align-items-start mb-3">
-        {% for day in week %}
+        {% for day in dayOfWeek %}
         <div class="col text-center">
             {{ day.date|date('l d/m') }}
         </div>
         {% endfor %}
     </div>
     <div class="row align-items-start">
-        {% for day in week %}
+        {% for day in dayOfWeek %}
         <div class="col">
             {% for timeslot in day.timeslots %}
                 <div class="card mb-3">

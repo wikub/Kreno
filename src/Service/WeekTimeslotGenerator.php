@@ -55,6 +55,7 @@ class WeekTimeslotGenerator
                     $finishTimeslotAt->setTime($timeslotTemplate->getFinish()->format('H'), $timeslotTemplate->getFinish()->format('m'));
                     $timeslot->setFinish($finishTimeslotAt);
 
+                    $timeslot->setTemplate($timeslotTemplate);
                     $this->em->persist($timeslot);
 
                     $userForThisTimeslot = [];

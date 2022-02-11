@@ -9,8 +9,8 @@
     </div>
 
     {{ form_start(form) }}
-        {{ form_row(form.start) }}
-        {{ form_row(form.finish) }}
+        {{ form_row(form.start, {'attr': {'class': 'time'}}) }}
+        {{ form_row(form.finish, {'attr': {'class': 'time'}}) }}
 
 
         <div class="btn-group float-end mt-3">

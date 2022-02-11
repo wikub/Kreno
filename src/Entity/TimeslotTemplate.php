@@ -76,9 +76,15 @@ class TimeslotTemplate
      */
     private $regularCommitmentContracts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Timeslot::class, mappedBy="template")
+     */
+    private $timeslots;
+
     public function __construct()
     {
         $this->regularCommitmentContracts = new ArrayCollection();
+        $this->timeslots = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -213,6 +219,36 @@ class TimeslotTemplate
             // set the owning side to null (unless already changed)
             if ($regularCommitmentContract->getTimeslotTemplate() === $this) {
                 $regularCommitmentContract->setTimeslotTemplate(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Timeslot[]
+     */
+    public function getTimeslots(): Collection
+    {
+        return $this->timeslots;
+    }
+
+    public function addTimeslot(Timeslot $timeslot): self
+    {
+        if (!$this->timeslots->contains($timeslot)) {
+            $this->timeslots[] = $timeslot;
+            $timeslot->setTemplate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTimeslot(Timeslot $timeslot): self
+    {
+        if ($this->timeslots->removeElement($timeslot)) {
+            // set the owning side to null (unless already changed)
+            if ($timeslot->getTemplate() === $this) {
+                $timeslot->setTemplate(null);
             }
         }
 

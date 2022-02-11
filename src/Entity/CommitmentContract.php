@@ -30,13 +30,13 @@ class CommitmentContract
     private $finish;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CommitmentType::class, inversedBy="commitmentContracts")
+     * @ORM\ManyToOne(targetEntity=CommitmentType::class, inversedBy="commitmentContracts", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commitmentContracts")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commitmentContracts", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

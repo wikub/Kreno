@@ -92,6 +92,11 @@ class Timeslot
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=TimeslotTemplate::class, inversedBy="timeslots")
+     */
+    private $template;
+
     public function __construct()
     {
         $this->enabled = true;
@@ -291,6 +296,18 @@ class Timeslot
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getTemplate(): ?TimeslotTemplate
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?TimeslotTemplate $template): self
+    {
+        $this->template = $template;
 
         return $this;
     }

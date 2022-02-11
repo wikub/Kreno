@@ -1,7 +1,13 @@
 {% form_theme form with ['_form/_form_theme.html.twig', _self] %}
 
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.dayWeek) }}
+    {{ form_row(form.start, {'attr': {'class': 'time'}}) }}
+    {{ form_row(form.finish, {'attr': {'class': 'time'}}) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.nbJob) }}
+    {{ form_row(form.timeslotType) }}
     
     <div class="btn-group float-end mt-3">
         <a href="{{ path('week_template_show', {'id': timeslot_template.weekTemplate.id}) }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>

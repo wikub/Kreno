@@ -27,10 +27,12 @@ class TimeslotTemplateType extends AbstractType
                 'choices' => array_flip(TimeslotTemplate::$dayWeekLabel)
             ])
             ->add('start', TimeType::class, [
-                'label' => 'Début'
+                'label' => 'Début',
+                'minutes' => [0,15,30,45]
             ])
             ->add('finish', TimeType::class,[
-                'label' => 'Fin'
+                'label' => 'Fin',
+                'minutes' => [0,15,30,45]
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description'

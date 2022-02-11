@@ -16,8 +16,8 @@
     {{ form_row(form.name) }}
     {{ form_row(form.timeslotType) }}
     {{ form_row(form.description) }}
-    {{ form_row(form.start) }}
-    {{ form_row(form.finish) }}
+    {{ form_row(form.start, {'attr': {'class': 'time'}}) }}
+    {{ form_row(form.finish, {'attr': {'class': 'time'}}) }}
 
 
     <div data-container>

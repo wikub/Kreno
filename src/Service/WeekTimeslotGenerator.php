@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Job;
 use App\Entity\Timeslot;
 use App\Entity\Week;
 use App\Repository\WeekTemplateRepository;
@@ -55,6 +56,28 @@ class WeekTimeslotGenerator
                     $timeslot->setFinish($finishTimeslotAt);
 
                     $this->em->persist($timeslot);
+
+                    $userForThisTimeslot = [];
+                    $manager = null;
+                    foreach($timeslotTemplate->getRegularCommitmentContracts() as $regular) {
+                        if( $regular->getCommitmentContract()->getType()->getManager() == true ) {
+                            $timeslot->setManager($regular->getCommitmentContract()->getUser());
+                            $this->em->persist($timeslot);
+                        } else {
+                            $userForThisTimeslot[] = $regular->getCommitmentContract()->getUser();
+                        }
+                    }
+
+                    //Job creation
+                    for($i=0; $i<$timeslotTemplate->getNbJob(); $i++) {
+                        $job = new Job();
+                        if( key_exists($i, $userForThisTimeslot) ) {
+                            $job->setUser($userForThisTimeslot[$i]);
+                        }
+                        $job->setTimeslot($timeslot);
+                        $this->em->persist($job);
+                    }
+
                 }
                 
                 $start->modify('+7 days');

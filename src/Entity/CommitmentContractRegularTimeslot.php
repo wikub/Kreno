@@ -21,7 +21,7 @@ class CommitmentContractRegularTimeslot
      * @ORM\ManyToOne(targetEntity=CommitmentContract::class, inversedBy="regularTimeslots")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $commitmentContrat;
+    private $commitmentContract;
 
     /**
      * @ORM\ManyToOne(targetEntity=TimeslotTemplate::class, inversedBy="regularCommitmentContracts")
@@ -34,14 +34,14 @@ class CommitmentContractRegularTimeslot
         return $this->id;
     }
 
-    public function getCommitmentContrat(): ?CommitmentContract
+    public function getCommitmentContract(): ?CommitmentContract
     {
-        return $this->commitmentContrat;
+        return $this->commitmentContract;
     }
 
-    public function setCommitmentContrat(?CommitmentContract $commitmentContrat): self
+    public function setCommitmentContrat(?CommitmentContract $commitmentContract): self
     {
-        $this->commitmentContrat = $commitmentContrat;
+        $this->commitmentContract = $commitmentContract;
 
         return $this;
     }

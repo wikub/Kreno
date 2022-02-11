@@ -49,6 +49,11 @@ class CommitmentType
      */
     private $regular;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" : 0})
+     */
+    private $manager;
+
     public function __construct()
     {
         $this->commitmentContracts = new ArrayCollection();
@@ -145,6 +150,18 @@ class CommitmentType
     public function setRegular(bool $regular): self
     {
         $this->regular = $regular;
+
+        return $this;
+    }
+
+    public function getManager(): ?bool
+    {
+        return $this->manager;
+    }
+
+    public function setManager(bool $manager): self
+    {
+        $this->manager = $manager;
 
         return $this;
     }

@@ -69,7 +69,7 @@
     {% for contract in user.commitmentContracts %}
     <div class="card">
         <div class="card-header fw-bold">
-            {{ contract.type?contract.type.name }}
+            <a href="{{ path('commitment_contract_edit', {'id':contract.id}) }}">{{ contract.type?contract.type.name }}</a>
             {% if contract.finish %}
                 <span class="badge bg-secondary">Terminé</span>
             {% else %}

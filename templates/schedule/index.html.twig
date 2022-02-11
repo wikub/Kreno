@@ -27,18 +27,22 @@
                         <p class="card-text">
                             {{ timeslot.start|date('H:i') }} à {{ timeslot.finish|date('H:i') }}
                         </p>
-                        <p class="card-text">
-                        {% for job in timeslot.jobs %}
-                        <span class="badge {{ job.user?'bg-primary':'bg-warning'}} ">
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    <li class="list-group-item {{ timeslot.manager?'bg-primary':'bg-warning'}} ">
+                        <i class="fas fa-user-tie"></i> {{ timeslot.manager?timeslot.manager.firstname:'libre' }} {{ timeslot.manager?timeslot.manager.name }}
+                    </li>
+                    {% for job in timeslot.jobs %}
+                        <li class="list-group-item {{ job.user?'bg-primary':'bg-warning'}} ">
                             {% if job.user %}
                             {{job.user.firstname}} {{job.user.name}}
                             {% else %}
-                            {{ job.userCategory.name }} libre
+                            libre
                             {% endif %}
-                        </span>
-                        {% endfor %}
-                        </p>
-                    </div>
+                        </li>
+                    {% endfor %}
+
+                    </ul>
                 </div>
             {% endfor %}
         </div>

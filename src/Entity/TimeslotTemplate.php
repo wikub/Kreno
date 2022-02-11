@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TimeslotTemplateRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -68,6 +70,16 @@ class TimeslotTemplate
      * @ORM\JoinColumn(nullable=false)
      */
     private $weekTemplate;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CommitmentContractRegularTimeslot::class, mappedBy="timeslotTemplate", orphanRemoval=true)
+     */
+    private $regularCommitmentContracts;
+
+    public function __construct()
+    {
+        $this->regularCommitmentContracts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -173,6 +185,36 @@ class TimeslotTemplate
     public function setWeekTemplate(?WeekTemplate $weekTemplate): self
     {
         $this->weekTemplate = $weekTemplate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommitmentContractRegularTimeslot[]
+     */
+    public function getRegularCommitmentContracts(): Collection
+    {
+        return $this->regularCommitmentContracts;
+    }
+
+    public function addRegularCommitmentContract(CommitmentContractRegularTimeslot $regularCommitmentContract): self
+    {
+        if (!$this->regularCommitmentContracts->contains($regularCommitmentContract)) {
+            $this->regularCommitmentContracts[] = $regularCommitmentContract;
+            $regularCommitmentContract->setTimeslotTemplate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegularCommitmentContract(CommitmentContractRegularTimeslot $regularCommitmentContract): self
+    {
+        if ($this->regularCommitmentContracts->removeElement($regularCommitmentContract)) {
+            // set the owning side to null (unless already changed)
+            if ($regularCommitmentContract->getTimeslotTemplate() === $this) {
+                $regularCommitmentContract->setTimeslotTemplate(null);
+            }
+        }
 
         return $this;
     }

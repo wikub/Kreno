@@ -64,30 +64,48 @@
         <i class="fas fa-file-signature"></i> Engagements
         <a href="{{ path('commitment_contract_new_foruser', {'user': user.id}) }}" class="btn btn-primary btn-sm" role="button"><i class="fas fa-plus"></i></a>
     </h2>
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Début</th>
-                    <th>Fin</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for contract in user.commitmentContracts %}
-                <tr>
-                    <td>{{ contract.type?contract.type.name }}</td>
-                    <td>{{ contract.start|date('d/m/Y') }}</td>
-                    <td>{{ contract.finish?contract.finish|date('d/m/Y') }}</td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td colspan="3">Aucun engagement</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </diV>
+
+    
+    {% for contract in user.commitmentContracts %}
+    <div class="card">
+        <div class="card-header fw-bold">
+            {{ contract.type?contract.type.name }}
+            {% if contract.finish %}
+                <span class="badge bg-secondary">Terminé</span>
+            {% else %}
+                <span class="badge bg-danger">En cours</span>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <p class="card-text">
+            {% if contract.finish %}
+                Du {{ contract.start|date('d/m/Y') }} au {{ contract.finish|date('d/m/Y') }}
+            {% else %}
+                en cours à partir du {{ contract.start|date('d/m/Y') }}
+            {% endif %}
+            </p>
+            <p class="card-text">
+                {% if contract.type.regular == 1 %}
+                <b>Créneaux réguliers :</b> 
+                    <ul>
+                        {% for regular in contract.regularTimeslots %}
+                        <li>Semaine {{ regular.timeslotTemplate.weekTemplate.weekTypeLabel }} - {{ regular.timeslotTemplate.dayWeekLabel }} de {{regular.timeslotTemplate.start|date('H:m')}} à {{regular.timeslotTemplate.finish|date('H:m')}} - {{ regular.timeslotTemplate.name }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </p>
+            <p class="card-text">
+                <b>Engagement :</b>
+                {% if contract.type.nbTimeslotMin > 0 %}Nombre de créneaux minimum par cycle : {{contract.type.nbTimeslotMin}} {% endif %}
+                {% if contract.type.nbHourMin > 0 %}Nombre de créneaux minimum par cycle : {{contract.type.nbHourMin}} {% endif %}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+    
+
+
 
 
 

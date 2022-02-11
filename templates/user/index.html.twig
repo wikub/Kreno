@@ -29,7 +29,7 @@
             {% for user in users %}
                 <tr>
                     <td>{{ user.id }}</td>
-                    <td>{{ user.name }}</td>
+                    <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.name }}</a></td>
                     <td>{{ user.firstname }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.userCategory.name }}</td>

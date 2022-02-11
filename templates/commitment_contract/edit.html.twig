@@ -12,3 +12,8 @@
     {{ include('commitment_contract/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('wikubSfCollection') }}
+{% endblock %}

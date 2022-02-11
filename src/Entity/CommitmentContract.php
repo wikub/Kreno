@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommitmentContractRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,6 +40,16 @@ class CommitmentContract
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CommitmentContractRegularTimeslot::class, mappedBy="commitmentContrat", orphanRemoval=true, cascade={"persist"})
+     */
+    private $regularTimeslots;
+
+    public function __construct()
+    {
+        $this->regularTimeslots = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -88,6 +100,36 @@ class CommitmentContract
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommitmentContractRegularTimeslot[]
+     */
+    public function getRegularTimeslots(): Collection
+    {
+        return $this->regularTimeslots;
+    }
+
+    public function addRegularTimeslot(CommitmentContractRegularTimeslot $regularTimeslot): self
+    {
+        if (!$this->regularTimeslots->contains($regularTimeslot)) {
+            $this->regularTimeslots[] = $regularTimeslot;
+            $regularTimeslot->setCommitmentContrat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegularTimeslot(CommitmentContractRegularTimeslot $regularTimeslot): self
+    {
+        if ($this->regularTimeslots->removeElement($regularTimeslot)) {
+            // set the owning side to null (unless already changed)
+            if ($regularTimeslot->getCommitmentContrat() === $this) {
+                $regularTimeslot->setCommitmentContrat(null);
+            }
+        }
 
         return $this;
     }

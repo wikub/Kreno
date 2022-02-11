@@ -44,6 +44,11 @@ class CommitmentType
      */
     private $nbHourMin;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" : 0})
+     */
+    private $regular;
+
     public function __construct()
     {
         $this->commitmentContracts = new ArrayCollection();
@@ -128,6 +133,18 @@ class CommitmentType
     public function setNbHourMin(?string $nbHourMin): self
     {
         $this->nbHourMin = $nbHourMin;
+
+        return $this;
+    }
+
+    public function getRegular(): ?bool
+    {
+        return $this->regular;
+    }
+
+    public function setRegular(bool $regular): self
+    {
+        $this->regular = $regular;
 
         return $this;
     }

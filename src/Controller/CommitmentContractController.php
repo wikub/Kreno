@@ -94,7 +94,7 @@ class CommitmentContractController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="commitment_contract_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, CommitmentContract $commitmentContract, EntityManagerInterface $entityManager): Response
     {
@@ -104,7 +104,7 @@ class CommitmentContractController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('commitment_contract_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('user_show', ['id' => $commitmentContract->getUser()->getId()]);
         }
 
         return $this->renderForm('commitment_contract/edit.html.twig', [

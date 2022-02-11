@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\CommitmentContractRegularTimeslotRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass=CommitmentContractTimeslotTemplateRepository::class)
+ */
+class CommitmentContractRegularTimeslot
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=CommitmentContract::class, inversedBy="regularTimeslots")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $commitmentContrat;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=TimeslotTemplate::class, inversedBy="regularCommitmentContracts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $timeslotTemplate;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getCommitmentContrat(): ?CommitmentContract
+    {
+        return $this->commitmentContrat;
+    }
+
+    public function setCommitmentContrat(?CommitmentContract $commitmentContrat): self
+    {
+        $this->commitmentContrat = $commitmentContrat;
+
+        return $this;
+    }
+
+    public function getTimeslotTemplate(): ?TimeslotTemplate
+    {
+        return $this->timeslotTemplate;
+    }
+
+    public function setTimeslotTemplate(?TimeslotTemplate $timeslotTemplate): self
+    {
+        $this->timeslotTemplate = $timeslotTemplate;
+
+        return $this;
+    }
+}

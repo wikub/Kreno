@@ -7,16 +7,26 @@
     <h1 class="h2"><i class="fas fa-calendar-alt"></i> Planning</h1>
 </div>
 
+<div class="row mb-3 pb-2 border-bottom">
+    <div class="col">
+    {{ form_start(formFilter) }}
+        {{ form_widget(formFilter.week) }}
+    <button class="btn btn-sm btn-success">Afficher</button>
+    {{ form_end(formFilter) }}
+    </div>
+</div>
+
+{% if week %}
 <div>
     <div class="row align-items-start mb-3">
-        {% for day in dayOfWeek %}
+        {% for day in week.getDays %}
         <div class="col text-center">
             {{ day.date|date('l d/m') }}
         </div>
         {% endfor %}
     </div>
     <div class="row align-items-start">
-        {% for day in dayOfWeek %}
+        {% for day in week.getDays %}
         <div class="col">
             {% for timeslot in day.timeslots %}
                 <div class="card mb-3">
@@ -53,4 +63,6 @@
     </div>
 
 </div>
+{% endif %}
+
 {% endblock %}

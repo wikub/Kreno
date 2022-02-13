@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\WeekRepository;
+use DateInterval;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,6 +31,13 @@ class Week
      * @ORM\Column(type="integer")
      */
     private $weekType;
+
+    public static $weekTypeLabel = [
+        1 => 'A',
+        2 => 'B',
+        3 => 'C',
+        4 => 'D'
+    ];
 
     /**
      * @ORM\Column(type="date")
@@ -62,6 +70,14 @@ class Week
         return $this->name;
     }
 
+    public function getDisplayName(): ?string
+    {
+        if( $this->name ) return $this->name;
+
+        $finishAt = (clone($this->startAt))->modify('+6 days');
+        return 'Semaine '.$this->getWeekTypeLabel().' du '. $this->startAt->format('d/m').' au '.$finishAt->format('d/m Y');
+    }
+
     public function setName(?string $name): self
     {
         $this->name = $name;
@@ -72,6 +88,18 @@ class Week
     public function getWeekType(): ?int
     {
         return $this->weekType;
+    }
+
+    public function getWeekTypeLabel(): ?string
+    {
+        if(!key_exists($this->weekType, self::$weekTypeLabel)) return '';
+
+        return self::$weekTypeLabel[$this->weekType];
+    }
+
+    public static function getWeekTypeLabels(): array
+    {
+        return self::$weekTypeLabel;
     }
 
     public function setWeekType(int $weekType): self
@@ -133,5 +161,26 @@ class Week
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    public function getDays(): ArrayCollection
+    {
+        $curDay = clone($this->startAt);
+
+        //Init dayOfWeek array
+        $dayOfweek = array();
+        for($i = 1; $i <= 7;  $i++) {
+            $dayOfweek[$i]['date'] = clone($curDay);
+            $dayOfweek[$i]['timeslots'] = array();
+            $curDay->add(new DateInterval('P1D'));
+        }
+
+        //Get timeslots for each day of week
+        foreach($this->timeslots as $timeslot) {
+            $nDayOfWeek = $timeslot->getStart()->format('N');
+            $dayOfweek[$nDayOfWeek]['timeslots'][] = $timeslot;
+        }
+
+        return new ArrayCollection($dayOfweek);
     }
 }

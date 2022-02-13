@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Timeslot;
 use App\Entity\Week;
+use App\Filter\Form\UserWeekSchedulerType;
+use App\Filter\UserWeekScheduler;
 use App\Repository\TimeslotRepository;
 use App\Repository\WeekRepository;
 use DateInterval;
@@ -18,41 +19,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class ScheduleController extends AbstractController
 {
     /**
-     * @Route("/{week}", name="index")
+     * @Route("", name="index")
      */
-    public function index(WeekRepository $weekRepository, TimeslotRepository $timeslotRepository, Request $request, Week $week = null): Response
+    public function index(WeekRepository $weekRepository, TimeslotRepository $timeslotRepository, Request $request, UserWeekScheduler $filter): Response
     {
-        
+        $formFilter = $this->createForm(UserWeekSchedulerType::class, $filter);
+        $formFilter->handleRequest($request);
+
+        $week = $filter->getWeek();
         if( $week == null ) {
             $week = $weekRepository->findOneBy(['startAt' => new \DateTime('last monday')]);
         }
-        
-        if( $week == null) {
-            $curDay = new \DateTime('last monday');
-        } else {
-            $curDay = clone($week->getStartAt());
-        }
 
-        //Init dayOfWeek array
-        $dayOfweek = array();
-        for($i = 1; $i <= 7;  $i++) {
-            $dayOfweek[$i]['date'] = clone($curDay);
-            $dayOfweek[$i]['timeslots'] = array();
-            $curDay->add(new DateInterval('P1D'));
-        }
-
-        //Get timeslots for each day of week
-        if( $week ) {
-            $timeslots = $timeslotRepository->findByWeek($week);
-            foreach($timeslots as $timeslot) {
-                $nDayOfWeek = $timeslot->getStart()->format('N');
-                $dayOfweek[$nDayOfWeek]['timeslots'][] = $timeslot;
-            }
-        }
-        
-
-        return $this->render('schedule/index.html.twig', [
-            'dayOfWeek' => $dayOfweek,
+        return $this->renderForm('schedule/index.html.twig', [
+            'week' => $week,
+            'formFilter' => $formFilter
         ]);
     }
 }

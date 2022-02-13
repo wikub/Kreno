@@ -31,7 +31,6 @@ class WeekTimeslotGenerator
         while( $start <= $finish ) {    
             foreach($weekTemplates as $weekTemplate) {
                 $week = New Week();
-                $week->setName($weekTemplate->getName());
                 $week->setWeekType($weekTemplate->getWeekType());
                 $week->setStartAt($start);
 

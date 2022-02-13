@@ -1,0 +1,17 @@
+<div class="table-reponsive">
+    <table class="table table-bordered">
+        <thead>
+            <th>Créneau</th>
+        </thead>
+        <tbody>
+        {% for job in user.futurJobs %}
+            <tr>
+                <td>
+                {% if job.isManager %} <i class="fas fa-user-tie"></i> {% endif %}
+                {{ job.timeslot.displayName }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

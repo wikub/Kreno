@@ -60,68 +60,34 @@
         </div>
     </div>
     
-    <h2 class="h3">
-        <i class="fas fa-file-signature"></i> Engagements
-        <a href="{{ path('commitment_contract_new_foruser', {'user': user.id}) }}" class="btn btn-primary btn-sm" role="button"><i class="fas fa-plus"></i></a>
-    </h2>
 
-    <div class="mb-3">
-        {% for contract in user.commitmentContracts %}
-        <div class="card">
-            <div class="card-header fw-bold">
-                <a href="{{ path('commitment_contract_edit', {'id':contract.id}) }}">{{ contract.type?contract.type.name }}</a>
-                {% if contract.finish %}
-                    <span class="badge bg-secondary">Terminé</span>
-                {% else %}
-                    <span class="badge bg-danger">En cours</span>
-                {% endif %}
-            </div>
-            <div class="card-body">
-                <p class="card-text">
-                {% if contract.finish %}
-                    Du {{ contract.start|date('d/m/Y') }} au {{ contract.finish|date('d/m/Y') }}
-                {% else %}
-                    en cours à partir du {{ contract.start|date('d/m/Y') }}
-                {% endif %}
-                </p>
-                <p class="card-text">
-                    {% if contract.type.regular == 1 %}
-                    <b>Créneaux réguliers :</b> 
-                        <ul>
-                            {% for regular in contract.regularTimeslots %}
-                            <li>Semaine {{ regular.timeslotTemplate.weekTemplate.weekTypeLabel }} - {{ regular.timeslotTemplate.dayWeekLabel }} de {{regular.timeslotTemplate.start|date('H:m')}} à {{regular.timeslotTemplate.finish|date('H:m')}} - {{ regular.timeslotTemplate.name }}
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </p>
-                <p class="card-text">
-                    <b>Engagement :</b>
-                    {% if contract.type.nbTimeslotMin > 0 %}Nombre de créneaux minimum par cycle : {{contract.type.nbTimeslotMin}} {% endif %}
-                    {% if contract.type.nbHourMin > 0 %}Nombre de créneaux minimum par cycle : {{contract.type.nbHourMin}} {% endif %}
-                </p>
-            </div>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="commitments-tab" data-bs-toggle="tab" data-bs-target="#commitments" type="button" role="tab" aria-controls="commitments" aria-selected="true"><i class="fas fa-file-signature"></i> Engagements</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="futur-jobs-tab" data-bs-toggle="tab" data-bs-target="#futur-jobs" type="button" role="tab" aria-controls="futur-jobs" aria-selected="false"><i class="fas fa-hard-hat"></i> Créneaux à venir</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="past-jobs-tab" data-bs-toggle="tab" data-bs-target="#past-jobs" type="button" role="tab" aria-controls="past-jobs" aria-selected="false"><i class="fas fa-hard-hat"></i> Créneaux passés</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active p-2 border border-top-0" id="commitments" role="tabpanel" aria-labelledby="commitments-tab">
+            {% include 'user/_commitment_contrats.html.twig' %}
         </div>
-        {% endfor %}
+        <div class="tab-pane fade" id="futur-jobs" role="tabpanel" aria-labelledby="futur-jobs-tab">
+            {% include 'user/_futur_jobs.html.twig' %}
+        </div>
+        <div class="tab-pane fade" id="past-jobs" role="tabpanel" aria-labelledby="contact-tab">
+            {% include 'user/_past_jobs.html.twig' %}
+        </div>
     </div>
 
-    <h2 class="h3">
-        <i class="fas fa-file-signature"></i> Créneaux
-        <a href="{{ path('commitment_contract_new_foruser', {'user': user.id}) }}" class="btn btn-primary btn-sm" role="button"><i class="fas fa-plus"></i></a>
-    </h2>
+    
 
-    <div class="table-reponsive">
-        <table class="table">
-            <thead>
-                <th>Créneau</th>
-            </thead>
-            <tbody>
-            {% for job in user.jobs %}
-            
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    
 
 
 

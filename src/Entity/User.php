@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -278,6 +279,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getJobs(): Collection
     {
         return $this->jobs;
+    }
+
+    /**
+     * @return Collection|Job[]
+     */
+    public function getPastJobs(): Collection
+    {
+        return $this->jobs->filter(function($job){
+            return ($job->getTimeslot()->getStart() < (new DateTime()) );
+        });
+    }
+
+    /**
+     * @return Collection|Job[]
+     */
+    public function getFuturJobs(): Collection
+    {
+        return $this->jobs->filter(function($job){
+            return ($job->getTimeslot()->getStart() >= (new DateTime()) );
+        });
     }
 
     public function addJob(Job $job): self

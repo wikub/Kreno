@@ -65,46 +65,63 @@
         <a href="{{ path('commitment_contract_new_foruser', {'user': user.id}) }}" class="btn btn-primary btn-sm" role="button"><i class="fas fa-plus"></i></a>
     </h2>
 
-    
-    {% for contract in user.commitmentContracts %}
-    <div class="card">
-        <div class="card-header fw-bold">
-            <a href="{{ path('commitment_contract_edit', {'id':contract.id}) }}">{{ contract.type?contract.type.name }}</a>
-            {% if contract.finish %}
-                <span class="badge bg-secondary">Terminé</span>
-            {% else %}
-                <span class="badge bg-danger">En cours</span>
-            {% endif %}
-        </div>
-        <div class="card-body">
-            <p class="card-text">
-            {% if contract.finish %}
-                Du {{ contract.start|date('d/m/Y') }} au {{ contract.finish|date('d/m/Y') }}
-            {% else %}
-                en cours à partir du {{ contract.start|date('d/m/Y') }}
-            {% endif %}
-            </p>
-            <p class="card-text">
-                {% if contract.type.regular == 1 %}
-                <b>Créneaux réguliers :</b> 
-                    <ul>
-                        {% for regular in contract.regularTimeslots %}
-                        <li>Semaine {{ regular.timeslotTemplate.weekTemplate.weekTypeLabel }} - {{ regular.timeslotTemplate.dayWeekLabel }} de {{regular.timeslotTemplate.start|date('H:m')}} à {{regular.timeslotTemplate.finish|date('H:m')}} - {{ regular.timeslotTemplate.name }}
-                        </li>
-                        {% endfor %}
-                    </ul>
+    <div class="mb-3">
+        {% for contract in user.commitmentContracts %}
+        <div class="card">
+            <div class="card-header fw-bold">
+                <a href="{{ path('commitment_contract_edit', {'id':contract.id}) }}">{{ contract.type?contract.type.name }}</a>
+                {% if contract.finish %}
+                    <span class="badge bg-secondary">Terminé</span>
+                {% else %}
+                    <span class="badge bg-danger">En cours</span>
                 {% endif %}
-            </p>
-            <p class="card-text">
-                <b>Engagement :</b>
-                {% if contract.type.nbTimeslotMin > 0 %}Nombre de créneaux minimum par cycle : {{contract.type.nbTimeslotMin}} {% endif %}
-                {% if contract.type.nbHourMin > 0 %}Nombre de créneaux minimum par cycle : {{contract.type.nbHourMin}} {% endif %}
-            </p>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                {% if contract.finish %}
+                    Du {{ contract.start|date('d/m/Y') }} au {{ contract.finish|date('d/m/Y') }}
+                {% else %}
+                    en cours à partir du {{ contract.start|date('d/m/Y') }}
+                {% endif %}
+                </p>
+                <p class="card-text">
+                    {% if contract.type.regular == 1 %}
+                    <b>Créneaux réguliers :</b> 
+                        <ul>
+                            {% for regular in contract.regularTimeslots %}
+                            <li>Semaine {{ regular.timeslotTemplate.weekTemplate.weekTypeLabel }} - {{ regular.timeslotTemplate.dayWeekLabel }} de {{regular.timeslotTemplate.start|date('H:m')}} à {{regular.timeslotTemplate.finish|date('H:m')}} - {{ regular.timeslotTemplate.name }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </p>
+                <p class="card-text">
+                    <b>Engagement :</b>
+                    {% if contract.type.nbTimeslotMin > 0 %}Nombre de créneaux minimum par cycle : {{contract.type.nbTimeslotMin}} {% endif %}
+                    {% if contract.type.nbHourMin > 0 %}Nombre de créneaux minimum par cycle : {{contract.type.nbHourMin}} {% endif %}
+                </p>
+            </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-    
 
+    <h2 class="h3">
+        <i class="fas fa-file-signature"></i> Créneaux
+        <a href="{{ path('commitment_contract_new_foruser', {'user': user.id}) }}" class="btn btn-primary btn-sm" role="button"><i class="fas fa-plus"></i></a>
+    </h2>
+
+    <div class="table-reponsive">
+        <table class="table">
+            <thead>
+                <th>Créneau</th>
+            </thead>
+            <tbody>
+            {% for job in user.jobs %}
+            
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 
 

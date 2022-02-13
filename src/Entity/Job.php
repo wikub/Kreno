@@ -33,6 +33,16 @@ class Job
      */
     private $jobDone;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $manager;
+
+    public function __construct()
+    {
+        $this->manager = false;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,4 +95,17 @@ class Job
 
         return $this;
     }
+
+    public function isManager(): ?bool
+    {
+        return $this->manager;
+    }
+
+    public function setManager(bool $manager): self
+    {
+        $this->manager = $manager;
+
+        return $this;
+    }
+
 }

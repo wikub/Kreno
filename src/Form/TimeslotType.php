@@ -46,16 +46,6 @@ class TimeslotType extends AbstractType
                         ->orderBy('tt.name', 'ASC');
                 },
             ])
-            ->add('manager', EntityType::class, [
-                'label' => 'Coordo',
-                'class' => User::class,
-                'choice_label' => 'displayName',
-                'required' => false,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.firstname', 'ASC', 'u.name',  'ASC');
-                },
-            ])
             ->add('jobs', CollectionType::class, [
                 'entry_type' => JobType::class,
                 'entry_options' => ['label' => false],

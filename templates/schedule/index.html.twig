@@ -29,10 +29,13 @@
                         </p>
                     </div>
                     <ul class="list-group list-group-flush">
-                    <li class="list-group-item {{ timeslot.manager?'bg-primary':'bg-warning'}} ">
-                        <i class="fas fa-user-tie"></i> {{ timeslot.manager?timeslot.manager.firstname:'libre' }} {{ timeslot.manager?timeslot.manager.name }}
+                    {% for job in timeslot.managerJobs %}
+                    <li class="list-group-item {{ job.user?'bg-primary':'bg-warning'}} ">
+                        <i class="fas fa-user-tie"></i> 
+                        {{ job.user?job.user.firstname:'libre' }} {{ job.user?job.user.name }}
                     </li>
-                    {% for job in timeslot.jobs %}
+                    {% endfor %}
+                    {% for job in timeslot.getNoManagerJobs %}
                         <li class="list-group-item {{ job.user?'bg-primary':'bg-warning'}} ">
                             {% if job.user %}
                             {{job.user.firstname}} {{job.user.name}}

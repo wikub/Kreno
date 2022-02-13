@@ -76,11 +76,6 @@ class Timeslot
     private $status = [];
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="timeslotsManager")
-     */
-    private $manager;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Week::class, inversedBy="timeslots")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -194,6 +189,20 @@ class Timeslot
         return $this->jobs;
     }
 
+    public function getManagerJobs(): Collection
+    {
+        return $this->jobs->filter(function($job){
+            return $job->isManager() == true;
+        });
+    }
+
+    public function getNoManagerJobs(): Collection
+    {
+        return $this->jobs->filter(function($job){
+            return $job->isManager() == false;
+        });
+    }
+
     public function addJob(Job $job): self
     {
         if (!$this->jobs->contains($job)) {
@@ -264,18 +273,6 @@ class Timeslot
         return $this;
     }
 
-    public function getManager(): ?User
-    {
-        return $this->manager;
-    }
-
-    public function setManager(?User $manager): self
-    {
-        $this->manager = $manager;
-
-        return $this;
-    }
-
     public function getWeek(): ?Week
     {
         return $this->week;
@@ -311,4 +308,7 @@ class Timeslot
 
         return $this;
     }
+
+
+
 }

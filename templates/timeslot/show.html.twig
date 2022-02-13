@@ -27,10 +27,6 @@
                     <td>{{ timeslot.finish ? timeslot.finish|date('d/m/Y H:i') : '' }}</td>
                 </tr>
                 <tr>
-                    <th>Coordo</th>
-                    <td>{{ timeslot.manager?timeslot.manager.displayName }}</td>
-                </tr>
-                <tr>
                     <th>Description</th>
                     <td>{{ timeslot.description }}</td>
                 </tr>
@@ -57,8 +53,11 @@
             </thead>
             <tbody>
                 {% for job in timeslot.jobs %}
-                <tr>
-                    <td>{{job.user?job.user.firstName}} {{job.user?job.user.name}}</td>
+                <tr class="{{ job.user?'bg-primary':'bg-warning'}}">
+                    <td>
+                    {% if job.manager %}<i class="fas fa-user-tie"></i>{% endif %}
+                    {{job.user?job.user.firstName:'Libre'}} {{job.user?job.user.name}}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

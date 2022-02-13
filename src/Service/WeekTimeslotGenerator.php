@@ -27,7 +27,7 @@ class WeekTimeslotGenerator
         }
         
         $weekTemplates = $this->repo->findAll();
-
+        //Generate the weeks
         while( $start <= $finish ) {    
             foreach($weekTemplates as $weekTemplate) {
                 $week = New Week();
@@ -36,7 +36,7 @@ class WeekTimeslotGenerator
                 $week->setStartAt($start);
 
                 $this->em->persist($week);
-
+                //Generate the timeslots
                 foreach($weekTemplate->getTimeslotTemplates() as $timeslotTemplate) {
                     $timeslot = new Timeslot();
 
@@ -58,23 +58,27 @@ class WeekTimeslotGenerator
                     $timeslot->setTemplate($timeslotTemplate);
                     $this->em->persist($timeslot);
 
-                    $userForThisTimeslot = [];
-                    $manager = null;
+                    //Get the commitment contract for job creation
+                    $nbJobCreated = 0;
+                    
                     foreach($timeslotTemplate->getRegularCommitmentContracts() as $regular) {
-                        if( $regular->getCommitmentContract()->getType()->getManager() == true ) {
-                            $timeslot->setManager($regular->getCommitmentContract()->getUser());
-                            $this->em->persist($timeslot);
-                        } else {
-                            $userForThisTimeslot[] = $regular->getCommitmentContract()->getUser();
+                        $job = new Job();
+                        $job->setUser($regular->getCommitmentContract()->getUser());
+                        $job->setTimeslot($timeslot);
+
+                        //If manager
+                        if( $regular->getCommitmentContract()->getType()->isManager() == true ) {
+                            $job->setManager(true);
                         }
+
+                        $this->em->persist($job);
+                        $nbJobCreated++;
                     }
 
-                    //Job creation
-                    for($i=0; $i<$timeslotTemplate->getNbJob(); $i++) {
+                    //Empty Job creation
+                    $nbEmptyJobToCreate = $timeslotTemplate->getNbJob() - $nbJobCreated;
+                    for($i=0; $i<$nbEmptyJobToCreate; $i++) {
                         $job = new Job();
-                        if( key_exists($i, $userForThisTimeslot) ) {
-                            $job->setUser($userForThisTimeslot[$i]);
-                        }
                         $job->setTimeslot($timeslot);
                         $this->em->persist($job);
                     }

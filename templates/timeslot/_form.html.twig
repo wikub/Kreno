@@ -4,6 +4,7 @@
 {% macro printJobRow(job) %}
     <tr data-item>
         <td>{{ form_widget(job.user) }}</td>
+        <td>{{ form_widget(job.manager) }}</td>
         <td>
             <button type="button" class="btn btn-danger btn-sm" data-entry-action="remove">
                 <i class="fas fa-trash-alt"></i>
@@ -23,7 +24,6 @@
     <div data-container>
         <h3 class="mt-3">Postes <button type="button" class="add_item_link btn btn-primary btn-sm" data-collection-holder-class="jobs" data-entry-action="add">Add a job</button></h3>
 
-        {{ form_row(form.manager) }}
 
         <div class="table-responsive">
             <table class="jobs table table-bordered">

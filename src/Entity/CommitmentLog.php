@@ -84,14 +84,14 @@ class CommitmentLog
         return $this;
     }
 
-    public function getUserlog(): ?User
+    public function getUser(): ?User
     {
-        return $this->userlog;
+        return $this->user;
     }
 
-    public function setUserlog(?User $userlog): self
+    public function setUser(?User $user): self
     {
-        $this->userlog = $userlog;
+        $this->userlog = $user;
 
         return $this;
     }

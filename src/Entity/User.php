@@ -96,7 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $timeslotsValidation;
 
     /**
-     * @ORM\OneToMany(targetEntity=CommitmentLog::class, mappedBy="userlog", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=CommitmentLog::class, mappedBy="user", orphanRemoval=true)
      */
     private $commitmentLogs;
 
@@ -428,7 +428,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->commitmentLogs->contains($commitmentLog)) {
             $this->commitmentLogs[] = $commitmentLog;
-            $commitmentLog->setUserlog($this);
+            $commitmentLog->setUser($this);
         }
 
         return $this;
@@ -438,8 +438,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->commitmentLogs->removeElement($commitmentLog)) {
             // set the owning side to null (unless already changed)
-            if ($commitmentLog->getUserlog() === $this) {
-                $commitmentLog->setUserlog(null);
+            if ($commitmentLog->getUser() === $this) {
+                $commitmentLog->setUser(null);
             }
         }
 

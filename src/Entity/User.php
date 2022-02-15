@@ -95,12 +95,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $timeslotsValidation;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CommitmentLog::class, mappedBy="userlog", orphanRemoval=true)
+     */
+    private $commitmentLogs;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
         $this->commitmentContracts = new ArrayCollection();
         $this->timeslotsValidation = new ArrayCollection();
         $this->enabled = true;
+        $this->commitmentLogs = new ArrayCollection();
 
     }
     
@@ -408,5 +414,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function displayName(): ?string
     {
         return $this->firstname.' '.$this->name;
+    }
+
+    /**
+     * @return Collection|CommitmentLog[]
+     */
+    public function getCommitmentLogs(): Collection
+    {
+        return $this->commitmentLogs;
+    }
+
+    public function addCommitmentLog(CommitmentLog $commitmentLog): self
+    {
+        if (!$this->commitmentLogs->contains($commitmentLog)) {
+            $this->commitmentLogs[] = $commitmentLog;
+            $commitmentLog->setUserlog($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommitmentLog(CommitmentLog $commitmentLog): self
+    {
+        if ($this->commitmentLogs->removeElement($commitmentLog)) {
+            // set the owning side to null (unless already changed)
+            if ($commitmentLog->getUserlog() === $this) {
+                $commitmentLog->setUserlog(null);
+            }
+        }
+
+        return $this;
     }
 }

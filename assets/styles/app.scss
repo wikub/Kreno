@@ -18,3 +18,26 @@ body {
     display: inline;
     margin-right: 0.5em;
 }
+
+.flash-notice {
+    @extend .alert;
+    @extend .alert-info;
+}
+
+.flash-warning {
+    @extend .alert;
+    @extend .alert-warning;
+}
+
+.flash-errors {
+    @extend .alert;
+    @extend .alert-danger;
+}
+
+.bg-light-green {
+    background-color: $green-100
+}
+
+.bg-light-yellow {
+    background-color: $yellow-100
+}

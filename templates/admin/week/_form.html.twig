@@ -7,7 +7,11 @@
     {{ form_row(form.startAt, {'attr': {'class': 'time'}}) }}
     
     <div class="btn-group float-end mt-3">
-        <a href="{{ path('admin_week_show', {'id': week.id}) }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
+        {% if week.id %}
+        <a href="{{ path('admin_week_show', {'id': week.id}) }}" class="btn btn-secondary"><i class="far fa-calendar-alt"></i> retour</a>
+        {% else %}
+        <a href="{{ path('admin_week_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
+        {% endif %}
         <button class="btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Enregister') }}</button>
     </div>
 {{ form_end(form) }}

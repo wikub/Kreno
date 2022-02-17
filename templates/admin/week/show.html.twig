@@ -4,12 +4,14 @@
 
 {% block body %}
 <div class="pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2"><i class="fas fa-calendar-alt"></i> Semaine {{ week.getDisplayName}}</h1>
+    <h1 class="h2"><i class="fas fa-calendar-alt"></i> {{ week.getDisplayName}}</h1>
 </div>
 
 
 <div class="pb-2 mb-3 border-bottom">
     <div class="btn-group col" role="group">
+        <a href="{{ path('admin_week_previous', {'id': week.id}) }}" class="btn btn-outline-secondary"><i class="fas fa-backward"></i> Précédente</a>
+        <a href="{{ path('admin_week_next', {'id': week.id}) }}" class="btn btn-outline-secondary"><i class="fas fa-forward"></i> Suivante</a>
         <a href="{{ path('admin_timeslot_new_forweek', {'week': week.id}) }}" class="btn btn-outline-primary">Ajout un créneau</a>
         <a href="{{ path('admin_week_edit', {'id': week.id}) }}" class="btn btn-outline-primary">Modifier</a>
     </div>
@@ -39,13 +41,13 @@
                     </div>
                     <ul class="list-group list-group-flush">
                     {% for job in timeslot.managerJobs %}
-                    <li class="list-group-item {{ job.user?'bg-primary':'bg-warning'}} ">
+                    <li class="list-group-item {{ job.user?'bg-light-green':'bg-light-yellow'}} ">
                         <i class="fas fa-user-tie"></i> 
                         {{ job.user?job.user.firstname:'libre' }} {{ job.user?job.user.name }}
                     </li>
                     {% endfor %}
                     {% for job in timeslot.getNoManagerJobs %}
-                        <li class="list-group-item {{ job.user?'bg-primary':'bg-warning'}} ">
+                        <li class="list-group-item {{ job.user?'bg-light-green':'bg-light-yellow'}} ">
                             {% if job.user %}
                             {{job.user.firstname}} {{job.user.name}}
                             {% else %}

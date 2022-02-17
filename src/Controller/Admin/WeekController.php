@@ -17,7 +17,52 @@ use Symfony\Component\Routing\Annotation\Route;
 class WeekController extends AbstractController
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
+     * @Route("/", name="current", methods={"GET"})
+     */
+    public function current(WeekRepository $weekRepository): Response
+    {
+        $currentWeek = $weekRepository->findCurrent();
+
+        if( $currentWeek != null) {
+            return $this->redirectToRoute('admin_week_show', ['id' => $currentWeek->getId()]);    
+        }
+
+        $this->addFlash('notice', 'Aucune semaine n\'a été trouvé !');
+        return $this->redirectToRoute('admin_week_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("{id}/next", name="next", methods={"GET"})
+     */
+    public function next(Week $week, WeekRepository $weekRepository): Response
+    {
+        $nextWeek = $weekRepository->findNext($week);
+
+        if( $nextWeek != null) {
+            return $this->redirectToRoute('admin_week_show', ['id' => $nextWeek->getId()]);    
+        }
+        
+        $this->addFlash('notice', 'Aucune semaine n\'a été trouvé !');
+        return $this->redirectToRoute('admin_week_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("{id}/previous", name="previous", methods={"GET"})
+     */
+    public function previous(Week $week, WeekRepository $weekRepository): Response
+    {
+        $previousWeek = $weekRepository->findPrevious($week);
+
+        if( $previousWeek != null) {
+            return $this->redirectToRoute('admin_week_show', ['id' => $previousWeek->getId()]);    
+        }
+
+        $this->addFlash('notice', 'Aucune semaine n\'a été trouvé !');
+        return $this->redirectToRoute('admin_week_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/list", name="index", methods={"GET"})
      */
     public function index(WeekRepository $weekRepository): Response
     {
@@ -39,10 +84,10 @@ class WeekController extends AbstractController
             $entityManager->persist($week);
             $entityManager->flush();
 
-            return $this->redirectToRoute('week_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_week_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('week/new.html.twig', [
+        return $this->renderForm('admin/week/new.html.twig', [
             'week' => $week,
             'form' => $form,
         ]);
@@ -52,7 +97,7 @@ class WeekController extends AbstractController
      * @Route("/{id}", name="show", methods={"GET"})
      */
     public function show(Week $week): Response
-    {
+    {   
         return $this->render('admin/week/show.html.twig', [
             'week' => $week,
         ]);

@@ -28,7 +28,7 @@ class ScheduleController extends AbstractController
 
         $week = $filter->getWeek();
         if( $week == null ) {
-            $week = $weekRepository->findOneBy(['startAt' => new \DateTime('last monday')]);
+            $week = $weekRepository->findOneBy(['startAt' => new \DateTime('monday this week')]);
         }
 
         return $this->renderForm('schedule/index.html.twig', [

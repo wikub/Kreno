@@ -19,6 +19,41 @@ class WeekRepository extends ServiceEntityRepository
         parent::__construct($registry, Week::class);
     }
 
+    public function findAll()
+    {
+        return $this->findBy(array(), array('startAt' => 'ASC'));
+    }
+
+    public function findCurrent(): ?Week
+    {
+        $date = (new \DateTime())->modify('monday this week');
+
+        return $this->findByStartDate($date);
+    }
+
+    public function findPrevious($week): ?Week
+    {
+        $date = $week->getStartAt()->modify('monday previous week');
+
+        return $this->findByStartDate($date);
+    }
+
+    public function findNext($week): ?Week
+    {
+        $date = $week->getStartAt()->modify('monday next week');
+
+        return $this->findByStartDate($date);
+    }
+
+    public function findByStartDate($date): ?Week
+    {
+        return $this->createQueryBuilder('w')
+            ->andWhere('w.startAt = :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return Week[] Returns an array of Week objects
     //  */

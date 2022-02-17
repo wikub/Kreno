@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Semaine {{ week.displayName }}{% endblock %}
+
+{% block body %}
+<div class="pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-calendar-alt"></i> Semaine {{ week.getDisplayName}}</h1>
+</div>
+
+
+<div class="pb-2 mb-3 border-bottom">
+    <div class="btn-group col" role="group">
+        <a href="{{ path('admin_timeslot_new_forweek', {'week': week.id}) }}" class="btn btn-outline-primary">Ajout un créneau</a>
+        <a href="{{ path('admin_week_edit', {'id': week.id}) }}" class="btn btn-outline-primary">Modifier</a>
+    </div>
+</div>
+
+{% if week %}
+<div>
+    <div class="row align-items-start mb-3">
+        {% for day in week.getDays %}
+        <div class="col text-center">
+            {{ day.date|date('l d/m') }}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row align-items-start">
+        {% for day in week.getDays %}
+        <div class="col">
+            {% for timeslot in day.timeslots %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <a href="{{ path('admin_timeslot_show', {'id': timeslot.id}) }}">{{ timeslot.name }}</a>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            {{ timeslot.start|date('H:i') }} à {{ timeslot.finish|date('H:i') }}
+                        </p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    {% for job in timeslot.managerJobs %}
+                    <li class="list-group-item {{ job.user?'bg-primary':'bg-warning'}} ">
+                        <i class="fas fa-user-tie"></i> 
+                        {{ job.user?job.user.firstname:'libre' }} {{ job.user?job.user.name }}
+                    </li>
+                    {% endfor %}
+                    {% for job in timeslot.getNoManagerJobs %}
+                        <li class="list-group-item {{ job.user?'bg-primary':'bg-warning'}} ">
+                            {% if job.user %}
+                            {{job.user.firstname}} {{job.user.name}}
+                            {% else %}
+                            libre
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endif %}
+
+{% endblock %}

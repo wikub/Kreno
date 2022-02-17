@@ -110,8 +110,22 @@ class Timeslot
     }
 
     public function getDisplayName(): string
+    {   
+        if( $this->name ) return $this->name;
+
+        return $this->getTimeslotType()->getName();
+    }
+
+    public function getDisplayDateInterval(): string
     {
-        return $this->start->format('d/m/Y h:i').' '.$this->finish->format('d/m/Y h:i').' '.$this->timeslotType->getName();
+        $text = $this->start->format('d/m/Y').' de '.$this->start->format('H:i');
+        if( $this->start->format('Ymd') == $this->finish->format('Ymd') ) {
+            $text .= ' à '.$this->finish->format('H:i');
+        } else {
+            $text = ' au '.$this->start->format('d/m/Y').' à '.$this->start->format('H:i');
+        }
+        
+        return $text;
     }
 
     public function setName(string $name): self

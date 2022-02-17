@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Week index{% endblock %}
+
+{% block body %}
+    <h1>Week index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>WeekType</th>
+                <th>StartAt</th>
+                <th>CreatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for week in weeks %}
+            <tr>
+                <td>{{ week.id }}</td>
+                <td>{{ week.name }}</td>
+                <td>{{ week.weekType }}</td>
+                <td>{{ week.startAt ? week.startAt|date('Y-m-d') : '' }}</td>
+                <td>{{ week.createdAt ? week.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('admin_week_show', {'id': week.id}) }}">show</a>
+                    <a href="{{ path('admin_week_edit', {'id': week.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_week_new') }}">Create new</a>
+{% endblock %}

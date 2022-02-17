@@ -21,7 +21,7 @@
             <tbody>
             {% for timeslot in timeslots %}
                 <tr>
-                    <td><a class="btn btn-primary btn-sm" href="{{ path('timeslot_show', {'id':timeslot.id}) }}">{{ timeslot.name }}</td>
+                    <td><a class="btn btn-primary btn-sm" href="{{ path('admin_timeslot_show', {'id':timeslot.id}) }}">{{ timeslot.name }}</td>
                     <td>{{ timeslot.start ? timeslot.start|date('d/m/Y H:i') : '' }}</td>
                     <td>{{ timeslot.finish ? timeslot.finish|date('d/m/Y H:i') : '' }}</td>
                     <td>{{ timeslot.timeslotType ? timeslot.timeslotType.name }}</tD>

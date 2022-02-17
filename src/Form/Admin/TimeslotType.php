@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Admin;
 
 use App\Entity\Timeslot;
 use App\Entity\TimeslotType as EntityTimeslotType;
-use App\Entity\User;
+
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -19,6 +19,13 @@ class TimeslotType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // $week = $builder->getData()->getWeek();
+        // foreach($week->getDays() as $day) {
+        //     $days[] = $day['date']->format('d');
+        //     $month[] = $day['date']->format('m');
+        //     $years[] = $day['date']->format('Y');
+        // }
+
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom'
@@ -26,12 +33,16 @@ class TimeslotType extends AbstractType
             ->add('start', DateTimeType::class, [
                 'label' => 'Début',
                 'html5' => true,
-                'date_widget' => 'single_text'
+                'date_widget' => 'single_text',
+                'minutes' => [0,15,30,45],
+                'hours' => range(6,23)
             ])
             ->add('finish', DateTimeType::class, [
                 'label' => 'Fin',
                 'html5' => true,
-                'date_widget' => 'single_text'
+                'date_widget' => 'single_text',
+                'minutes' => [0,15,30,45],
+                'hours' => range(6,23)
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',

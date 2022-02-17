@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
-use App\Entity\Job;
 use App\Entity\Timeslot;
-use App\Form\TimeslotType;
+use App\Entity\Week;
+use App\Form\Admin\TimeslotType;
 use App\Repository\TimeslotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Workflow\Registry;
 
 /**
- * @Route("/timeslot", name="timeslot_")
+ * @Route("/admin/timeslot", name="admin_timeslot_")
  */
 class TimeslotController extends AbstractController
 {
@@ -30,17 +30,19 @@ class TimeslotController extends AbstractController
      */
     public function index(TimeslotRepository $timeslotRepository): Response
     {
-        return $this->render('timeslot/index.html.twig', [
+        return $this->render('admin/timeslot/index.html.twig', [
             'timeslots' => $timeslotRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Route("/new/forweek/{week}", name="new_forweek", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Week $week): Response
     {
         $timeslot = new Timeslot();
+        $timeslot->setWeek($week);
+
         $form = $this->createForm(TimeslotType::class, $timeslot);
         $form->handleRequest($request);
 
@@ -48,10 +50,10 @@ class TimeslotController extends AbstractController
             $entityManager->persist($timeslot);
             $entityManager->flush();
 
-            return $this->redirectToRoute('timeslot_show', ['id' => $timeslot->getId()]);
+            return $this->redirectToRoute('admin_timeslot_show', ['id' => $timeslot->getId()]);
         }
 
-        return $this->renderForm('timeslot/new.html.twig', [
+        return $this->renderForm('admin/timeslot/new.html.twig', [
             'timeslot' => $timeslot,
             'form' => $form,
         ]);
@@ -62,7 +64,7 @@ class TimeslotController extends AbstractController
      */
     public function show(Timeslot $timeslot): Response
     {
-        return $this->render('timeslot/show.html.twig', [
+        return $this->render('admin/timeslot/show.html.twig', [
             'timeslot' => $timeslot,
         ]);
     }
@@ -78,10 +80,10 @@ class TimeslotController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('timeslot_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_timeslot_show', ['id' => $timeslot->getId()]);
         }
 
-        return $this->renderForm('timeslot/edit.html.twig', [
+        return $this->renderForm('admin_timeslot/edit.html.twig', [
             'timeslot' => $timeslot,
             'form' => $form,
         ]);
@@ -103,7 +105,7 @@ class TimeslotController extends AbstractController
             'Le créneau a été activé'
         );
 
-        return $this->redirectToRoute('timeslot_show', ['id' => $timeslot->getId()]);
+        return $this->redirectToRoute('admin_timeslot_show', ['id' => $timeslot->getId()]);
     }
 
     /**
@@ -119,7 +121,7 @@ class TimeslotController extends AbstractController
             'Le créneau a été desactivé'
         );
         
-        return $this->redirectToRoute('timeslot_show', ['id' => $timeslot->getId()]);
+        return $this->redirectToRoute('admin_timeslot_show', ['id' => $timeslot->getId()]);
     }
 
     /**
@@ -127,11 +129,12 @@ class TimeslotController extends AbstractController
      */
     public function delete(Request $request, Timeslot $timeslot, EntityManagerInterface $entityManager): Response
     {
+        $week = $timeslot->getWeek();
         if ($this->isCsrfTokenValid('delete'.$timeslot->getId(), $request->request->get('_token'))) {
             $entityManager->remove($timeslot);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('timeslot_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_week_show', ['id' => $week->getId()]);
     }
 }

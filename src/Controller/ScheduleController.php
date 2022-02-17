@@ -21,7 +21,7 @@ class ScheduleController extends AbstractController
     /**
      * @Route("", name="index")
      */
-    public function index(WeekRepository $weekRepository, TimeslotRepository $timeslotRepository, Request $request, UserWeekScheduler $filter): Response
+    public function index(WeekRepository $weekRepository, Request $request, UserWeekScheduler $filter): Response
     {
         $formFilter = $this->createForm(UserWeekSchedulerType::class, $filter);
         $formFilter->handleRequest($request);

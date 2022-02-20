@@ -8,16 +8,20 @@ use App\Entity\Week;
 use App\Repository\WeekTemplateRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Workflow\Registry;
+use Symfony\Component\Workflow\WorkflowInterface;
 
 class WeekTimeslotGenerator 
 {
     private $em;
     private $repo;
+    private $timeslotWorkflow;
 
-    public function __construct(EntityManagerInterface $entityManager, WeekTemplateRepository $weekTemplateRepository)
+    public function __construct(EntityManagerInterface $entityManager, WeekTemplateRepository $weekTemplateRepository, WorkflowInterface $timeslotWorkflow)
     {
         $this->em = $entityManager;
         $this->repo = $weekTemplateRepository;
+        $this->timeslotWorkflow = $timeslotWorkflow;
     }
 
     public function generate(Datetime $start, DateTime $finish) 
@@ -46,15 +50,19 @@ class WeekTimeslotGenerator
                     
                     $startTimeslotAt = clone($week->getStartAt());
                     $startTimeslotAt->modify('+ '.($timeslotTemplate->getDayWeek()-1).' days');
-                    $startTimeslotAt->setTime($timeslotTemplate->getStart()->format('H'), $timeslotTemplate->getStart()->format('m'));
+                    $startTimeslotAt->setTime($timeslotTemplate->getStart()->format('H'), $timeslotTemplate->getStart()->format('i'));
                     $timeslot->setStart($startTimeslotAt);
 
                     $finishTimeslotAt = clone($week->getStartAt());
                     $finishTimeslotAt->modify('+ '.($timeslotTemplate->getDayWeek()-1).' days');
-                    $finishTimeslotAt->setTime($timeslotTemplate->getFinish()->format('H'), $timeslotTemplate->getFinish()->format('m'));
+                    $finishTimeslotAt->setTime($timeslotTemplate->getFinish()->format('H'), $timeslotTemplate->getFinish()->format('i'));
                     $timeslot->setFinish($finishTimeslotAt);
 
                     $timeslot->setTemplate($timeslotTemplate);
+                    
+                    //Workflow
+                    $this->timeslotWorkflow->apply($timeslot, 'to_open');
+                    //$timeslot->setStatus(['draft']);
                     $this->em->persist($timeslot);
 
                     //Get the commitment contract for job creation

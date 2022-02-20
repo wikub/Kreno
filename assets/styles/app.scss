@@ -29,9 +29,14 @@ body {
     @extend .alert-warning;
 }
 
-.flash-errors {
+.flash-error {
     @extend .alert;
     @extend .alert-danger;
+}
+
+.flash-success {
+    @extend .alert;
+    @extend .alert-success;
 }
 
 .bg-light-green {
@@ -40,4 +45,57 @@ body {
 
 .bg-light-yellow {
     background-color: $yellow-100
+}
+
+//Status
+$color-open: $green-600;
+$color-closed: $red-600;
+$color-validated: $purple-600;
+
+.text-bg-status{
+    color: $white;
+
+    a { 
+        color: $white;
+        text-decoration: none;
+    }
+}
+
+.bg-open, .badge-open {
+    background-color: $color-open;
+    @extend .text-bg-status;
+}
+
+.bg-closed, .badge-closed {
+    background-color: $color-closed;
+    @extend .text-bg-status;
+}
+
+.bg-validated, .badge-validated {
+    background-color: $color-validated;
+    @extend .text-bg-status;
+}
+
+.text-open {
+    color: $color-open;
+}
+
+.text-closed {
+    color: $color-closed;
+}
+
+.text-validated {
+    color: $color-validated;
+}
+
+.border-open {
+    border-color: $color-open;
+}
+
+.border-closed {
+    border-color: $color-closed;
+}
+
+.border-validated {
+    border-color: $color-validated;
 }

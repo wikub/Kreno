@@ -12,31 +12,20 @@ framework:
             initial_marking: draft
             places:
                 - draft
-                - subscription_open
-                - subscription_close
-                - in_progress
-                - wainting_validation
+                - open
                 - validated
- 
+                - closed
             transitions:
-                to_subscription_open:
-                    guard: "is_granted('ROLE_USER_MANAGER')"
+                to_open:
                     from: draft
-                    to: subscription_open
-                to_subscription_close:
-                    guard: "is_granted('ROLE_USER_MANAGER')"
-                    from: subscription_open
-                    to: subscription_close
-                to_in_progress:
-                    guard: "is_granted('ROLE_USER_MANAGER')"
-                    from: subscription_close
-                    to: in_progress
-                to_waiting_validation:
-                    guard: "is_granted('ROLE_USER_MANAGER')"
-                    from: [in_progress, subscription_close]
-                    to:   wainting_validation
+                    to: open
                 to_validated:
-                    guard: "is_granted('ROLE_USER_MANAGER')"
-                    from: wainting_validation
+                    from: open
                     to:   validated
+                to_closed:
+                    from: open
+                    to: closed
+                to_closed_open:
+                    from: closed
+                    to: open
 

@@ -4,6 +4,10 @@
 {% for label, messages in app.flashes %}
     {% for message in messages %}
         <div class="alert flash-{{ label }}">
+            {% if label == 'warning' %}<i class="fas fa-exclamation-triangle"></i>
+            {% elseif label == 'error' %}<i class="fas fa-exclamation-triangle"></i>
+            {% elseif label == 'success' %}<i class="fas fa-check"></i>
+            {% else %}<i class="fas fa-info-circle"></i>{% endif %}
             {{ message }}
         </div>
     {% endfor %}

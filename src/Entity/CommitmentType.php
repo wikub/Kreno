@@ -159,6 +159,11 @@ class CommitmentType
         return $this->manager;
     }
 
+    public function isManager(): ?bool
+    {
+        return $this->manager;
+    }
+    
     public function setManager(bool $manager): self
     {
         $this->manager = $manager;

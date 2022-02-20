@@ -13,6 +13,20 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Timeslot
 {
+    const STATUS_DRAFT_VALUE = 1;
+    const STATUS_DRAFT_TEXT = 'Brouillon';
+    const STATUS_OPEN_VALUE = 2;
+    const STATUS_OPEN_TEXT = 'Ouvert';
+    const STATUS_VALID_VALUE = 3;
+    const STATUS_VALID_TEXT = 'Validé';
+    const STATUS_CLOSE_VALUE = 4;
+    const STATUS_CLOSE_TEXT = 'Fermé';
+
+    const STATUS_OPEN_SUBSCRIB_VALUE = 10;
+    const STATUS_OPEN_SUBSCRIB_TEXT = 'Inscription ouverte';
+    const STATUS_OPEN_DONE_VALUE = 11;
+    const STATUS_OPEN_DONE_TEXT = 'Réalisé';
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -21,7 +35,7 @@ class Timeslot
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
 
@@ -96,7 +110,7 @@ class Timeslot
     {
         $this->enabled = true;
         $this->jobs = new ArrayCollection();
-        $this->status = ['draft'];
+        //$this->status = ['draft'];
     }
 
     public function getId(): ?int
@@ -278,6 +292,24 @@ class Timeslot
     public function getStatus(): ?array
     {
         return $this->status;
+    }
+
+    public function isOpen(): bool
+    {
+        if( key_exists('open', $this->status) ) return true;
+        return false;
+    }
+
+    public function isClosed(): bool
+    {
+        if( key_exists('closed', $this->status) ) return true;
+        return false;
+    }
+
+    public function isValidated(): bool
+    {
+        if( key_exists('validated', $this->status) ) return true;
+        return false;
     }
 
     public function setStatus(array $status): self

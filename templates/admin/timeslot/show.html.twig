@@ -4,12 +4,18 @@
 
 {% block body %}
     <div class="pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2"><i class="fas fa-calendar-alt"></i> Créneau "{{ timeslot.getDisplayName }}" - {{ timeslot.getDisplayDateInterval }}</h1>
+        <h1 class="h2"><i class="fas fa-calendar-alt"></i> Créneau "{{ timeslot.getDisplayName }}" - {{ timeslot.getDisplayDateInterval }}
+            {% if timeslot.isOpen() %} <span class="badge badge-open">Ouvert</span>{% endif %}
+            {% if timeslot.isClosed() %} <span class="badge badge-closed">Fermé</span>{% endif %}
+            {% if timeslot.isValidated() %} <span class="badge badge-validated">Validé</span>{% endif %}
+        </h1>
         <div class="">{{ timeslot.week.getDisplayName }}</div>
     </div>
 
+    {% include '_elements/_flash_message.html.twig' %}
+
     <div class="table-responsive mb-3">
-        <table class="table">
+        <table class="table table-bordered">
             <tbody>
                 <tr>
                     <th>Nom</th>
@@ -47,14 +53,14 @@
 
     <div class="table-responsive">
         <table class="jobs table table-bordered">
-            <thead>
+            <thead class="table-dark">
                 <tr>
                     <th>Membre</th>
                 </tr>
             </thead>
             <tbody>
                 {% for job in timeslot.jobs %}
-                <tr class="{{ job.user?'bg-primary':'bg-warning'}}">
+                <tr class="{{ job.user?'bg-light-green':'bg-light-yellow'}}">
                     <td>
                     {% if job.manager %}<i class="fas fa-user-tie"></i>{% endif %}
                     {{job.user?job.user.firstName:'Libre'}} {{job.user?job.user.name}}
@@ -68,13 +74,14 @@
 
     <div class="text-center">
         <div class="btn-group mt-3">
-            <a href="{{ path('admin_week_show', {'id': timeslot.week.id }) }}" class="btn btn-secondary"><i class="fas fa-calendar-week"></i> Semaine</a>
+            <a href="{{ path('admin_week_show', {'id': timeslot.week.id }) }}" class="btn btn-outline-secondary"><i class="fas fa-calendar-week"></i> Semaine</a>
             <a href="{{ path('admin_timeslot_edit', {'id': timeslot.id}) }}" class="btn btn-primary"><i class="fas fa-edit"></i> Modifier</a>
             {% include 'admin/timeslot/_delete_form.html.twig' %}
-            {% if timeslot.enabled %}
-            <a href="{{ path('admin_timeslot_disable', {'id': timeslot.id}) }}" class="btn btn-warning"><i class="fas fa-power-off"></i> Desactiver</a>
-            {% else %}
-            <a href="{{ path('admin_timeslot_enable', {'id': timeslot.id}) }}" class="btn btn-success"><i class="fas fa-power-off"></i> Activer</a>
+            {% if workflow_can(timeslot, 'to_closed') %}
+            <a href="{{ path('admin_timeslot_close', {'id': timeslot.id}) }}" class="btn btn-warning"><i class="fas fa-power-off"></i> Fermer</a>
+            {% endif %}
+            {% if workflow_can(timeslot, 'to_closed_open') %}
+            <a href="{{ path('admin_timeslot_reopen', {'id': timeslot.id}) }}" class="btn btn-success"><i class="fas fa-power-off"></i> Ré-ouvrir</a>
             {% endif %}
             
         </div>

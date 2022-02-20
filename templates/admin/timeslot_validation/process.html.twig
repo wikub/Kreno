@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Validation du créneau "{{timeslot.getDisplayName}}" - {{ timeslot.getDisplayDateInterval }}{% endblock %}
+
+{% block _timeslot_jobs_entry_row %}
+    {{- form_errors(form) -}}
+    {{- form_widget(form) -}}
+{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-calendar-alt"></i> Validation du créneau "{{timeslot.getDisplayName}}" - {{ timeslot.getDisplayDateInterval }}</h1>
+    </div>
+
+    {% include '_elements/_flash_message.html.twig' %}
+
+    <div class="table-responsive mb-3">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ timeslot.name }}</td>
+                </tr>
+                <tr>
+                    <th>Type</th>
+                    <td>{{ timeslot.timeslotType?timeslot.timeslotType.name}}
+                </tr>
+                <tr>
+                    <th>Début</th>
+                    <td>{{ timeslot.start|date('d/m/Y') }} à {{ timeslot.start|date('H:i') }}</td>
+                </tr>
+                <tr>
+                    <th>Fin</th>
+                    <td>{{ timeslot.finish|date('d/m/Y') }} à {{ timeslot.finish|date('H:i') }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ timeslot.description }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {{ include('admin/timeslot_validation/_form.html.twig') }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('wikubSfCollection') }}
+{% endblock %}

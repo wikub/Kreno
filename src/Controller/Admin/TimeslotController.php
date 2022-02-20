@@ -7,22 +7,25 @@ use App\Entity\Week;
 use App\Form\Admin\TimeslotType;
 use App\Repository\TimeslotRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Workflow\Registry;
+use Symfony\Component\Workflow\WorkflowInterface;
 
 /**
  * @Route("/admin/timeslot", name="admin_timeslot_")
  */
 class TimeslotController extends AbstractController
 {
-    private $workflows;
+    private $timeslotWorkflow;
+    private $em;
  
-    public function __construct(Registry $workflows)
+    public function __construct(WorkflowInterface $timeslotWorkflow, EntityManagerInterface $entityManager)
     {
-        $this->workflows = $workflows;
+        $this->timeslotWorkflow = $timeslotWorkflow;
+        $this->em = $entityManager;
     }
 
     /**
@@ -49,6 +52,12 @@ class TimeslotController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($timeslot);
             $entityManager->flush();
+
+            try {
+                $this->timeslotWorkflows->apply($timeslot, 'to_open');
+            } catch (LogicException $exception) {
+                //
+            }
 
             return $this->redirectToRoute('admin_timeslot_show', ['id' => $timeslot->getId()]);
         }
@@ -83,45 +92,58 @@ class TimeslotController extends AbstractController
             return $this->redirectToRoute('admin_timeslot_show', ['id' => $timeslot->getId()]);
         }
 
-        return $this->renderForm('admin_timeslot/edit.html.twig', [
+        return $this->renderForm('admin/timeslot/edit.html.twig', [
             'timeslot' => $timeslot,
             'form' => $form,
         ]);
     }
 
-    
-
     /**
-     * @Route("/{id}/enable", name="enable", methods={"GET"})
+     * @Route("/{id}/close", name="close")
      */
-    public function enable(Timeslot $timeslot, EntityManagerInterface $entityManager): Response
+    public function close(Timeslot $timeslot, Request $request): Response
     {
-        $timeslot->setEnabled(true);
-        $entityManager->persist($timeslot);
-        $entityManager->flush();
-    
-        $this->addFlash(
-            'notice',
-            'Le créneau a été activé'
-        );
+        //Jobs are still occuped ?
+        foreach($timeslot->getJobs() as $job ) {
+            if( $job->getUser() != null ) {
+                $this->addFlash('warning', 'Il y a encore au moins un poste occupé.');
+                return $this->redirect($request->headers->get('referer'));
+            }
+        }
 
-        return $this->redirectToRoute('admin_timeslot_show', ['id' => $timeslot->getId()]);
+        try {
+            $this->timeslotWorkflow->apply($timeslot, 'to_closed');
+        } catch (LogicException $exception) {
+            $this->addFlash('error', 'L\'opération de peut être réalisée');
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $this->em->persist($timeslot);
+        $this->em->flush();
+
+        $this->addFlash('success', 'Créneau fermé');
+
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**
-     * @Route("/{id}/disable", name="disable", methods={"GET"})
+     * @Route("/{id}/reopen", name="reopen")
      */
-    public function disable(Timeslot $timeslot, EntityManagerInterface $entityManager): Response
+    public function reopen(Timeslot $timeslot, Request $request): Response
     {
-        $timeslot->setEnabled(false);
-        $entityManager->persist($timeslot);
-        $entityManager->flush();
-        $this->addFlash(
-            'notice',
-            'Le créneau a été desactivé'
-        );
-        
-        return $this->redirectToRoute('admin_timeslot_show', ['id' => $timeslot->getId()]);
+        try {
+            $this->timeslotWorkflow->apply($timeslot, 'to_close');
+        } catch (LogicException $exception) {
+            $this->addFlash('warning', 'L\'opération de peut être réalisée');
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $this->em->persist($timeslot);
+        $this->em->flush();
+
+        $this->addFlash('success', 'Créneau fermé');
+
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**
@@ -131,8 +153,19 @@ class TimeslotController extends AbstractController
     {
         $week = $timeslot->getWeek();
         if ($this->isCsrfTokenValid('delete'.$timeslot->getId(), $request->request->get('_token'))) {
+
+            //Jobs are still occuped ?
+            foreach($timeslot->getJobs() as $job ) {
+                if( $job->getUser() != null ) {
+                    $this->addFlash('warning', 'Il y a encore au moins un poste occupé.');
+                    return $this->redirect($request->headers->get('referer'));
+                }
+            }
+
             $entityManager->remove($timeslot);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Créneau supprimé');
         }
 
         return $this->redirectToRoute('admin_week_show', ['id' => $week->getId()]);

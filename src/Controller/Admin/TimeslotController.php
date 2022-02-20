@@ -114,7 +114,7 @@ class TimeslotController extends AbstractController
         try {
             $this->timeslotWorkflow->apply($timeslot, 'to_closed');
         } catch (LogicException $exception) {
-            $this->addFlash('error', 'L\'opération de peut être réalisée');
+            $this->addFlash('error', 'L\'opération ne peut pas être réalisée [workflow]');
             return $this->redirect($request->headers->get('referer'));
         }
 
@@ -134,7 +134,7 @@ class TimeslotController extends AbstractController
         try {
             $this->timeslotWorkflow->apply($timeslot, 'to_close');
         } catch (LogicException $exception) {
-            $this->addFlash('warning', 'L\'opération de peut être réalisée');
+            $this->addFlash('error', 'L\'opération ne peut pas être réalisée [workflow]');
             return $this->redirect($request->headers->get('referer'));
         }
 
@@ -157,7 +157,7 @@ class TimeslotController extends AbstractController
             //Jobs are still occuped ?
             foreach($timeslot->getJobs() as $job ) {
                 if( $job->getUser() != null ) {
-                    $this->addFlash('warning', 'Il y a encore au moins un poste occupé.');
+                    $this->addFlash('error', 'L\'opération ne peut pas être réalisée [workflow]');
                     return $this->redirect($request->headers->get('referer'));
                 }
             }

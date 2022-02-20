@@ -46,6 +46,7 @@ class Week
 
     /**
      * @ORM\OneToMany(targetEntity=Timeslot::class, mappedBy="week", orphanRemoval=true)
+     * @ORM\OrderBy({"start" = "ASC"})
      */
     private $timeslots;
 

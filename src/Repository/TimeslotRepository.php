@@ -37,6 +37,7 @@ class TimeslotRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
             ->andWhere('t.start <= :now')
             ->setParameter('now', (new \DateTime()))
+            ->andWhere('t.status LIKE \'%open%\'')
             ->orderBy('t.start', 'ASC')
             ->getQuery()
             ->getResult()

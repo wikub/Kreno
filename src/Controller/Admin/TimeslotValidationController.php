@@ -6,16 +6,27 @@ use App\Entity\Timeslot;
 use App\Form\Admin\TimeslotValidationType;
 use App\Repository\TimeslotRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Workflow\WorkflowInterface;
 
 /**
      * @Route("/admin/timeslot-validation", name="admin_timeslot_validation_")
      */
 class TimeslotValidationController extends AbstractController
 {
+    private $timeslotWorkflow;
+    private $em;
+ 
+    public function __construct(WorkflowInterface $timeslotWorkflow, EntityManagerInterface $entityManager)
+    {
+        $this->timeslotWorkflow = $timeslotWorkflow;
+        $this->em = $entityManager;
+    }
+    
     /**
      * @Route("/", name="index")
      */
@@ -31,7 +42,7 @@ class TimeslotValidationController extends AbstractController
     /**
      * @Route("/{id}/process", name="process", methods={"GET", "POST"})
      */
-    public function process(Request $request, EntityManagerInterface $entityManager, Timeslot $timeslot): Response
+    public function process(Request $request, Timeslot $timeslot): Response
     {
         $timeslot->setValidationAt(new \DateTimeImmutable());
         $timeslot->setUserValidation($this->getUser());
@@ -40,10 +51,18 @@ class TimeslotValidationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($timeslot);
-            $entityManager->flush();
 
-            $this->addFlash('notice', 'Le créneau a été validé et cloturé');
+            try {
+                $this->timeslotWorkflow->apply($timeslot, 'to_validated');
+            } catch (LogicException $exception) {
+                $this->addFlash('error', 'L\'opération ne peut pas être réalisée [workflow]');
+                return $this->redirect($request->headers->get('referer'));
+            }
+
+            $this->em->persist($timeslot);
+            $this->em->flush();
+
+            $this->addFlash('success', 'Le créneau a été validé et cloturé');
 
             return $this->redirectToRoute('admin_timeslot_validation_index');
         }

@@ -34,6 +34,11 @@ class JobDoneType
      */
     private $jobs;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $position;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
@@ -94,6 +99,18 @@ class JobDoneType
                 $job->setJobDone(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?int $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }

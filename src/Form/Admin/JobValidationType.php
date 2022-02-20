@@ -40,7 +40,7 @@ class JobValidationType extends AbstractType
             'choice_label' => 'name',
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('u')
-                    ->orderBy('u.name', 'ASC');
+                    ->orderBy('u.position', 'ASC');
             },
         ])
         ;

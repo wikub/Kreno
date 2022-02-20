@@ -26,6 +26,7 @@ class WeekTemplate
 
     /**
      * @ORM\OneToMany(targetEntity=TimeslotTemplate::class, mappedBy="weekTemplate", orphanRemoval=true)
+     * @ORM\OrderBy({"dayWeek" = "ASC", "start" = "ASC"})
      */
     private $timeslotTemplates;
 

@@ -8,13 +8,22 @@
         <h1 class="h2"><i class="fas fa-flask"></i> Tâches </h1>
     </div>
 
+    {% include '_elements/_flash_message.html.twig' %}
+    
     {{ form_start(form) }}
         {{ form_row(form.start, {'attr': {'class': 'time'}}) }}
         {{ form_row(form.finish, {'attr': {'class': 'time'}}) }}
+        {{ form_row(form.ifWeekExist) }}
 
+        <div class="alert alert-info">
+            <strong>Si une semaine existe déjà ?</strong>
+            <ul>
+                <li>Choisir l'option de remplacer la semaine existante (en supprimant les inscriptions volante) ou d'ignorer (aucun changement)</li>
+            </ul>
+        </div>
 
         <div class="btn-group float-end mt-3">
-            <a href="{{ path('task_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
+            <a href="{{ path('admin_task_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
             <button class="btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Enregister') }}</button>
         </div>
 

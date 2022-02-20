@@ -7,6 +7,8 @@
         <h1 class="h2"><i class="fas fa-flask"></i> Tâches </h1>
     </div>
 
-    <a href="{{ path('task_week_generator') }}">Générer semaine</a>
+    {% include '_elements/_flash_message.html.twig' %}
+
+    <a href="{{ path('admin_task_week_generator') }}">Générer semaine</a>
 
 {% endblock %}

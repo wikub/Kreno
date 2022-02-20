@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 
-use App\Form\TaskWeekTimeslotGeneratorType;
-use App\Repository\WeekTemplateRepository;
+use App\Form\Admin\TaskWeekTimeslotGeneratorType;
 use App\Service\WeekTimeslotGenerator;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/task", name="task_")
+ * @Route("/admin/task", name="admin_task_")
  */
 class TaskController extends AbstractController
 {
@@ -22,8 +20,7 @@ class TaskController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('task/index.html.twig', [
-            'controller_name' => 'TaskController',
+        return $this->render('admin/task/index.html.twig', [
         ]);
     }
 
@@ -42,10 +39,10 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             
-            $generator->generate($data['start'], $data['finish']);
+            $generator->generate($data['start'], $data['finish'], $data['ifWeekExist']);
         }
 
-        return $this->renderForm('task/week_generator.html.twig', [
+        return $this->renderForm('admin/task/week_generator.html.twig', [
             'form' => $form,
         ]);
     }

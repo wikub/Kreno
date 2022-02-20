@@ -1,34 +1,37 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Admin;
 
-use App\Entity\Timeslot;
-use App\Entity\TimeslotType as EntityTimeslotType;
-use App\Entity\User;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Choice;
 
 class TaskWeekTimeslotGeneratorType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('start', DateTimeType::class, [
+            ->add('start', DateType::class, [
                 'label' => 'Début',
                 'html5' => true,
-                'date_widget' => 'single_text'
+                'widget' => 'single_text'
             ])
-            ->add('finish', DateTimeType::class, [
+            ->add('finish', DateType::class, [
                 'label' => 'Fin',
                 'html5' => true,
-                'date_widget' => 'single_text'
+                'widget' => 'single_text'
+            ])
+            ->add('ifWeekExist', ChoiceType::class, [
+                'label' => 'Si semaine existe ?',
+                'choices' => [
+                    'Ignorer' => 1,
+                    'Replacer' => 2
+                ]
             ])
         ;
     }

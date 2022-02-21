@@ -53,7 +53,7 @@ class TimeslotValidationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             try {
-                $this->timeslotWorkflow->apply($timeslot, 'to_validated');
+                $this->timeslotWorkflow->apply($timeslot, 'to_admin_validated');
             } catch (LogicException $exception) {
                 $this->addFlash('error', 'L\'opération ne peut pas être réalisée [workflow]');
                 return $this->redirect($request->headers->get('referer'));

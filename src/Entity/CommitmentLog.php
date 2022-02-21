@@ -43,6 +43,11 @@ class CommitmentLog
      */
     private $reference = [];
 
+    public function __construct()
+    {
+        $this->nbTimeslot = 0;
+        $this->nbHour = 0;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -84,14 +89,14 @@ class CommitmentLog
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(User $user): self
     {
-        $this->userlog = $user;
+        $this->user = $user;
 
         return $this;
     }

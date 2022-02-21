@@ -309,6 +309,7 @@ class Timeslot
     public function isValidated(): bool
     {
         if( key_exists('validated', $this->status) ) return true;
+        if( key_exists('commitment_logged', $this->status) ) return true;
         return false;
     }
 

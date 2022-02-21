@@ -43,6 +43,18 @@ class TimeslotRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findForValidation24h()
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.start <= :h24')
+            ->setParameter('h24', (new \DateTime())->modify('+1 day'))
+            ->andWhere('t.status LIKE \'%open%\'')
+            ->orderBy('t.start', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     // /**
     //  * @return Timeslot[] Returns an array of Timeslot objects
     //  */

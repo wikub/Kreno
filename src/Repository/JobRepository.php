@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Job;
+use App\Entity\JobDoneType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

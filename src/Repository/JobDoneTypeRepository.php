@@ -19,6 +19,15 @@ class JobDoneTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, JobDoneType::class);
     }
 
+    public function findDefaultValue(): ?JobDoneType
+    {
+        return $this->createQueryBuilder('jbt')
+            ->andWhere('jbt.position = 1')
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     // /**
     //  * @return JobDoneType[] Returns an array of JobDoneType objects
     //  */

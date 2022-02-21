@@ -9,6 +9,9 @@
 
     {% include '_elements/_flash_message.html.twig' %}
 
-    <a href="{{ path('admin_task_week_generator') }}">Générer semaine</a>
+    <ul>
+        <li><a href="{{ path('admin_task_week_generator') }}" class="btn btn-outline-primary">Générer semaine</a></li>
+        <li><a href="{{ path('admin_task_timeslot_autovalidation') }}" class="btn btn-outline-primary">Autovalider les créneaux</a></li>
+    </ul>
 
 {% endblock %}

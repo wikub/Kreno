@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 
 use App\Form\Admin\TaskWeekTimeslotGeneratorType;
+use App\Service\TimeslotAutoValidation;
 use App\Service\WeekTimeslotGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,4 +47,15 @@ class TaskController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    /**
+     * @Route("/timeslot/autovalidation", name="timeslot_autovalidation")
+     */
+    public function autoValidation(TimeslotAutoValidation $timeslotAutoValidation): Response
+    {
+        $timeslotAutoValidation->timeslotAutoValidation();
+
+        return $this->redirectToRoute('admin_task_index');
+    }
+
 }

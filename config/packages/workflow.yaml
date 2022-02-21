@@ -13,15 +13,26 @@ framework:
             places:
                 - draft
                 - open
+                - validation_requested
                 - validated
                 - closed
+                - commitment_logged
             transitions:
                 to_open:
                     from: draft
                     to: open
+                to_validation_request:
+                    from: open
+                    to: validation_requested
                 to_validated:
+                    from: validation_requested
+                    to:   validated
+                to_admin_validated:
                     from: open
                     to:   validated
+                to_commitment_log:
+                    from: validated
+                    to: commitment_logged
                 to_closed:
                     from: open
                     to: closed

@@ -8,7 +8,7 @@
             <tr>
                 <td>
                 {% if job.isManager %} <i class="fas fa-user-tie"></i> {% endif %}
-                {{ job.timeslot.displayName }}
+                {{ job.timeslot.displayName }} {{ job.timeslot.getDisplayDateInterval}}
                 </td>
             </tr>
         {% endfor %}

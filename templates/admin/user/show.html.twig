@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}Membre #{{user.id}} - {{ user.firstname}} {{ user.name }} {% endblock %}
 
 {% block body %}
-    <div class="pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2"><i class="fas fa-users"></i> Modification membre #{{user.id}}</h1>
-    </div>
+    {{ include('admin/user/_header.html.twig', {'nav_current': 'user'}) }}
 
     {% include '_elements/_flash_message.html.twig' %}
+
+    
 
     <div class="table-responsive mb-3">
         <table class="table table-bordered">
@@ -50,12 +50,12 @@
 
     <div class="text-center mb-3">
         <div class="btn-group mt-3">
-            <a href="{{ path('user_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> Retour</a>
-            <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-primary"><i class="fas fa-user-edit"></i> Modifier</a>
+            <a href="{{ path('admin_user_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> Retour</a>
+            <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-primary"><i class="fas fa-user-edit"></i> Modifier</a>
             {% if user.enabled %}
-            <a href="{{ path('user_disable', {'id': user.id}) }}" class="btn btn-secondary">Desactiver</a>
+            <a href="{{ path('admin_user_disable', {'id': user.id}) }}" class="btn btn-secondary">Desactiver</a>
             {% else %}
-            <a href="{{ path('user_enable', {'id': user.id}) }}" class="btn btn-secondary">Activer</a>
+            <a href="{{ path('admin_user_enable', {'id': user.id}) }}" class="btn btn-secondary">Activer</a>
             {% endif %}
         </div>
     </div>
@@ -78,13 +78,13 @@
 
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active p-2 border border-top-0" id="commitments" role="tabpanel" aria-labelledby="commitments-tab">
-            {% include 'user/_commitment_contrats.html.twig' %}
+            {% include 'admin/user/_commitment_contrats.html.twig' %}
         </div>
         <div class="tab-pane fade" id="futur-jobs" role="tabpanel" aria-labelledby="futur-jobs-tab">
-            {% include 'user/_futur_jobs.html.twig' %}
+            {% include 'admin/user/_futur_jobs.html.twig' %}
         </div>
         <div class="tab-pane fade" id="past-jobs" role="tabpanel" aria-labelledby="contact-tab">
-            {% include 'user/_past_jobs.html.twig' %}
+            {% include 'admin/user/_past_jobs.html.twig' %}
         </div>
     </div>
 

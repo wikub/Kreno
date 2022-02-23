@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TimeslotRepository;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,6 +28,12 @@ class Timeslot
     const STATUS_OPEN_DONE_VALUE = 11;
     const STATUS_OPEN_DONE_TEXT = 'Réalisé';
     
+    /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -94,12 +101,6 @@ class Timeslot
      * @ORM\JoinColumn(nullable=false)
      */
     private $week;
-
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     * @Gedmo\Timestampable(on="create")
-     */
-    private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=TimeslotTemplate::class, inversedBy="timeslots")
@@ -328,18 +329,6 @@ class Timeslot
     public function setWeek(?Week $week): self
     {
         $this->week = $week;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -1,0 +1,18 @@
+<div class="pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-users"></i> Membre #{{user.id}} - {{ user.firstname}} {{ user.name }} </h1>
+</div>
+
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link {{ nav_current == 'user'?'active'}}" href="{{ path('admin_user_show', {'id': user.id}) }}"><i class="fas fa-info"></i> Infomartions</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fas fa-hard-hat"></i> Créneaux</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#"><i class="fas fa-file-signature"></i> Engagements</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ nav_current == 'commitment_log'?'active'}} " href="{{ path('admin_commitment_log_index', {'user': user.id}) }}"><i class="fas fa-balance-scale"></i> Solde Engagements</a>
+    </li>
+</ul>

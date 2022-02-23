@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel engagement{% endblock %}
+
+{% block body %}
+    {{ include('admin/user/_header.html.twig', {'nav_current': 'commitment_log'} ) }}
+
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-users"></i> Nouvel engagement
+        </div>
+        <div class="card-body">
+
+        {{ include('admin/commitment_log/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

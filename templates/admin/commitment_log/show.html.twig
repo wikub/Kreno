@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CommitmentLog{% endblock %}
+
+{% block body %}
+    <h1>CommitmentLog</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ commitment_log.id }}</td>
+            </tr>
+            <tr>
+                <th>NbTimeslot</th>
+                <td>{{ commitment_log.nbTimeslot }}</td>
+            </tr>
+            <tr>
+                <th>NbHour</th>
+                <td>{{ commitment_log.nbHour }}</td>
+            </tr>
+            <tr>
+                <th>Comment</th>
+                <td>{{ commitment_log.comment }}</td>
+            </tr>
+            <tr>
+                <th>Reference</th>
+                <td>{{ commitment_log.reference ? commitment_log.reference|json_encode : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_commitment_log_index') }}">back to list</a>
+
+    <a href="{{ path('admin_commitment_log_edit', {'id': commitment_log.id}) }}">edit</a>
+
+    {{ include('admin/commitment_log/_delete_form.html.twig') }}
+{% endblock %}

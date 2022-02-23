@@ -4,12 +4,19 @@ namespace App\Entity;
 
 use App\Repository\CommitmentLogRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CommitmentLogRepository::class)
  */
 class CommitmentLog
 {
+    /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -89,12 +96,12 @@ class CommitmentLog
         return $this;
     }
 
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(User $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 
@@ -112,4 +119,5 @@ class CommitmentLog
 
         return $this;
     }
+    
 }

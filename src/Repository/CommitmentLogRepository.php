@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CommitmentLog;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +20,29 @@ class CommitmentLogRepository extends ServiceEntityRepository
         parent::__construct($registry, CommitmentLog::class);
     }
 
+    public function getSumnbTimeslot(User $user): ?int 
+    {
+
+        return $this->createQueryBuilder('cl')
+            ->select('SUM(cl.nbTimeslot) as sumNbTimeslot')
+            ->where('cl.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+    }
+
+    public function getSumNbHour(User $user): ?int 
+    {
+
+        return $this->createQueryBuilder('cl')
+            ->select('SUM(cl.nbHour) as sumNbHour')
+            ->where('cl.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+    }
     // /**
     //  * @return CommitmentLog[] Returns an array of CommitmentLog objects
     //  */

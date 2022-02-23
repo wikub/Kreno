@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2"><i class="fas fa-users"></i> Membres <a href="{{ path('user_new') }}" class="btn btn-primary btn-sm" role="button"><i class="fas fa-plus"></i></a></h1>
+        <h1 class="h2"><i class="fas fa-users"></i> Membres <a href="{{ path('admin_user_new') }}" class="btn btn-primary btn-sm" role="button"><i class="fas fa-plus"></i></a></h1>
     </div>
 
     {% include '_elements/_flash_message.html.twig' %}
@@ -29,7 +29,7 @@
             {% for user in users %}
                 <tr>
                     <td>{{ user.id }}</td>
-                    <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.name }}</a></td>
+                    <td><a href="{{ path('admin_user_show', {'id': user.id}) }}">{{ user.name }}</a></td>
                     <td>{{ user.firstname }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.userCategory.name }}</td>
@@ -38,8 +38,8 @@
                     <td>{{ user.phonenumber }}</td>
                     <td>{{ user.enabled?'Oui':'Non' }}</td>
                     <td>
-                        <a href="{{ path('user_show', {'id': user.id}) }}"><i class="fas fa-eye"></i></a>
-                        <a href="{{ path('user_edit', {'id': user.id}) }}"><i class="fas fa-user-edit"></i></a>
+                        <a href="{{ path('admin_user_show', {'id': user.id}) }}"><i class="fas fa-eye"></i></a>
+                        <a href="{{ path('admin_user_edit', {'id': user.id}) }}"><i class="fas fa-user-edit"></i></a>
                         <a href="{{ path('job_registration_new_foruser', {'user': user.id}) }}" title="inscription à un créneau"><i class="far fa-calendar-plus"></i></a>
                     </td>
                 </tr>

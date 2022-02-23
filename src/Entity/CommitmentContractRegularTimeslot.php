@@ -39,7 +39,7 @@ class CommitmentContractRegularTimeslot
         return $this->commitmentContract;
     }
 
-    public function setCommitmentContrat(?CommitmentContract $commitmentContract): self
+    public function setCommitmentContract(?CommitmentContract $commitmentContract): self
     {
         $this->commitmentContract = $commitmentContract;
 

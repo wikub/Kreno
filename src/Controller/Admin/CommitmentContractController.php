@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\CommitmentContract;
 use App\Entity\User;
@@ -13,24 +13,25 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/commitment/contract", name="commitment_contract_")
+ * @Route("/admin/user/{user}/commitmentcontract", name="admin_commitment_contract_")
  */
 class CommitmentContractController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(CommitmentContractRepository $commitmentContractRepository): Response
+    public function index(CommitmentContractRepository $commitmentContractRepository, User $user): Response
     {
-        return $this->render('commitment_contract/index.html.twig', [
+        return $this->render('admin/commitment_contract/index.html.twig', [
             'commitment_contracts' => $commitmentContractRepository->findAll(),
+            'user' => $user
         ]);
     }
 
     /**
-     * @Route("/user/{user}/new/", name="new_foruser", methods={"GET", "POST"})
+     * @Route("/new", name="new", methods={"GET", "POST"})
      */
-    public function newForUser(Request $request, EntityManagerInterface $entityManager, User $user): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, User $user): Response
     {
         
         $commitmentContract = new CommitmentContract();
@@ -52,43 +53,23 @@ class CommitmentContractController extends AbstractController
             $entityManager->persist($commitmentContract);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+            return $this->redirectToRoute('admin_commitment_contract_index', ['user' => $user->getId()]);
         }
 
-        return $this->renderForm('commitment_contract/new.html.twig', [
+        return $this->renderForm('admin/commitment_contract/new.html.twig', [
             'commitment_contract' => $commitmentContract,
             'form' => $form,
+            'user' => $user
         ]);
     }
 
+    
     /**
-     * @Route("/new", name="new", methods={"GET", "POST"})
+     * @Route("/{id}", name="show", methods={"GET"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function show(CommitmentContract $commitmentContract, User $user): Response
     {
-        $commitmentContract = new CommitmentContract();
-        $form = $this->createForm(CommitmentContractType::class, $commitmentContract);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($commitmentContract);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('commitment_contract_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('commitment_contract/new.html.twig', [
-            'commitment_contract' => $commitmentContract,
-            'form' => $form,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="commitment_contract_show", methods={"GET"})
-     */
-    public function show(CommitmentContract $commitmentContract): Response
-    {
-        return $this->render('commitment_contract/show.html.twig', [
+        return $this->render('admin/commitment_contract/show.html.twig', [
             'commitment_contract' => $commitmentContract,
         ]);
     }
@@ -96,7 +77,7 @@ class CommitmentContractController extends AbstractController
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, CommitmentContract $commitmentContract, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, CommitmentContract $commitmentContract, EntityManagerInterface $entityManager, User $user): Response
     {
         $form = $this->createForm(CommitmentContractType::class, $commitmentContract);
         $form->handleRequest($request);
@@ -104,17 +85,18 @@ class CommitmentContractController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_show', ['id' => $commitmentContract->getUser()->getId()]);
+            return $this->redirectToRoute('admin_commitment_contract_index', ['user' => $user->getId()]);
         }
 
-        return $this->renderForm('commitment_contract/edit.html.twig', [
+        return $this->renderForm('admin/commitment_contract/edit.html.twig', [
             'commitment_contract' => $commitmentContract,
             'form' => $form,
+            'user' => $user
         ]);
     }
 
     /**
-     * @Route("/{id}", name="commitment_contract_delete", methods={"POST"})
+     * @Route("/{id}", name="delete", methods={"POST"})
      */
     public function delete(Request $request, CommitmentContract $commitmentContract, EntityManagerInterface $entityManager): Response
     {
@@ -123,6 +105,6 @@ class CommitmentContractController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('commitment_contract_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_commitment_contract_index', [], Response::HTTP_SEE_OTHER);
     }
 }

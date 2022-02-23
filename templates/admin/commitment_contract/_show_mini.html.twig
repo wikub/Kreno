@@ -1,0 +1,35 @@
+<div class="card">
+    <div class="card-header fw-bold">
+        <a href="{{ path('admin_commitment_contract_edit', {'id':contract.id, 'user': contract.user.id}) }}">{{ contract.type?contract.type.name }}</a>
+        {% if contract.finish %}
+            <span class="badge bg-secondary">Terminé</span>
+        {% else %}
+            <span class="badge bg-danger">En cours</span>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <p class="card-text">
+        {% if contract.finish %}
+            Du {{ contract.start|date('d/m/Y') }} au {{ contract.finish|date('d/m/Y') }}
+        {% else %}
+            en cours à partir du {{ contract.start|date('d/m/Y') }}
+        {% endif %}
+        </p>
+        <p class="card-text">
+            {% if contract.type.regular == 1 %}
+            <b>Créneaux réguliers :</b> 
+                <ul>
+                    {% for regular in contract.regularTimeslots %}
+                    <li>Semaine {{ regular.timeslotTemplate.weekTemplate.weekTypeLabel }} - {{ regular.timeslotTemplate.dayWeekLabel }} de {{regular.timeslotTemplate.start|date('H:m')}} à {{regular.timeslotTemplate.finish|date('H:m')}} - {{ regular.timeslotTemplate.name }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </p>
+        <p class="card-text">
+            <b>Engagement :</b>
+            {% if contract.type.nbTimeslotMin > 0 %}Nombre de créneaux minimum par cycle : {{contract.type.nbTimeslotMin}} {% endif %}
+            {% if contract.type.nbHourMin > 0 %}Nombre de créneaux minimum par cycle : {{contract.type.nbHourMin}} {% endif %}
+        </p>
+    </div>
+</div>

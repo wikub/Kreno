@@ -43,7 +43,7 @@
     </div>
 
     <div class="btn-group float-end mt-3">
-        <a href="{{ path('timeslot_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
+        <a href="{{ path('admin_commitment_contract_index', {'user': user.id}) }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
         <button class="btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Enregister') }}</button>
     </div>
 

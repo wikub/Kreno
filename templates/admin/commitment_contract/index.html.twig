@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contrat d'engagement de {{ user.displayName }}{% endblock %}
+
+{% block body %}
+    {{ include('admin/user/_header.html.twig', {'nav_current': 'commitment_contract'} ) }}
+
+    {% include '_elements/_flash_message.html.twig' %}
+
+    <div class="alert alert-secondary">
+        Il ne doit y avoir qu'un seul contrat d'engagement ouvert à la fois.
+    </div>
+
+    <div class="btn-group mb-3" role="group">
+        <a href="{{ path('admin_commitment_contract_new', {'user': user.id}) }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-plus"></i> Ajouter</a>
+    </div>
+
+    
+    
+    <div class="row row-cols-2">
+        {% for contract in commitment_contracts %}
+            <div class="col">
+            {{ include('admin/commitment_contract/_show_mini.html.twig', {'contract': contract}) }}
+            </div>
+        {% endfor %}
+    </div>
+    
+{% endblock %}

@@ -116,7 +116,7 @@ class CommitmentContract
     {
         if (!$this->regularTimeslots->contains($regularTimeslot)) {
             $this->regularTimeslots[] = $regularTimeslot;
-            $regularTimeslot->setCommitmentContrat($this);
+            $regularTimeslot->setCommitmentContract($this);
         }
 
         return $this;
@@ -126,8 +126,8 @@ class CommitmentContract
     {
         if ($this->regularTimeslots->removeElement($regularTimeslot)) {
             // set the owning side to null (unless already changed)
-            if ($regularTimeslot->getCommitmentContrat() === $this) {
-                $regularTimeslot->setCommitmentContrat(null);
+            if ($regularTimeslot->getCommitmentContract() === $this) {
+                $regularTimeslot->setCommitmentContract(null);
             }
         }
 

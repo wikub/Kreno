@@ -10,7 +10,7 @@
         <a class="nav-link" href="#"><i class="fas fa-hard-hat"></i> Créneaux</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fas fa-file-signature"></i> Engagements</a>
+        <a class="nav-link {{ nav_current == 'commitment_contract'?'active'}}" href="{{ path('admin_commitment_contract_index', {'user': user.id}) }}"><i class="fas fa-file-signature"></i> Engagements</a>
     </li>
     <li class="nav-item">
         <a class="nav-link {{ nav_current == 'commitment_log'?'active'}} " href="{{ path('admin_commitment_log_index', {'user': user.id}) }}"><i class="fas fa-balance-scale"></i> Solde Engagements</a>

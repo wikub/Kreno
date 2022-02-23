@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau contrat d'engagement pour {{ user.displayName }}{% endblock %}
+
+{% block body %}
+        {{ include('admin/user/_header.html.twig', {'nav_current': 'commitment_contract'} ) }}
+
+    {% include '_elements/_flash_message.html.twig' %}
+
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-users"></i> Nouveau contrat d'engagement
+        </div>
+        <div class="card-body">
+
+        {{ include('admin/commitment_contract/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('wikubSfCollection') }}
+{% endblock %}

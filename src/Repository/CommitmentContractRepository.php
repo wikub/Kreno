@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CommitmentContract;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +18,20 @@ class CommitmentContractRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CommitmentContract::class);
+    }
+
+    public function findCurrentContract()
+    {
+        $finishCycle = new \DateTime();
+        $startCycle = (clone($finishCycle))->modify('-4 weeks');
+        
+        return $this->createQueryBuilder('cc')
+            ->andWhere('cc.start >= :startCycle AND cc.start <=  :finishCycle')
+            ->setParameter('startCycle', $startCycle)
+            ->setParameter('finishCycle', $finishCycle)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
     // /**

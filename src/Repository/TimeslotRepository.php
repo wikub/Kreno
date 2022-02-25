@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Timeslot;
+use App\Entity\TimeslotTemplate;
 use App\Entity\Week;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -54,6 +55,26 @@ class TimeslotRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    public function findFutureByTimeslotTemplate(TimeslotTemplate $template, DateTime $start = null, Datetime $finish = null)
+    {
+        $now = new \DateTime();
+        if( $start == null or $start <= $now) $start = $now;
+
+        $qb = $this->createQueryBuilder('t')
+            ->andWhere('t.template = :template')
+            ->andWhere('t.start >= :start')
+            ->setParameter('template', $template)
+            ->setParameter('start', $start);
+
+            if( $finish != null ) {
+                $qb->andWhere('t.start <= :finish')
+                    ->setParameter('finish', $finish);
+            }
+
+        return $qb->getQuery()
+            ->getResult();
     }
     // /**
     //  * @return Timeslot[] Returns an array of Timeslot objects

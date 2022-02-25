@@ -2,8 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\CommitmentContract;
+use App\Entity\CommitmentContractRegularTimeslot;
 use App\Entity\Job;
 use App\Entity\JobDoneType;
+use App\Entity\TimeslotTemplate;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,6 +22,35 @@ class JobRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Job::class);
+    }
+
+    public function getFuturForRegular(TimeslotTemplate $template, User $user)
+    {
+        return $this->createQueryBuilder('j')
+            ->join('j.timeslot', 't')
+            //->join('t.template', 'temp')
+            //->join('temp.regularCommitmentContracts', 'rg')
+            //->andwhere('rg.commitmentContract = :contract')
+            ->andWhere('t.template = :template')
+            ->andWhere('j.user = :user')
+            ->andWhere('t.start >= :now')
+            ->setParameter('user', $user)
+            ->setParameter('now', new \DateTime())
+            ->setParameter('template', $template)
+                ->getQuery()
+                ->getResult()
+            ;
+
+            // $qb = $this->createQueryBuilder('job');
+            // return $qb->where($qb->expr()->In('job.id', $selectJob->getDQL() ))
+            // //->setParameter('contract', $re)
+            // ->setParameter('user', $regular->getCommitmentContract()->getUser())
+            // ->setParameter('now', new \DateTime())
+            // ->setParameter('regular', $regular)
+            //     ->delete()
+            //     ->getQuery()
+            //     ->getResult()
+            // ;
     }
 
     // /**

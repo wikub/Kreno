@@ -37,3 +37,22 @@ services:
                 name: 'doctrine.orm.entity_listener'
                 event: 'postUpdate'
                 entity: 'App\Entity\Timeslot'
+    
+    App\EventListener\RegularTimeslotPersist:
+        tags:
+            -
+                name: 'doctrine.orm.entity_listener'
+                event: 'postUpdate'
+                entity: 'App\Entity\CommitmentContractRegularTimeslot'
+            -
+                name: 'doctrine.orm.entity_listener'
+                event: 'postPersist'
+                entity: 'App\Entity\CommitmentContractRegularTimeslot'
+    
+    App\EventListener\CommitmentContractPersist:
+        tags:
+            -
+                name: 'doctrine.orm.entity_listener'
+                event: 'postUpdate'
+                entity: 'App\Entity\CommitmentContract'
+            

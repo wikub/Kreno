@@ -42,7 +42,7 @@ class CommitmentContract
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=CommitmentContractRegularTimeslot::class, mappedBy="commitmentContract", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=CommitmentContractRegularTimeslot::class, mappedBy="commitmentContract", orphanRemoval=true, cascade={"all"})
      */
     private $regularTimeslots;
 

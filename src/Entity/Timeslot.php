@@ -218,6 +218,26 @@ class Timeslot
         return $this->jobs;
     }
 
+    /**
+     * @return Collection|Job[]
+     */
+    public function getFreeManagerJobs(): Collection
+    {
+        return $this->jobs->filter(function($job) {
+            return ($job->getUser() == null && $job->isManager() == true );
+        });
+    }
+
+    /**
+     * @return Collection|Job[]
+     */
+    public function getFreeNoManagerJobs(): Collection
+    {
+        return $this->jobs->filter(function($job) {
+            return ($job->getUser() == null && $job->isManager() == false );
+        });
+    }
+
     public function getManagerJobs(): Collection
     {
         return $this->jobs->filter(function($job){

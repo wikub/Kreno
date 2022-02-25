@@ -81,7 +81,7 @@ class CommitmentContractController extends AbstractController
     {
         $form = $this->createForm(CommitmentContractType::class, $commitmentContract);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 

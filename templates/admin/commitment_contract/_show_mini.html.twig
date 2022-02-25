@@ -20,7 +20,7 @@
             <b>Créneaux réguliers :</b> 
                 <ul>
                     {% for regular in contract.regularTimeslots %}
-                    <li>Semaine {{ regular.timeslotTemplate.weekTemplate.weekTypeLabel }} - {{ regular.timeslotTemplate.dayWeekLabel }} de {{regular.timeslotTemplate.start|date('H:m')}} à {{regular.timeslotTemplate.finish|date('H:m')}} - {{ regular.timeslotTemplate.name }}
+                    <li>Semaine {{ regular.timeslotTemplate.weekTemplate.weekTypeLabel }} - {{ regular.timeslotTemplate.dayWeekLabel }} de {{regular.timeslotTemplate.start|date('H:i')}} à {{regular.timeslotTemplate.finish|date('H:i')}} - {{ regular.timeslotTemplate.name }}
                     </li>
                     {% endfor %}
                 </ul>

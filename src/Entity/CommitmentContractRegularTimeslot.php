@@ -29,6 +29,16 @@ class CommitmentContractRegularTimeslot
      */
     private $timeslotTemplate;
 
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $start;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $finish;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +64,30 @@ class CommitmentContractRegularTimeslot
     public function setTimeslotTemplate(?TimeslotTemplate $timeslotTemplate): self
     {
         $this->timeslotTemplate = $timeslotTemplate;
+
+        return $this;
+    }
+
+    public function getStart(): ?\DateTimeInterface
+    {
+        return $this->start;
+    }
+
+    public function setStart(\DateTimeInterface $start): self
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    public function getFinish(): ?\DateTimeInterface
+    {
+        return $this->finish;
+    }
+
+    public function setFinish(?\DateTimeInterface $finish): self
+    {
+        $this->finish = $finish;
 
         return $this;
     }

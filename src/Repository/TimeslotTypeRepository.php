@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\CommitmentContract;
 use App\Entity\TimeslotType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;

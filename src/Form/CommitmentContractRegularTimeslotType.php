@@ -22,7 +22,7 @@ class CommitmentContractRegularTimeslotType extends AbstractType
             'required' => true,
             'class' => TimeslotTemplate::class,
             'choice_label' => function($timeslot) {
-                return 'Semaine '.$timeslot->getWeekTemplate()->getWeekTypeLabel().' - '.$timeslot->getDayWeekLabel().' de '.$timeslot->getStart()->format('H:m').' à '.$timeslot->getFinish()->format('H:m').' - '.$timeslot->getTimeslotType()->getName();
+                return 'Semaine '.$timeslot->getWeekTemplate()->getWeekTypeLabel().' - '.$timeslot->getDayWeekLabel().' de '.$timeslot->getStart()->format('H:i').' à '.$timeslot->getFinish()->format('H:i').' - '.$timeslot->getTimeslotType()->getName();
             },
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('tt')
@@ -42,7 +42,7 @@ class CommitmentContractRegularTimeslotType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CommitmentContractRegularTimeslot::class,
-            'by_reference' => false
+            //'by_reference' => false
         ]);
     }
 }

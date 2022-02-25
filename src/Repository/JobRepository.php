@@ -24,6 +24,17 @@ class JobRepository extends ServiceEntityRepository
         parent::__construct($registry, Job::class);
     }
 
+    public function findAllOrderByTimeslotStart(User $user) 
+    {
+        return $this->createQueryBuilder('j')
+            ->join('j.timeslot', 't')
+            ->andWhere('j.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('t.start','ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getFuturForRegular(TimeslotTemplate $template, User $user)
     {
         return $this->createQueryBuilder('j')

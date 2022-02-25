@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Poste de {{ user.displayName }}{% endblock %}
+
+{% block body %}
+    {{ include('admin/user/_header.html.twig', {'nav_current': 'job'} ) }}
+
+    {% include '_elements/_flash_message.html.twig' %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-center">Créneaux</th>
+                    <th class="text-center">Référent</th>
+                    <th class="text-center">Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for job in jobs %}
+                <tr>
+                    <td>{{ job.timeslot.getDisplayDateInterval }} - {{ job.timeslot.getDisplayName }}</td>
+                    <td class="text-center">{{ job.manager ? 'Oui' : '' }}</td>
+                    <td class="text-center">{{ job.jobDone ? job.jobDone.name }} </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucun poste trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    
+{% endblock %}

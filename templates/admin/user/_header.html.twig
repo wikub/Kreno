@@ -7,7 +7,7 @@
         <a class="nav-link {{ nav_current == 'user'?'active'}}" href="{{ path('admin_user_show', {'id': user.id}) }}"><i class="fas fa-info"></i> Infomartions</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fas fa-hard-hat"></i> Créneaux</a>
+        <a class="nav-link {{ nav_current == 'job'?'active'}}" href="{{ path('admin_user_job_index', {'user': user.id})}}"><i class="fas fa-hard-hat"></i> Créneaux</a>
     </li>
     <li class="nav-item">
         <a class="nav-link {{ nav_current == 'commitment_contract'?'active'}}" href="{{ path('admin_commitment_contract_index', {'user': user.id}) }}"><i class="fas fa-file-signature"></i> Engagements</a>

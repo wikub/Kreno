@@ -20,6 +20,6 @@ jobs:
             echo ${{ secrets.TEST_DIST_PROJECT_DIR }}
             cd ~/sites/kreno.wikub.com
             git pull
-            composer install
+            composer2 install
             symfony console d:m:m -n
             APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear

@@ -18,6 +18,8 @@ jobs:
           port: ${{ secrets.TEST_SSH_PORT }}
           script: |
             echo ${{ secrets.TEST_DIST_PROJECT_DIR }}
-            cd ${{ secrets.TEST_DIST_PROJECT_DIR }}
-            ls
-            
+            cd ~/sites/kreno.wikub.com
+            git pull
+            composer install
+            symfony console d:m:m -n
+            APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear

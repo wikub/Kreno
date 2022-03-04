@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Form;
 
 use App\Entity\CommitmentContract;
@@ -19,18 +28,18 @@ class CommitmentContractType extends AbstractType
             ->add('start', DateType::class, [
                 'label' => 'Début',
                 'html5' => true,
-                'widget' => 'single_text'
+                'widget' => 'single_text',
             ])
             ->add('finish', DateType::class, [
                 'label' => 'Fin',
                 'required' => false,
                 'html5' => true,
-                'widget' => 'single_text'
+                'widget' => 'single_text',
             ])
             ->add('type', EntityType::class, [
                 'label' => 'Type',
                 'class' => CommitmentType::class,
-                'choice_label' => 'name'
+                'choice_label' => 'name',
             ])
             ->add('regularTimeslots', CollectionType::class, [
                 'entry_type' => CommitmentContractRegularTimeslotType::class,

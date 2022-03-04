@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller\Admin;
 
 use App\Entity\User;
@@ -32,12 +41,11 @@ class UserController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
-        
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $user->setPassword($this->generatePassword());
 
             $entityManager->persist($user);
@@ -90,7 +98,7 @@ class UserController extends AbstractController
         $user->setEnabled(true);
         $entityManager->persist($user);
         $entityManager->flush();
-    
+
         $this->addFlash(
             'notice',
             'Le membre a été activé'
@@ -111,7 +119,7 @@ class UserController extends AbstractController
             'notice',
             'Le membre a été desactivé'
         );
-        
+
         return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
     }
 
@@ -132,13 +140,12 @@ class UserController extends AbstractController
     {
         $length = 15;
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#!?-&@';
-        $charactersLength = strlen($characters);
+        $charactersLength = \mb_strlen($characters);
         $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < $length; ++$i) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
+
         return $randomString;
     }
-
-
 }

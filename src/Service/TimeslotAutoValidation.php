@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Service;
 
 use App\Repository\JobDoneTypeRepository;
@@ -32,22 +41,26 @@ class TimeslotAutoValidation
 
     public function timeslotAutoValidation()
     {
-        if( !($timeslots = $this->repo->findForValidation24h()) ){
-            $this->flash->add('notice','Aucun créneau à auto valider');
+        if (!($timeslots = $this->repo->findForValidation24h())) {
+            $this->flash->add('notice', 'Aucun créneau à auto valider');
+
             return;
-        };
-        
-        if( !($jobDone = $this->repoJobDoneType->findDefaultValue()) ) {
-            $this->flash->add('notice','Aucune valeur par défaut définit');
+        }
+
+        if (!($jobDone = $this->repoJobDoneType->findDefaultValue())) {
+            $this->flash->add('notice', 'Aucune valeur par défaut définit');
+
             return;
         }
 
         $now = (new \DateTime())->format('d/m/Y H:i');
 
-        foreach($timeslots as $timeslot) {
-            foreach($timeslot->getJobs() as $job) {
-                if( $job->getUser() == null ) continue;
-                
+        foreach ($timeslots as $timeslot) {
+            foreach ($timeslot->getJobs() as $job) {
+                if (null === $job->getUser()) {
+                    continue;
+                }
+
                 $job->setJobDone($jobDone);
                 $this->em->persist($job);
             }
@@ -64,7 +77,7 @@ class TimeslotAutoValidation
             $this->em->persist($timeslot);
             $this->em->flush();
 
-            $this->flash->add('notice','Le créneau '.$timeslot->getDisplayName().' '.$timeslot->getDisplayDateInterval().' a été validé');
+            $this->flash->add('notice', 'Le créneau '.$timeslot->getDisplayName().' '.$timeslot->getDisplayDateInterval().' a été validé');
         }
     }
 }

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller;
 
 use App\Entity\WeekTemplate;
@@ -60,7 +69,7 @@ class WeekTemplateController extends AbstractController
             4 => 'Jeudi',
             5 => 'Vendredi',
             6 => 'Samedi',
-            7 => 'Dimanche'
+            7 => 'Dimanche',
         ];
 
         $weekdaysTimeslotTemplates = [];
@@ -68,15 +77,14 @@ class WeekTemplateController extends AbstractController
             $weekdaysTimeslotTemplates[$i] = [];
         }
 
-        foreach($weekTemplate->getTimeslotTemplates() as $timeslotTemplate) {
+        foreach ($weekTemplate->getTimeslotTemplates() as $timeslotTemplate) {
             $weekdaysTimeslotTemplates[$timeslotTemplate->getDayWeek()][$timeslotTemplate->getStart()->format('Hi').$timeslotTemplate->getId()] = $timeslotTemplate;
         }
         //Tri jour et heure
         //ksort($weekdaysTimeslotTemplates);
-        foreach($weekdaysTimeslotTemplates as &$day) {
+        foreach ($weekdaysTimeslotTemplates as &$day) {
             ksort($day);
         }
-
 
         return $this->render('week_template/show.html.twig', [
             'weekdays' => $weekdays,

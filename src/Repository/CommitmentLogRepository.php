@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Repository;
 
 use App\Entity\CommitmentLog;
@@ -20,28 +29,24 @@ class CommitmentLogRepository extends ServiceEntityRepository
         parent::__construct($registry, CommitmentLog::class);
     }
 
-    public function getSumnbTimeslot(User $user): ?int 
+    public function getSumnbTimeslot(User $user): ?int
     {
-
         return $this->createQueryBuilder('cl')
             ->select('SUM(cl.nbTimeslot) as sumNbTimeslot')
             ->where('cl.user = :user')
             ->setParameter('user', $user)
             ->getQuery()
             ->getSingleScalarResult();
-
     }
 
-    public function getSumNbHour(User $user): ?int 
+    public function getSumNbHour(User $user): ?int
     {
-
         return $this->createQueryBuilder('cl')
             ->select('SUM(cl.nbHour) as sumNbHour')
             ->where('cl.user = :user')
             ->setParameter('user', $user)
             ->getQuery()
             ->getSingleScalarResult();
-
     }
     // /**
     //  * @return CommitmentLog[] Returns an array of CommitmentLog objects

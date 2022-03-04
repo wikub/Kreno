@@ -1,9 +1,9 @@
 <?php
 
 $fileHeaderComment = <<<COMMENT
-This file is part of the Symfony package.
+This file is part of the Kreno package.
 
-(c) Fabien Potencier <fabien@symfony.com>
+(c) Valentin Van Meeuwen <contact@wikub.com>
 
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.

@@ -57,7 +57,7 @@ jobs:
         run: ./bin/console lint:yaml config --parse-tags
 
       - name: Lint Twig templates
-        run: ./bin/console lint:twig templates --env=prod
+        run: ./bin/console lint:twig templates --env=test
 
       - name: Lint Parameters and Services
         run: ./bin/console lint:container --no-debug

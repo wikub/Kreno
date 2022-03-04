@@ -14,7 +14,6 @@ namespace App\Service;
 use App\Entity\CommitmentLog;
 use App\Repository\CommitmentContractRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class CommitmentContratDebitLogApply
 {

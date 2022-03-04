@@ -33,6 +33,7 @@
             </li>
         </ul>
 
+        {% if is_granted('ROLE_ADMIN') %}
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Administration</span>
         </h6>
@@ -77,5 +78,6 @@
             </li>
             
         </ul>
+        {% endif %}
     </div>
 </nav>

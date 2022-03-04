@@ -19,18 +19,13 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 class CommitmentContratDebitLogApply
 {
     private $em;
-    private $repo;
-    private $timeslotWorkflow;
-    private $flash;
     private $commitmentContractRepository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        FlashBagInterface $flash,
         CommitmentContractRepository $commitmentContractRepository
     ) {
         $this->em = $entityManager;
-        $this->flash = $flash;
         $this->commitmentContractRepository = $commitmentContractRepository;
     }
 

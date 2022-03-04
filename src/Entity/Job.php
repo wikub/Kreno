@@ -57,18 +57,6 @@ class Job
         return $this->id;
     }
 
-    public function getUserCategory(): ?UserCategory
-    {
-        return $this->userCategory;
-    }
-
-    public function setUserCategory(?UserCategory $userCategory): self
-    {
-        $this->userCategory = $userCategory;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;

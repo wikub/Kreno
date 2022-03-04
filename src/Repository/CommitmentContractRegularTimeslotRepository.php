@@ -11,7 +11,7 @@
 
 namespace App\Repository;
 
-use App\Entity\CommitmentContractTimeslotTemplate;
+use App\Entity\CommitmentContractRegularTimeslot;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -25,7 +25,7 @@ class CommitmentContractRegularTimeslotRepository extends ServiceEntityRepositor
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, CommitmentContractTimeslotTemplate::class);
+        parent::__construct($registry, CommitmentContractRegularTimeslot::class);
     }
 
     // /**

@@ -24,6 +24,7 @@ class TimeslotAutoValidation
     private $repo;
     private $timeslotWorkflow;
     private $flash;
+    private $repoJobDoneType;
 
     public function __construct(
         EntityManagerInterface $entityManager,

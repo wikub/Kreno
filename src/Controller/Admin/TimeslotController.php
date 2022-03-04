@@ -63,7 +63,7 @@ class TimeslotController extends AbstractController
             $entityManager->flush();
 
             try {
-                $this->timeslotWorkflows->apply($timeslot, 'to_open');
+                $this->timeslotWorkflow->apply($timeslot, 'to_open');
             } catch (LogicException $exception) {
             }
 

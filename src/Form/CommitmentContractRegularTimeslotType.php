@@ -34,7 +34,9 @@ class CommitmentContractRegularTimeslotType extends AbstractType
                 return $er->createQueryBuilder('tt')
                     ->innerJoin('tt.weekTemplate', 'wt')
                     //->innerJoin('tt.timeslotType', 'type')
-                    ->orderBy('wt.weekType', 'ASC', 'tt.dayWeek', 'ASC', 'tt.start', 'ASC');
+                    ->addOrderBy('wt.weekType', 'ASC')
+                    ->addOrderBy('tt.dayWeek', 'ASC')
+                    ->addOrderBy('tt.start', 'ASC');
             },
             'group_by' => function ($timeslot, $key, $value) {
                 return 'Semaine '.$timeslot->getWeekTemplate()->getWeekTypeLabel();

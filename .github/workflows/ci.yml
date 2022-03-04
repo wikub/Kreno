@@ -6,6 +6,16 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     continue-on-error: false
+    services:
+      mariadb:
+        image: 'mariadb:latest'
+        env: 
+          MARIADB_USER: kreno
+          MARIADB_PASSWORD: kreno
+          MARIADB_ROOT_PASSWORD: kreno
+          MARIADB_DATABASE: kreno
+        ports:
+          - 3306:3306
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2

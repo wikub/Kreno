@@ -1,15 +1,21 @@
 <?php
 
-namespace App\Form\Admin;
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+namespace App\Form\Admin;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Choice;
 
 class TaskWeekTimeslotGeneratorType extends AbstractType
 {
@@ -19,19 +25,19 @@ class TaskWeekTimeslotGeneratorType extends AbstractType
             ->add('start', DateType::class, [
                 'label' => 'Début',
                 'html5' => true,
-                'widget' => 'single_text'
+                'widget' => 'single_text',
             ])
             ->add('finish', DateType::class, [
                 'label' => 'Fin',
                 'html5' => true,
-                'widget' => 'single_text'
+                'widget' => 'single_text',
             ])
             ->add('ifWeekExist', ChoiceType::class, [
                 'label' => 'Si semaine existe ?',
                 'choices' => [
                     'Ignorer' => 1,
-                    'Replacer' => 2
-                ]
+                    'Replacer' => 2,
+                ],
             ])
         ;
     }
@@ -39,7 +45,6 @@ class TaskWeekTimeslotGeneratorType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            
         ]);
     }
 }

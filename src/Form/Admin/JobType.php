@@ -1,10 +1,18 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Form\Admin;
 
 use App\Entity\Job;
 use App\Entity\User;
-
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -30,7 +38,7 @@ class JobType extends AbstractType
         ])
         ->add('manager', CheckboxType::class, [
             'label' => 'Référent',
-            'required' => false
+            'required' => false,
         ])
         ;
     }
@@ -39,7 +47,7 @@ class JobType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Job::class,
-            'by_reference' => false
+            'by_reference' => false,
         ]);
     }
 }

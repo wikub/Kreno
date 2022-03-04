@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
 use App\Repository\CommitmentLogRepository;
@@ -11,12 +20,12 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class CommitmentLog
 {
-    /**
+    /*
      * Hook timestampable behavior
      * updates createdAt, updatedAt fields
      */
     use TimestampableEntity;
-    
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -55,6 +64,7 @@ class CommitmentLog
         $this->nbTimeslot = 0;
         $this->nbHour = 0;
     }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -119,5 +129,4 @@ class CommitmentLog
 
         return $this;
     }
-    
 }

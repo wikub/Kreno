@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller\Admin;
 
 use App\Entity\Week;
@@ -23,11 +32,12 @@ class WeekController extends AbstractController
     {
         $currentWeek = $weekRepository->findCurrent();
 
-        if( $currentWeek != null) {
-            return $this->redirectToRoute('admin_week_show', ['id' => $currentWeek->getId()]);    
+        if (null !== $currentWeek) {
+            return $this->redirectToRoute('admin_week_show', ['id' => $currentWeek->getId()]);
         }
 
         $this->addFlash('notice', 'Aucune semaine n\'a été trouvé !');
+
         return $this->redirectToRoute('admin_week_index', [], Response::HTTP_SEE_OTHER);
     }
 
@@ -38,11 +48,12 @@ class WeekController extends AbstractController
     {
         $nextWeek = $weekRepository->findNext($week);
 
-        if( $nextWeek != null) {
-            return $this->redirectToRoute('admin_week_show', ['id' => $nextWeek->getId()]);    
+        if (null !== $nextWeek) {
+            return $this->redirectToRoute('admin_week_show', ['id' => $nextWeek->getId()]);
         }
-        
+
         $this->addFlash('notice', 'Aucune semaine n\'a été trouvé !');
+
         return $this->redirectToRoute('admin_week_index', [], Response::HTTP_SEE_OTHER);
     }
 
@@ -53,11 +64,12 @@ class WeekController extends AbstractController
     {
         $previousWeek = $weekRepository->findPrevious($week);
 
-        if( $previousWeek != null) {
-            return $this->redirectToRoute('admin_week_show', ['id' => $previousWeek->getId()]);    
+        if (null !== $previousWeek) {
+            return $this->redirectToRoute('admin_week_show', ['id' => $previousWeek->getId()]);
         }
 
         $this->addFlash('notice', 'Aucune semaine n\'a été trouvé !');
+
         return $this->redirectToRoute('admin_week_index', [], Response::HTTP_SEE_OTHER);
     }
 
@@ -97,7 +109,7 @@ class WeekController extends AbstractController
      * @Route("/{id}", name="show", methods={"GET"})
      */
     public function show(Week $week): Response
-    {   
+    {
         return $this->render('admin/week/show.html.twig', [
             'week' => $week,
         ]);

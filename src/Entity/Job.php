@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
 use App\Repository\JobRepository;
@@ -46,18 +55,6 @@ class Job
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUserCategory(): ?UserCategory
-    {
-        return $this->userCategory;
-    }
-
-    public function setUserCategory(?UserCategory $userCategory): self
-    {
-        $this->userCategory = $userCategory;
-
-        return $this;
     }
 
     public function getUser(): ?User
@@ -107,5 +104,4 @@ class Job
 
         return $this;
     }
-
 }

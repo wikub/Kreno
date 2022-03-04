@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller\Admin;
 
 use App\Entity\CommitmentContract;
@@ -24,7 +33,7 @@ class CommitmentContractController extends AbstractController
     {
         return $this->render('admin/commitment_contract/index.html.twig', [
             'commitment_contracts' => $commitmentContractRepository->findAll(),
-            'user' => $user
+            'user' => $user,
         ]);
     }
 
@@ -33,7 +42,6 @@ class CommitmentContractController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager, User $user): Response
     {
-        
         $commitmentContract = new CommitmentContract();
         $commitmentContract->setUser($user);
 
@@ -41,14 +49,12 @@ class CommitmentContractController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            if( $currentContract = $user->getCurrentCommitmentContract() ) {
-                $finish = clone($commitmentContract->getStart());
-                $finish->modify( '-1 day' );
-                $currentContract->setFinish( $finish );
+            if ($currentContract = $user->getCurrentCommitmentContract()) {
+                $finish = clone $commitmentContract->getStart();
+                $finish->modify('-1 day');
+                $currentContract->setFinish($finish);
                 $entityManager->persist($currentContract);
             }
-            
 
             $entityManager->persist($commitmentContract);
             $entityManager->flush();
@@ -59,11 +65,10 @@ class CommitmentContractController extends AbstractController
         return $this->renderForm('admin/commitment_contract/new.html.twig', [
             'commitment_contract' => $commitmentContract,
             'form' => $form,
-            'user' => $user
+            'user' => $user,
         ]);
     }
 
-    
     /**
      * @Route("/{id}", name="show", methods={"GET"})
      */
@@ -81,7 +86,7 @@ class CommitmentContractController extends AbstractController
     {
         $form = $this->createForm(CommitmentContractType::class, $commitmentContract);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
@@ -91,7 +96,7 @@ class CommitmentContractController extends AbstractController
         return $this->renderForm('admin/commitment_contract/edit.html.twig', [
             'commitment_contract' => $commitmentContract,
             'form' => $form,
-            'user' => $user
+            'user' => $user,
         ]);
     }
 

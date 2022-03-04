@@ -1,10 +1,17 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Form;
 
 use App\Entity\Job;
-use App\Entity\User;
-use App\Entity\UserCategory;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -18,7 +25,7 @@ class JobRegistrationType extends AbstractType
         $builder->add('job', EntityType::class, [
             'label' => 'Créneau',
             'class' => Job::class,
-            'choice_label' => function($job) {
+            'choice_label' => function ($job) {
                 return $job->getTimeslot()->getDisplayName().' '.$job->getUserCategory()->getName();
             },
             'query_builder' => function (EntityRepository $er) {
@@ -36,7 +43,7 @@ class JobRegistrationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'by_reference' => false
+            'by_reference' => false,
         ]);
     }
 }

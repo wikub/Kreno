@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
 use App\Repository\TimeslotTemplateRepository;
@@ -36,7 +45,7 @@ class TimeslotTemplate
         4 => 'Jeudi',
         5 => 'Vendredi',
         6 => 'Samedi',
-        7 => 'Dimanche'
+        7 => 'Dimanche',
     ];
 
     /**
@@ -111,7 +120,9 @@ class TimeslotTemplate
 
     public function getDayWeekLabel(): ?string
     {
-        if( !key_exists($this->dayWeek, self::$dayWeekLabel) ) return '';
+        if (!\array_key_exists($this->dayWeek, self::$dayWeekLabel)) {
+            return '';
+        }
 
         return self::$dayWeekLabel[$this->dayWeek];
     }

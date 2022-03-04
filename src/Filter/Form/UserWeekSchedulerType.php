@@ -1,7 +1,15 @@
 <?php
 
-namespace App\Filter\Form;
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+namespace App\Filter\Form;
 
 use App\Entity\Week;
 use App\Filter\UserWeekScheduler;
@@ -20,7 +28,7 @@ class UserWeekSchedulerType extends AbstractType
             'label' => 'Semaine',
             'required' => false,
             'class' => Week::class,
-            'choice_label' => function($week) {
+            'choice_label' => function ($week) {
                 return $week->getDisplayName();
             },
             'placeholder' => 'Semaine courante',

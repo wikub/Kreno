@@ -1,13 +1,20 @@
 <?php
 
-namespace App\Controller\Admin;
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+namespace App\Controller\Admin;
 
 use App\Form\Admin\TaskWeekTimeslotGeneratorType;
 use App\Service\CommitmentContratDebitLogApply;
 use App\Service\TimeslotAutoValidation;
 use App\Service\WeekTimeslotGenerator;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,14 +41,14 @@ class TaskController extends AbstractController
     {
         $defaultData = [
             'start' => new \DateTime(),
-            'finish' => (new \DateTime())->modify('last day of this year')
+            'finish' => (new \DateTime())->modify('last day of this year'),
         ];
         $form = $this->createForm(TaskWeekTimeslotGeneratorType::class, $defaultData);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            
+
             $generator->generate($data['start'], $data['finish'], $data['ifWeekExist']);
         }
 

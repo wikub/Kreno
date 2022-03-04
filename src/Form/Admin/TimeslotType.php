@@ -1,10 +1,18 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Form\Admin;
 
 use App\Entity\Timeslot;
 use App\Entity\TimeslotType as EntityTimeslotType;
-
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -28,25 +36,25 @@ class TimeslotType extends AbstractType
 
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
             ])
             ->add('start', DateTimeType::class, [
                 'label' => 'Début',
                 'html5' => true,
                 'date_widget' => 'single_text',
-                'minutes' => [0,15,30,45],
-                'hours' => range(6,23)
+                'minutes' => [0, 15, 30, 45],
+                'hours' => range(6, 23),
             ])
             ->add('finish', DateTimeType::class, [
                 'label' => 'Fin',
                 'html5' => true,
                 'date_widget' => 'single_text',
-                'minutes' => [0,15,30,45],
-                'hours' => range(6,23)
+                'minutes' => [0, 15, 30, 45],
+                'hours' => range(6, 23),
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
-                'required' => false
+                'required' => false,
             ])
             ->add('timeslotType', EntityType::class, [
                 'label' => 'Type',

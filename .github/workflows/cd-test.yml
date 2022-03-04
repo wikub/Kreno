@@ -17,7 +17,7 @@ jobs:
           key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
           port: ${{ secrets.TEST_SSH_PORT }}
           script: |
-            echo ${{ secrets.TEST_PROJECT_DIR }}
-            cd ${{ secrets.TEST_PROJECT_DIR }}
+            echo ${{ secrets.TEST_DIST_PROJECT_DIR }}
+            cd ${{ secrets.TEST_DIST_PROJECT_DIR }}
             ls
             

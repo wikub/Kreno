@@ -52,15 +52,19 @@ class WeekTimeslotGenerator
             $start->modify('next monday');
         }
 
-        //Récupère la semaine prècédent
         $previousDate = (clone $start)->modify('-7 days');
-        $previousWeek = $this->weekRepo->findByStartDate($previousDate);
+        //Check if weeks exist
+        if (0 !== $this->weekRepo->count([])) {
+            //Récupère la semaine prècédent
+            $previousDate = (clone $start)->modify('-7 days');
+            $previousWeek = $this->weekRepo->findByStartDate($previousDate);
+            $previousWeekType = $previousWeek->getWeekType();
 
-        //if( $previousWeek == null ) $previousWeekType = $previousWeek->getWeekType();
-        if (null === $previousWeek) {
-            $this->flash->add('error', 'Attention : Il n\'a aucune semaine précédente trouvé.');
+            if (null === $previousWeek) {
+                $this->flash->add('error', 'Attention : Il n\'a aucune semaine précédente trouvé.');
 
-            return false;
+                return false;
+            }
         }
 
         //Get the template at the right cycle

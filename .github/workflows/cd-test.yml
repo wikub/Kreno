@@ -20,4 +20,4 @@ jobs:
             cd ${{ secrets.TEST_DIST_PROJECT_DIR }}
             git pull
             composer2 install
-            php bin/console d:m:m -n
+            php bin/console doctrine:migrations:migrate

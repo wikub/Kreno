@@ -28,13 +28,13 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label' => 'Identifiant (login)',
+                'label' => 'Identifiant (login) *',
             ])
             ->add('name', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'Nom *',
             ])
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom',
+                'label' => 'Prénom *',
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Courriel',
@@ -45,7 +45,7 @@ class UserType extends AbstractType
                 'required' => false,
             ])
             ->add('userCategory', EntityType::class, [
-                'label' => 'Catégorie',
+                'label' => 'Catégorie *',
                 'class' => UserCategory::class,
                 'choice_label' => 'name',
                 'query_builder' => function (EntityRepository $er) {
@@ -55,7 +55,7 @@ class UserType extends AbstractType
                 },
             ])
             ->add('subscriptionType', ChoiceType::class, [
-                'label' => 'Inscription',
+                'label' => 'Inscription *',
                 'choices' => array_flip(User::getSubscriptionTypeLabels()),
             ])
         ;

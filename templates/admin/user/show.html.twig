@@ -48,4 +48,11 @@
         </table>
     </div>
 
+    <div class="text-center">
+        <div class="btn-group mt-3">
+            <a href="{{ path('admin_user_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
+            <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-primary"><i class="far fa-edit"></i> Modifier</a>
+        </div>
+    </div>
+
 {% endblock %}

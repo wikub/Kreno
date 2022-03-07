@@ -12,26 +12,21 @@
 namespace App\Service;
 
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Notifier\Notification\Notification;
 
 class UserTimeslotApproachNotification
 {
-    private $em;
     private $userRepository;
     private $flash;
     private $mailer;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
         UserRepository $userRepository,
         FlashBagInterface $flash,
         MailerInterface $mailer
     ) {
-        $this->em = $entityManager;
         $this->userRepository = $userRepository;
         $this->flash = $flash;
         $this->mailer = $mailer;

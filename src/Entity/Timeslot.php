@@ -118,7 +118,7 @@ class Timeslot
     {
         $this->enabled = true;
         $this->jobs = new ArrayCollection();
-        //$this->status = ['draft'];
+        // $this->status = ['draft'];
     }
 
     public function getId(): ?int

@@ -45,7 +45,7 @@ class WeekTimeslotGenerator
 
     public function generate(Datetime $start, DateTime $finish, int $ifWeekExist = 1)
     {
-        $previousWeekType = 4; //WeekType A
+        $previousWeekType = 4; // WeekType A
         $week = null;
 
         if (1 !== $start->format('N')) {
@@ -53,9 +53,9 @@ class WeekTimeslotGenerator
         }
 
         $previousDate = (clone $start)->modify('-7 days');
-        //Check if weeks exist
+        // Check if weeks exist
         if (0 !== $this->weekRepo->count([])) {
-            //Récupère la semaine prècédent
+            // Récupère la semaine prècédent
             $previousDate = (clone $start)->modify('-7 days');
             $previousWeek = $this->weekRepo->findByStartDate($previousDate);
             $previousWeekType = $previousWeek->getWeekType();
@@ -67,13 +67,13 @@ class WeekTimeslotGenerator
             }
         }
 
-        //Get the template at the right cycle
+        // Get the template at the right cycle
         $weekTemplates = $this->repo->findAll();
         while ($previousWeekType !== (current($weekTemplates))->getWeekType()) {
             next($weekTemplates);
         }
 
-        //Generate the weeks
+        // Generate the weeks
         while ($start <= $finish) {
             $weekTemplate = next($weekTemplates);
             if (!$weekTemplate) {
@@ -84,7 +84,7 @@ class WeekTimeslotGenerator
             $week = $this->weekRepo->findByStartDate($start);
 
             if (null !== $week) {
-                if (1 === $ifWeekExist) { //Week will be ignore
+                if (1 === $ifWeekExist) { // Week will be ignore
                     $this->flash->add('warning', 'la semaine du '.$start->format('d/m/Y').' existe déjà. Elle a été ignorée.');
                     $start->modify('+7 days');
                     continue;
@@ -99,7 +99,7 @@ class WeekTimeslotGenerator
             $week->setStartAt($start);
 
             $this->em->persist($week);
-            //Generate the timeslots
+            // Generate the timeslots
             foreach ($weekTemplate->getTimeslotTemplates() as $timeslotTemplate) {
                 $timeslot = new Timeslot();
 
@@ -120,12 +120,12 @@ class WeekTimeslotGenerator
 
                 $timeslot->setTemplate($timeslotTemplate);
 
-                //Workflow
+                // Workflow
                 $this->timeslotWorkflow->apply($timeslot, 'to_open');
-                //$timeslot->setStatus(['draft']);
+                // $timeslot->setStatus(['draft']);
                 $this->em->persist($timeslot);
 
-                //Get the commitment contract for job creation
+                // Get the commitment contract for job creation
                 $nbJobCreated = 0;
 
                 foreach ($timeslotTemplate->getRegularCommitmentContracts() as $regular) {
@@ -133,7 +133,7 @@ class WeekTimeslotGenerator
                     $job->setUser($regular->getCommitmentContract()->getUser());
                     $job->setTimeslot($timeslot);
 
-                    //If manager
+                    // If manager
                     if (true === $regular->getCommitmentContract()->getType()->isManager()) {
                         $job->setManager(true);
                     }
@@ -142,7 +142,7 @@ class WeekTimeslotGenerator
                     ++$nbJobCreated;
                 }
 
-                //Empty Job creation
+                // Empty Job creation
                 $nbEmptyJobToCreate = $timeslotTemplate->getNbJob() - $nbJobCreated;
                 for ($i = 0; $i < $nbEmptyJobToCreate; ++$i) {
                     $job = new Job();

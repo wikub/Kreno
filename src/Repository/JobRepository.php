@@ -46,9 +46,9 @@ class JobRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('j')
             ->join('j.timeslot', 't')
-            //->join('t.template', 'temp')
-            //->join('temp.regularCommitmentContracts', 'rg')
-            //->andwhere('rg.commitmentContract = :contract')
+            // ->join('t.template', 'temp')
+            // ->join('temp.regularCommitmentContracts', 'rg')
+            // ->andwhere('rg.commitmentContract = :contract')
             ->andWhere('t.template = :template')
             ->andWhere('j.user = :user')
             ->andWhere('t.start >= :now')

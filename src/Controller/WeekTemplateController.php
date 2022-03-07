@@ -80,8 +80,8 @@ class WeekTemplateController extends AbstractController
         foreach ($weekTemplate->getTimeslotTemplates() as $timeslotTemplate) {
             $weekdaysTimeslotTemplates[$timeslotTemplate->getDayWeek()][$timeslotTemplate->getStart()->format('Hi').$timeslotTemplate->getId()] = $timeslotTemplate;
         }
-        //Tri jour et heure
-        //ksort($weekdaysTimeslotTemplates);
+        // Tri jour et heure
+        // ksort($weekdaysTimeslotTemplates);
         foreach ($weekdaysTimeslotTemplates as &$day) {
             ksort($day);
         }

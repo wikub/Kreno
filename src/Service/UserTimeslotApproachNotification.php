@@ -39,12 +39,12 @@ class UserTimeslotApproachNotification
 
     public function send(): void
     {
-        //Liste des utlisateurs qui vont avoir un créneau dans les 5 prochains jours
+        // Liste des utlisateurs qui vont avoir un créneau dans les 5 prochains jours
         $users = $this->userRepository->getWithTimeslotApproach();
 
         $nbEmailSend = 0;
 
-        //Envoyer la notification
+        // Envoyer la notification
         foreach ($users as $user) {
             if (null === $user->getEmail()) {
                 continue;

@@ -56,6 +56,10 @@ class CommitmentContractController extends AbstractController
                 $entityManager->persist($currentContract);
             }
 
+            foreach ($commitmentContract->getRegularTimeslots() as $regular) {
+                $regular->setStart($commitmentContract->getStart());
+            }
+
             $entityManager->persist($commitmentContract);
             $entityManager->flush();
 

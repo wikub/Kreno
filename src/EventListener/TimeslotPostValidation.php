@@ -42,7 +42,7 @@ class TimeslotPostValidation
                 continue;
             }
 
-            //add commitmentlog credit
+            // add commitmentlog credit
             if ($job->getJobDone()->getCommitmentCalculation()) {
                 $commitLog = new CommitmentLog();
                 $commitLog->setUser($job->getUser());

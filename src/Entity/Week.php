@@ -182,7 +182,7 @@ class Week
     {
         $curDay = clone $this->startAt;
 
-        //Init dayOfWeek array
+        // Init dayOfWeek array
         $dayOfweek = [];
         for ($i = 1; $i <= 7; ++$i) {
             $dayOfweek[$i]['date'] = clone $curDay;
@@ -190,7 +190,7 @@ class Week
             $curDay->add(new DateInterval('P1D'));
         }
 
-        //Get timeslots for each day of week
+        // Get timeslots for each day of week
         foreach ($this->timeslots as $timeslot) {
             $nDayOfWeek = $timeslot->getStart()->format('N');
             $dayOfweek[$nDayOfWeek]['timeslots'][] = $timeslot;

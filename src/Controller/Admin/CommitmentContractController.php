@@ -32,7 +32,7 @@ class CommitmentContractController extends AbstractController
     public function index(CommitmentContractRepository $commitmentContractRepository, User $user): Response
     {
         return $this->render('admin/commitment_contract/index.html.twig', [
-            'commitment_contracts' => $commitmentContractRepository->findAll(),
+            'commitment_contracts' => $commitmentContractRepository->findBy(['user' => $user], ['start' => 'DESC']),
             'user' => $user,
         ]);
     }
@@ -54,6 +54,10 @@ class CommitmentContractController extends AbstractController
                 $finish->modify('-1 day');
                 $currentContract->setFinish($finish);
                 $entityManager->persist($currentContract);
+            }
+
+            foreach ($commitmentContract->getRegularTimeslots() as $regular) {
+                $regular->setStart($commitmentContract->getStart());
             }
 
             $entityManager->persist($commitmentContract);

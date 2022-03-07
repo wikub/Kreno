@@ -1,0 +1,15 @@
+<p>Bonjour {{ user.firstName }},</p>
+
+{% if user.getFuturJobsInDays|length == 1 %}
+    {% for job in user.getFuturJobsInDays %}
+    <p>Votre prochain créneau est le {{ job.timeslot.start|date('d/m/Y') }} à {{ job.timeslot.start|date('h:i') }}</p>
+    {% endfor %}
+{% else %}
+    <p>Vos prochains créneaux sont : </p>
+    {% for job in user.getFuturJobsInDays %}
+        <li>{{ job.timeslot.start|date('d/m/Y') }} à {{ job.timeslot.start|date('h:i') }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<p>Kreno - <a href="https://cooplasource.fr">La Source</a></p>

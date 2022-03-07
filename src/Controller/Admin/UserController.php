@@ -99,10 +99,7 @@ class UserController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
-        $this->addFlash(
-            'notice',
-            'Le membre a été activé'
-        );
+        $this->addFlash('success', 'Le membre a été activé');
 
         return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
     }
@@ -112,13 +109,24 @@ class UserController extends AbstractController
      */
     public function disable(User $user, EntityManagerInterface $entityManager): Response
     {
-        $user->setEnabled(false);
-        $entityManager->persist($user);
-        $entityManager->flush();
-        $this->addFlash(
-            'notice',
-            'Le membre a été desactivé'
-        );
+        $error = 0;
+
+        if ($user->getFuturJobs()->count() > 0) {
+            $this->addFlash('error', 'Le membre a encore des postes à venir');
+            ++$error;
+        }
+
+        if (null !== $user->getCurrentCommitmentContract()) {
+            $this->addFlash('error', 'Le membre a encore au moins un engagement d\'ouvert');
+            ++$error;
+        }
+
+        if (0 === $error) {
+            $user->setEnabled(false);
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'Le membre a été desactivé');
+        }
 
         return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
     }

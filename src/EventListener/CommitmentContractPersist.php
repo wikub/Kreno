@@ -25,7 +25,7 @@ class CommitmentContractPersist
         $this->em = $entityManager;
     }
 
-    public function postUpdate(CommitmentContract $contract, LifecycleEventArgs $event): void
+    public function preUpdate(CommitmentContract $contract, LifecycleEventArgs $event): void
     {
         foreach ($contract->getRegularTimeslots() as $regular) {
             $regular->setStart($contract->getStart());

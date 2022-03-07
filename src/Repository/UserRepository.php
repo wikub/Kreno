@@ -45,6 +45,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    public function getWithTimeslotApproach(int $nbDays = 5)
+    {
+        return $this->createQueryBuilder('u')
+            ->join('u.jobs', 'job')
+            ->join('job.timeslot', 'timeslot')
+            ->andWhere('timeslot.start BETWEEN :nDayStart AND :nDayEnd')
+            ->setParameter('nDayStart', (new \DateTime())->modify('+'.$nbDays.' days 00:00'))
+            ->setParameter('nDayEnd', (new \DateTime())->modify('+'.$nbDays.' days 23:59'))
+            ->orderBy('timeslot.start', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

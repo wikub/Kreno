@@ -323,6 +323,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         });
     }
 
+    /**
+     * @return Collection|Job[]
+     */
+    public function getFuturJobsInDays(int $nbDays = 5): Collection
+    {
+        return $this->jobs->filter(function ($job) use ($nbDays) {
+            return $job->getTimeslot()->getStart()->format('Ymd') === (new DateTime())->modify('+'.$nbDays.' days')->format('Ymd');
+        });
+    }
+
     public function addJob(Job $job): self
     {
         if (!$this->jobs->contains($job)) {

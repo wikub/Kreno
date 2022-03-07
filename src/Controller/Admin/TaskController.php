@@ -14,6 +14,7 @@ namespace App\Controller\Admin;
 use App\Form\Admin\TaskWeekTimeslotGeneratorType;
 use App\Service\CommitmentContratDebitLogApply;
 use App\Service\TimeslotAutoValidation;
+use App\Service\UserTimeslotApproachNotification;
 use App\Service\WeekTimeslotGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,6 +74,16 @@ class TaskController extends AbstractController
     public function cycleDebit(CommitmentContratDebitLogApply $service): Response
     {
         $service->applyDebit();
+
+        return $this->redirectToRoute('admin_task_index');
+    }
+
+    /**
+     * @Route("/timeslot/notification", name="timeslot_notification")
+     */
+    public function timeslotNotification(UserTimeslotApproachNotification $service): Response
+    {
+        $service->send();
 
         return $this->redirectToRoute('admin_task_index');
     }

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller\Admin;
 
 use App\Entity\Timeslot;
@@ -14,19 +23,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Workflow\WorkflowInterface;
 
 /**
-     * @Route("/admin/timeslot-validation", name="admin_timeslot_validation_")
-     */
+ * @Route("/admin/timeslot-validation", name="admin_timeslot_validation_")
+ */
 class TimeslotValidationController extends AbstractController
 {
     private $timeslotWorkflow;
     private $em;
- 
+
     public function __construct(WorkflowInterface $timeslotWorkflow, EntityManagerInterface $entityManager)
     {
         $this->timeslotWorkflow = $timeslotWorkflow;
         $this->em = $entityManager;
     }
-    
+
     /**
      * @Route("/", name="index")
      */
@@ -51,11 +60,11 @@ class TimeslotValidationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             try {
                 $this->timeslotWorkflow->apply($timeslot, 'to_admin_validated');
             } catch (LogicException $exception) {
                 $this->addFlash('error', 'L\'opération ne peut pas être réalisée [workflow]');
+
                 return $this->redirect($request->headers->get('referer'));
             }
 

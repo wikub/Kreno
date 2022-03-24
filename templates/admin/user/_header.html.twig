@@ -2,6 +2,12 @@
     <h1 class="h2"><i class="fas fa-users"></i> Membre #{{user.id}} - {{ user.firstname}} {{ user.name }} </h1>
 </div>
 
+{% if not user.isEnabled %}
+    <div class="alert flash-warning">
+        <i class="fas fa-exclamation-triangle"></i> Attention : ce membre est desactiver.
+    </div>
+{% endif %}
+
 <ul class="nav nav-tabs mb-3">
     <li class="nav-item">
         <a class="nav-link {{ nav_current == 'user'?'active'}}" href="{{ path('admin_user_show', {'id': user.id}) }}"><i class="fas fa-info"></i> Infomartions</a>

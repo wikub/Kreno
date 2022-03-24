@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller;
 
 use App\Entity\User;
@@ -36,6 +45,5 @@ class JobRegistrationController extends AbstractController
         return $this->renderForm('job_registration/new_foruser.html.twig', [
             'form' => $form,
         ]);
-
     }
 }

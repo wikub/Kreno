@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Repository;
 
 use App\Entity\User;
@@ -36,6 +45,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    public function getWithTimeslotApproach(int $nbDays = 5)
+    {
+        return $this->createQueryBuilder('u')
+            ->join('u.jobs', 'job')
+            ->join('job.timeslot', 'timeslot')
+            ->andWhere('timeslot.start BETWEEN :nDayStart AND :nDayEnd')
+            ->setParameter('nDayStart', (new \DateTime())->modify('+'.$nbDays.' days 00:00'))
+            ->setParameter('nDayEnd', (new \DateTime())->modify('+'.$nbDays.' days 23:59'))
+            ->orderBy('timeslot.start', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

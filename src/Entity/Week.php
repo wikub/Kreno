@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
 use App\Repository\WeekRepository;
@@ -36,7 +45,7 @@ class Week
         1 => 'A',
         2 => 'B',
         3 => 'C',
-        4 => 'D'
+        4 => 'D',
     ];
 
     /**
@@ -73,10 +82,13 @@ class Week
 
     public function getDisplayName(): ?string
     {
-        if( $this->name ) return $this->name;
+        if ($this->name) {
+            return $this->name;
+        }
 
-        $finishAt = (clone($this->startAt))->modify('+6 days');
-        return 'Semaine '.$this->getWeekTypeLabel().' du '. $this->startAt->format('d/m').' au '.$finishAt->format('d/m Y');
+        $finishAt = (clone $this->startAt)->modify('+6 days');
+
+        return 'Semaine '.$this->getWeekTypeLabel().' du '.$this->startAt->format('d/m').' au '.$finishAt->format('d/m Y');
     }
 
     public function setName(?string $name): self
@@ -93,7 +105,9 @@ class Week
 
     public function getWeekTypeLabel(): ?string
     {
-        if(!key_exists($this->weekType, self::$weekTypeLabel)) return '';
+        if (!\array_key_exists($this->weekType, self::$weekTypeLabel)) {
+            return '';
+        }
 
         return self::$weekTypeLabel[$this->weekType];
     }
@@ -166,18 +180,18 @@ class Week
 
     public function getDays(): ArrayCollection
     {
-        $curDay = clone($this->startAt);
+        $curDay = clone $this->startAt;
 
-        //Init dayOfWeek array
-        $dayOfweek = array();
-        for($i = 1; $i <= 7;  $i++) {
-            $dayOfweek[$i]['date'] = clone($curDay);
-            $dayOfweek[$i]['timeslots'] = array();
+        // Init dayOfWeek array
+        $dayOfweek = [];
+        for ($i = 1; $i <= 7; ++$i) {
+            $dayOfweek[$i]['date'] = clone $curDay;
+            $dayOfweek[$i]['timeslots'] = [];
             $curDay->add(new DateInterval('P1D'));
         }
 
-        //Get timeslots for each day of week
-        foreach($this->timeslots as $timeslot) {
+        // Get timeslots for each day of week
+        foreach ($this->timeslots as $timeslot) {
             $nDayOfWeek = $timeslot->getStart()->format('N');
             $dayOfweek[$nDayOfWeek]['timeslots'][] = $timeslot;
         }

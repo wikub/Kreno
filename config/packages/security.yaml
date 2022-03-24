@@ -26,7 +26,9 @@ security:
                 login_path: login
                 check_path: login
                 enable_csrf: true
-
+            logout:
+                path: app_logout
+                target: login
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -37,8 +39,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - {path: ^/login, roles: PUBLIC_ACCESS }
-        - {path: ^/admin, roles: ROLE_USER }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - {path: ^/, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

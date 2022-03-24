@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Repository;
 
 use App\Entity\Timeslot;
@@ -60,7 +69,9 @@ class TimeslotRepository extends ServiceEntityRepository
     public function findFutureByTimeslotTemplate(TimeslotTemplate $template, DateTime $start = null, Datetime $finish = null)
     {
         $now = new \DateTime();
-        if( $start == null or $start <= $now) $start = $now;
+        if (null === $start || $start <= $now) {
+            $start = $now;
+        }
 
         $qb = $this->createQueryBuilder('t')
             ->andWhere('t.template = :template')
@@ -68,10 +79,10 @@ class TimeslotRepository extends ServiceEntityRepository
             ->setParameter('template', $template)
             ->setParameter('start', $start);
 
-            if( $finish != null ) {
-                $qb->andWhere('t.start <= :finish')
+        if (null !== $finish) {
+            $qb->andWhere('t.start <= :finish')
                     ->setParameter('finish', $finish);
-            }
+        }
 
         return $qb->getQuery()
             ->getResult();

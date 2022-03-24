@@ -11,10 +11,11 @@
         Il ne doit y avoir qu'un seul contrat d'engagement ouvert à la fois.
     </div>
 
+    {% if user.isEnabled %}
     <div class="btn-group mb-3" role="group">
         <a href="{{ path('admin_commitment_contract_new', {'user': user.id}) }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-plus"></i> Ajouter</a>
     </div>
-
+    {% endif %}
     
     
     <div class="row row-cols-2">

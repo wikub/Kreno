@@ -2,7 +2,7 @@
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <a class="nav-link active" aria-current="page" href="{{ path('index_index') }}">
                 <i class="fas fa-home"></i>
                 Accueil
             </a>
@@ -33,6 +33,7 @@
             </li>
         </ul>
 
+        {% if is_granted('ROLE_ADMIN') %}
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Administration</span>
         </h6>
@@ -77,5 +78,6 @@
             </li>
             
         </ul>
+        {% endif %}
     </div>
 </nav>

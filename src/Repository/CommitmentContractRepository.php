@@ -1,9 +1,17 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Repository;
 
 use App\Entity\CommitmentContract;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -23,8 +31,8 @@ class CommitmentContractRepository extends ServiceEntityRepository
     public function findCurrentContract()
     {
         $finishCycle = new \DateTime();
-        $startCycle = (clone($finishCycle))->modify('-4 weeks');
-        
+        $startCycle = (clone $finishCycle)->modify('-4 weeks');
+
         return $this->createQueryBuilder('cc')
             ->andWhere('cc.start >= :startCycle AND cc.start <=  :finishCycle')
             ->setParameter('startCycle', $startCycle)

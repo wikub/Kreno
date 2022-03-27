@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Form;
+namespace App\Form\Admin;
 
 use App\Entity\CommitmentContractRegularTimeslot;
 use App\Entity\TimeslotTemplate;

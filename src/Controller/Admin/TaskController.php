@@ -11,11 +11,12 @@
 
 namespace App\Controller\Admin;
 
-use App\Form\Admin\TaskWeekTimeslotGeneratorType;
+use App\Repository\CycleRepository;
+use App\Repository\SettingRepository;
 use App\Service\CommitmentContratDebitLogApply;
+use App\Service\CycleGenerator;
 use App\Service\TimeslotAutoValidation;
 use App\Service\UserTimeslotApproachNotification;
-use App\Service\WeekTimeslotGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,23 +39,29 @@ class TaskController extends AbstractController
     /**
      * @Route("/week/gen", name="week_generator")
      */
-    public function weekGenerator(Request $request, WeekTimeslotGenerator $generator): Response
+    public function weekGenerator(Request $request, CycleGenerator $generator, SettingRepository $settingRepository, CycleRepository $cycleRepository): Response
     {
-        $defaultData = [
-            'start' => new \DateTime(),
-            'finish' => (new \DateTime())->modify('last day of this year'),
-        ];
-        $form = $this->createForm(TaskWeekTimeslotGeneratorType::class, $defaultData);
-        $form->handleRequest($request);
+        // Get the settings
+        $settingCycleStart = $settingRepository->findOneByCode('CYCLE_START');
+        $settingCycleNbWeeks = $settingRepository->findOneByCode('CYCLE_NB_WEEKS');
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+        // Find the last cycle
+        $lastCycle = $cycleRepository->findLast();
 
-            $generator->generate($data['start'], $data['finish'], $data['ifWeekExist']);
+        // Find next Cycles to generate
+        $lastStartDate = new \DateTime($settingCycleStart->getValue());
+        if (null !== $lastCycle) {
+            $lastStartDate = $lastCycle->getFinish()->modify('+ 1 day');
+        }
+        $nextStartDate = (clone $lastStartDate)->modify('+'.$settingCycleNbWeeks->getValue().' weeks');
+        $nextFinishDate = (clone $nextStartDate)->modify('+'.$settingCycleNbWeeks->getValue().' weeks - 1 day');
+        if ($this->isCsrfTokenValid('generate-cycle'.$nextStartDate->format('Ymd'), $request->request->get('_token'))) {
+            $generator->generate($nextStartDate, $nextFinishDate);
         }
 
         return $this->renderForm('admin/task/week_generator.html.twig', [
-            'form' => $form,
+            'nextStartDate' => $nextStartDate,
+            'nextFinishDate' => $nextFinishDate,
         ]);
     }
 

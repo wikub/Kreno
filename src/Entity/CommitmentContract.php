@@ -29,16 +29,6 @@ class CommitmentContract
     private $id;
 
     /**
-     * @ORM\Column(type="date")
-     */
-    private $start;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $finish;
-
-    /**
      * @ORM\ManyToOne(targetEntity=CommitmentType::class, inversedBy="commitmentContracts", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -54,6 +44,17 @@ class CommitmentContract
      * @ORM\OneToMany(targetEntity=CommitmentContractRegularTimeslot::class, mappedBy="commitmentContract", orphanRemoval=true, cascade={"all"})
      */
     private $regularTimeslots;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Cycle::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $startCycle;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Cycle::class)
+     */
+    private $finishCycle;
 
     public function __construct()
     {
@@ -139,6 +140,30 @@ class CommitmentContract
                 $regularTimeslot->setCommitmentContract(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStartCycle(): ?Cycle
+    {
+        return $this->startCycle;
+    }
+
+    public function setStartCycle(?Cycle $startCycle): self
+    {
+        $this->startCycle = $startCycle;
+
+        return $this;
+    }
+
+    public function getFinishCycle(): ?Cycle
+    {
+        return $this->finishCycle;
+    }
+
+    public function setFinishCycle(?Cycle $finishCycle): self
+    {
+        $this->finishCycle = $finishCycle;
 
         return $this;
     }

@@ -11,30 +11,30 @@
 
 namespace App\Repository;
 
-use App\Entity\Cycle;
+use App\Entity\Setting;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Cycle|null find($id, $lockMode = null, $lockVersion = null)
- * @method Cycle|null findOneBy(array $criteria, array $orderBy = null)
- * @method Cycle[]    findAll()
- * @method Cycle[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Setting|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Setting|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Setting[]    findAll()
+ * @method Setting[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CycleRepository extends ServiceEntityRepository
+class SettingRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Cycle::class);
+        parent::__construct($registry, Setting::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Cycle $entity, bool $flush = true): void
+    public function add(Setting $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -46,7 +46,7 @@ class CycleRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Cycle $entity, bool $flush = true): void
+    public function remove(Setting $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -54,26 +54,29 @@ class CycleRepository extends ServiceEntityRepository
         }
     }
 
-    public function findLast(): ?Cycle
+    /**
+     * @return Setting|null Returns an array of Setting objects
+     */
+    public function findOneByCode($value): ?Setting
     {
-        return $this->createQueryBuilder('c')
-            ->orderBy('c.start', 'DESC')
-            ->setMaxResults(1)
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.code = :val')
+            ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
 
     // /**
-    //  * @return Cycle[] Returns an array of Cycle objects
+    //  * @return Setting[] Returns an array of Setting objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
+            ->orderBy('s.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -82,10 +85,10 @@ class CycleRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Cycle
+    public function findOneBySomeField($value): ?Setting
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()

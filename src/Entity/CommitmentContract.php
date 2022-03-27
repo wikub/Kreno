@@ -29,16 +29,6 @@ class CommitmentContract
     private $id;
 
     /**
-     * @ORM\Column(type="date")
-     */
-    private $start;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $finish;
-
-    /**
      * @ORM\ManyToOne(targetEntity=CommitmentType::class, inversedBy="commitmentContracts", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -55,6 +45,17 @@ class CommitmentContract
      */
     private $regularTimeslots;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Cycle::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $startCycle;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Cycle::class)
+     */
+    private $finishCycle;
+
     public function __construct()
     {
         $this->regularTimeslots = new ArrayCollection();
@@ -63,30 +64,6 @@ class CommitmentContract
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getStart(): ?\DateTimeInterface
-    {
-        return $this->start;
-    }
-
-    public function setStart(\DateTimeInterface $start): self
-    {
-        $this->start = $start;
-
-        return $this;
-    }
-
-    public function getFinish(): ?\DateTimeInterface
-    {
-        return $this->finish;
-    }
-
-    public function setFinish(?\DateTimeInterface $finish): self
-    {
-        $this->finish = $finish;
-
-        return $this;
     }
 
     public function getType(): ?CommitmentType
@@ -139,6 +116,30 @@ class CommitmentContract
                 $regularTimeslot->setCommitmentContract(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStartCycle(): ?Cycle
+    {
+        return $this->startCycle;
+    }
+
+    public function setStartCycle(?Cycle $startCycle): self
+    {
+        $this->startCycle = $startCycle;
+
+        return $this;
+    }
+
+    public function getFinishCycle(): ?Cycle
+    {
+        return $this->finishCycle;
+    }
+
+    public function setFinishCycle(?Cycle $finishCycle): self
+    {
+        $this->finishCycle = $finishCycle;
 
         return $this;
     }

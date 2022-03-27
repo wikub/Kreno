@@ -28,8 +28,10 @@ class CommitmentContractPersist
     public function preUpdate(CommitmentContract $contract, LifecycleEventArgs $event): void
     {
         foreach ($contract->getRegularTimeslots() as $regular) {
-            $regular->setStart($contract->getStart());
-            $regular->setFinish($contract->getFinish());
+            $regular->setStart($contract->getStartCycle()->getStart());
+            if ($contract->getFinishCycle()) {
+                $regular->setFinish($contract->getFinishCycle()->getFinish());
+            }
             $this->em->persist($regular);
         }
         $this->em->flush();

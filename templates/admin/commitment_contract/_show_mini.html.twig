@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header fw-bold">
         <a href="{{ path('admin_commitment_contract_edit', {'id':contract.id, 'user': contract.user.id}) }}">{{ contract.type?contract.type.name }}</a>
-        {% if contract.finish %}
+        {% if contract.finishCycle %}
             <span class="badge bg-secondary">Terminé</span>
         {% else %}
             <span class="badge bg-danger">En cours</span>
@@ -9,10 +9,10 @@
     </div>
     <div class="card-body">
         <p class="card-text">
-        {% if contract.finish %}
-            Du {{ contract.start|date('d/m/Y') }} au {{ contract.finish|date('d/m/Y') }}
+        {% if contract.finishCycle %}
+            Du {{ contract.startCycle.start|date('d/m/Y') }} au {{ contract.finishCycle.finish|date('d/m/Y') }}
         {% else %}
-            en cours à partir du {{ contract.start|date('d/m/Y') }}
+            en cours à partir du {{ contract.startCycle.start|date('d/m/Y') }}
         {% endif %}
         </p>
         <p class="card-text">

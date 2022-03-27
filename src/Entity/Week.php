@@ -65,6 +65,12 @@ class Week
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Cycle::class, inversedBy="weeks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $cycle;
+
     public function __construct()
     {
         $this->timeslots = new ArrayCollection();
@@ -197,5 +203,17 @@ class Week
         }
 
         return new ArrayCollection($dayOfweek);
+    }
+
+    public function getCycle(): ?Cycle
+    {
+        return $this->cycle;
+    }
+
+    public function setCycle(?Cycle $cycle): self
+    {
+        $this->cycle = $cycle;
+
+        return $this;
     }
 }

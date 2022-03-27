@@ -15,7 +15,6 @@ use App\Entity\Cycle;
 use App\Entity\Job;
 use App\Entity\Timeslot;
 use App\Entity\Week;
-use App\Repository\WeekRepository;
 use App\Repository\WeekTemplateRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,21 +25,18 @@ class CycleGenerator
 {
     private $em;
     private $repo;
-    private $weekRepo;
     private $timeslotWorkflow;
     private $flash;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         WeekTemplateRepository $weekTemplateRepository,
-        WeekRepository $weekRepository,
         FlashBagInterface $flash,
         WorkflowInterface $timeslotWorkflow
     ) {
         $this->em = $entityManager;
         $this->repo = $weekTemplateRepository;
         $this->timeslotWorkflow = $timeslotWorkflow;
-        $this->weekRepo = $weekRepository;
         $this->flash = $flash;
     }
 

@@ -66,30 +66,6 @@ class CommitmentContract
         return $this->id;
     }
 
-    public function getStart(): ?\DateTimeInterface
-    {
-        return $this->start;
-    }
-
-    public function setStart(\DateTimeInterface $start): self
-    {
-        $this->start = $start;
-
-        return $this;
-    }
-
-    public function getFinish(): ?\DateTimeInterface
-    {
-        return $this->finish;
-    }
-
-    public function setFinish(?\DateTimeInterface $finish): self
-    {
-        $this->finish = $finish;
-
-        return $this;
-    }
-
     public function getType(): ?CommitmentType
     {
         return $this->type;

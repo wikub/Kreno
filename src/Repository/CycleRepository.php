@@ -64,6 +64,36 @@ class CycleRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findCurrent(): ?Cycle
+    {
+        $date = (new \DateTime());
+
+        return $this->findByStartDate($date);
+    }
+
+    public function findPrevious($week): ?Cycle
+    {
+        $date = $week->getStart()->modify('-4 weeks');
+
+        return $this->findByStartDate($date);
+    }
+
+    public function findNext($week): ?Cycle
+    {
+        $date = $week->getStart()->modify('+4 weeks');
+
+        return $this->findByStartDate($date);
+    }
+
+    public function findByStartDate($date): ?Cycle
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.start <= :date')
+            ->andWhere('c.finish >= :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
     // /**
     //  * @return Cycle[] Returns an array of Cycle objects
     //  */

@@ -96,6 +96,7 @@ class TimeslotController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($timeslot);
             $entityManager->flush();
 
             return $this->redirectToRoute('admin_timeslot_show', ['id' => $timeslot->getId()]);

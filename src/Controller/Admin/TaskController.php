@@ -49,7 +49,7 @@ class TaskController extends AbstractController
         $lastCycle = $cycleRepository->findLast();
 
         // Find next Cycles to generate
-        $lastStartDate = new \DateTime($settingCycleStart->getValue());
+        $lastStartDate = (new \DateTime($settingCycleStart->getValue()))->modify('-4 weeks');
         if (null !== $lastCycle) {
             $lastStartDate = $lastCycle->getFinish()->modify('+ 1 day');
         }

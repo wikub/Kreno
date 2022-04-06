@@ -65,6 +65,12 @@ class Week
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Cycle::class, inversedBy="weeks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $cycle;
+
     public function __construct()
     {
         $this->timeslots = new ArrayCollection();
@@ -182,7 +188,7 @@ class Week
     {
         $curDay = clone $this->startAt;
 
-        //Init dayOfWeek array
+        // Init dayOfWeek array
         $dayOfweek = [];
         for ($i = 1; $i <= 7; ++$i) {
             $dayOfweek[$i]['date'] = clone $curDay;
@@ -190,12 +196,24 @@ class Week
             $curDay->add(new DateInterval('P1D'));
         }
 
-        //Get timeslots for each day of week
+        // Get timeslots for each day of week
         foreach ($this->timeslots as $timeslot) {
             $nDayOfWeek = $timeslot->getStart()->format('N');
             $dayOfweek[$nDayOfWeek]['timeslots'][] = $timeslot;
         }
 
         return new ArrayCollection($dayOfweek);
+    }
+
+    public function getCycle(): ?Cycle
+    {
+        return $this->cycle;
+    }
+
+    public function setCycle(?Cycle $cycle): self
+    {
+        $this->cycle = $cycle;
+
+        return $this;
     }
 }

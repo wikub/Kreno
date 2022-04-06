@@ -22,7 +22,7 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header text-center">
-                    <b>Solde créneaux</b>
+                    <b>Solde heures</b>
                 </div>
                 <div class="card-body text-center">
                     {{ sumNbHour }}
@@ -31,9 +31,11 @@
         </div>
     </div>
 
+    {% if user.isEnabled %}
     <div class="btn-group mb-3" role="group">
         <a href="{{ path('admin_commitment_log_new', {'user': user.id}) }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-plus"></i> Ajouter</a>
     </div>
+    {% endif %}
 
     <div class="table-responsive">
         <table class="table table-bordered">

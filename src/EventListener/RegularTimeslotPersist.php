@@ -39,10 +39,10 @@ class RegularTimeslotPersist
         // $changed = $this->em->getUnitOfWork()->getEntityChangeSet($regular);
         // if( !array_key_exists('timeslotTemplate', $changed) and !array_key_exists('start', $changed) ) return;
 
-        //Delete
+        // Delete
         $this->removeUserFromFuturOldJobs($regular);
 
-        //New
+        // New
         $this->subscribeToFuturJobs($regular);
 
         $this->em->flush();

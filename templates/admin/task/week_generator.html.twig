@@ -1,32 +1,35 @@
-{% form_theme form with ['_form/_form_theme.html.twig', _self] %}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}{% endblock %}
 
 {% block body %}
     <div class="pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2"><i class="fas fa-flask"></i> Tâches </h1>
+        <h1 class="h2"><i class="fas fa-flask"></i> Tâches : Générer le prochain cycle </h1>
     </div>
 
     {% include '_elements/_flash_message.html.twig' %}
     
-    {{ form_start(form) }}
-        {{ form_row(form.start, {'attr': {'class': 'time'}}) }}
-        {{ form_row(form.finish, {'attr': {'class': 'time'}}) }}
-        {{ form_row(form.ifWeekExist) }}
 
-        <div class="alert alert-info">
-            <strong>Si une semaine existe déjà ?</strong>
-            <ul>
-                <li>Choisir l'option de remplacer la semaine existante (en supprimant les inscriptions volante) ou d'ignorer (aucun changement)</li>
-            </ul>
+
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 text-align-center">
+            Le prochain cycle à générer sera entre le {{nextStartDate|date('d/m/Y')}} et le {{nextFinishDate|date('d/m/Y')}}.
+
+            <form method="post" action="" onsubmit="return confirm('Confirmez-vous la génération du cyle ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('generate-cycle' ~ nextStartDate|date('Ymd')) }}">
+                
+                <div class="btn-group mt-3">
+                    <a href="{{ path('admin_task_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
+                    <button class="btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Générer') }}</button>
+                </div>
+
+            </form>
         </div>
+    </div>
 
-        <div class="btn-group float-end mt-3">
-            <a href="{{ path('admin_task_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
-            <button class="btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Enregister') }}</button>
-        </div>
+    
 
-    {{ form_end(form) }}
+
 
 {% endblock %}

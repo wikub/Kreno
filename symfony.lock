@@ -91,8 +91,17 @@
     "gedmo/doctrine-extensions": {
         "version": "v3.5.0"
     },
+    "knplabs/knp-components": {
+        "version": "v3.5.0"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.8.0"
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
+    },
+    "lorenzo/pinky": {
+        "version": "1.0.5"
     },
     "monolog/monolog": {
         "version": "2.3.5"
@@ -376,6 +385,15 @@
             "config/packages/mailer.yaml"
         ]
     },
+    "symfony/mailjet-mailer": {
+        "version": "5.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "037c3256baa3334fd4cc3092a63209ae523696ff"
+        }
+    },
     "symfony/maker-bundle": {
         "version": "1.36",
         "recipe": {
@@ -647,8 +665,17 @@
     "theseer/tokenizer": {
         "version": "1.2.1"
     },
+    "tijsverkoyen/css-to-inline-styles": {
+        "version": "2.2.4"
+    },
+    "twig/cssinliner-extra": {
+        "version": "v3.3.5"
+    },
     "twig/extra-bundle": {
         "version": "v3.3.7"
+    },
+    "twig/inky-extra": {
+        "version": "v3.3.5"
     },
     "twig/twig": {
         "version": "v3.3.7"

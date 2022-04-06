@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Form;
+namespace App\Form\Admin;
 
 use App\Entity\CommitmentContractRegularTimeslot;
 use App\Entity\TimeslotTemplate;
@@ -33,7 +33,7 @@ class CommitmentContractRegularTimeslotType extends AbstractType
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('tt')
                     ->innerJoin('tt.weekTemplate', 'wt')
-                    //->innerJoin('tt.timeslotType', 'type')
+                    // ->innerJoin('tt.timeslotType', 'type')
                     ->addOrderBy('wt.weekType', 'ASC')
                     ->addOrderBy('tt.dayWeek', 'ASC')
                     ->addOrderBy('tt.start', 'ASC');
@@ -49,7 +49,7 @@ class CommitmentContractRegularTimeslotType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CommitmentContractRegularTimeslot::class,
-            //'by_reference' => false
+            // 'by_reference' => false
         ]);
     }
 }

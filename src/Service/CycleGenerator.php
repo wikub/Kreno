@@ -11,90 +11,52 @@
 
 namespace App\Service;
 
+use App\Entity\Cycle;
 use App\Entity\Job;
 use App\Entity\Timeslot;
 use App\Entity\Week;
-use App\Repository\WeekRepository;
 use App\Repository\WeekTemplateRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Workflow\WorkflowInterface;
 
-class WeekTimeslotGenerator
+class CycleGenerator
 {
     private $em;
     private $repo;
-    private $weekRepo;
     private $timeslotWorkflow;
     private $flash;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         WeekTemplateRepository $weekTemplateRepository,
-        WeekRepository $weekRepository,
         FlashBagInterface $flash,
         WorkflowInterface $timeslotWorkflow
     ) {
         $this->em = $entityManager;
         $this->repo = $weekTemplateRepository;
         $this->timeslotWorkflow = $timeslotWorkflow;
-        $this->weekRepo = $weekRepository;
         $this->flash = $flash;
     }
 
-    public function generate(Datetime $start, DateTime $finish, int $ifWeekExist = 1)
+    public function generate(Datetime $start, DateTime $finish)
     {
-        $previousWeekType = 4; // WeekType A
-        $week = null;
+        // Cycle creation
+        $cycle = new Cycle();
+        $cycle->setStart($start);
+        $cycle->setFinish($finish);
 
-        if (1 !== $start->format('N')) {
-            $start->modify('next monday');
-        }
-
-        $previousDate = (clone $start)->modify('-7 days');
-        // Check if weeks exist
-        if (0 !== $this->weekRepo->count([])) {
-            // Récupère la semaine prècédent
-            $previousDate = (clone $start)->modify('-7 days');
-            $previousWeek = $this->weekRepo->findByStartDate($previousDate);
-            $previousWeekType = $previousWeek->getWeekType();
-
-            if (null === $previousWeek) {
-                $this->flash->add('error', 'Attention : Il n\'a aucune semaine précédente trouvé.');
-
-                return false;
-            }
-        }
+        $this->em->persist($cycle);
 
         // Get the template at the right cycle
         $weekTemplates = $this->repo->findAll();
-        while ($previousWeekType !== (current($weekTemplates))->getWeekType()) {
-            next($weekTemplates);
-        }
 
+        $weekTemplate = reset($weekTemplates);
         // Generate the weeks
         while ($start <= $finish) {
-            $weekTemplate = next($weekTemplates);
-            if (!$weekTemplate) {
-                $weekTemplate = reset($weekTemplates);
-            }
-
-            // //Lookfor existing week ?
-            $week = $this->weekRepo->findByStartDate($start);
-
-            if (null !== $week) {
-                if (1 === $ifWeekExist) { // Week will be ignore
-                    $this->flash->add('warning', 'la semaine du '.$start->format('d/m/Y').' existe déjà. Elle a été ignorée.');
-                    $start->modify('+7 days');
-                    continue;
-                }
-                $this->em->remove($week);
-                $this->em->flush();
-                $this->flash->add('warning', 'la semaine du '.$start->format('d/m/Y').' existe déjà. Elle a été supprimée.');
-            }
-
             $week = new Week();
+            $week->setCycle($cycle);
             $week->setWeekType($weekTemplate->getWeekType());
             $week->setStartAt($start);
 
@@ -155,6 +117,7 @@ class WeekTimeslotGenerator
             $this->flash->add('success', 'la semaine du '.$start->format('d/m/Y').' a été créée.');
 
             $start->modify('+7 days');
+            $weekTemplate = next($weekTemplates);
         }
     }
 }

@@ -1,7 +1,7 @@
 name: Pipeline-CD
 on:
   push:
-    branches: [ test ]
+    branches: [ env-test ]
 jobs:
   cd:
     runs-on: ubuntu-latest
@@ -9,6 +9,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
+      - name: Yarn install
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          #registry-url: npm.fontawesome.com
+      - run: yarn install
+          #env:
+          #NODE_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+
+      - name: Yarn build
+        run: yarn run encore production
+
       - name: Deploy Over SSH
         uses: appleboy/ssh-action@master
         with:
@@ -20,4 +32,4 @@ jobs:
             cd ${{ secrets.TEST_DIST_PROJECT_DIR }}
             git pull
             composer2 install
-            php bin/console d:m:m -n
+            php bin/console doctrine:migrations:migrate

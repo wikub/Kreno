@@ -33,19 +33,27 @@
                     <td>{{ user.phonenumber }}</td>
                 </tr>
                 <tr>
-                    <th>Categorie</th>
+                    <th>Categorie (Odoo)</th>
                     <td>{{ user.userCategory.name }}</td>
                 </tr>
                 <tr>
                     <th>Inscription</th>
                     <td>{{ user.subscriptionTypeLabel }}</td>
                 </tr>
-                <tr>
-                    <th>Actif</th>
-                    <td>{{ user.enabled?'Oui':'Non' }}</td>
-                </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="text-center">
+        <div class="btn-group mt-3">
+            <a href="{{ path('admin_user_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
+            {% if user.isEnabled %}
+                <a href="{{ path('admin_user_disable', {'id': user.id}) }}" class="btn btn-outline-danger"><i class="fas fa-power-off"></i> Desactiver</a>
+            {% else %}
+                <a href="{{ path('admin_user_enable', {'id': user.id}) }}" class="btn btn-outline-success"><i class="fas fa-power-off"></i> Activer</a>
+            {% endif %}
+            <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-primary"><i class="far fa-edit"></i> Modifier</a>
+        </div>
     </div>
 
 {% endblock %}

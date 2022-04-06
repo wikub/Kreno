@@ -13,7 +13,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\CommitmentContract;
 use App\Entity\User;
-use App\Form\CommitmentContractType;
+use App\Form\Admin\CommitmentContractType;
 use App\Repository\CommitmentContractRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,7 +32,7 @@ class CommitmentContractController extends AbstractController
     public function index(CommitmentContractRepository $commitmentContractRepository, User $user): Response
     {
         return $this->render('admin/commitment_contract/index.html.twig', [
-            'commitment_contracts' => $commitmentContractRepository->findAll(),
+            'commitment_contracts' => $commitmentContractRepository->findBy(['user' => $user]),
             'user' => $user,
         ]);
     }
@@ -49,11 +49,16 @@ class CommitmentContractController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($currentContract = $user->getCurrentCommitmentContract()) {
-                $finish = clone $commitmentContract->getStart();
-                $finish->modify('-1 day');
-                $currentContract->setFinish($finish);
-                $entityManager->persist($currentContract);
+            // if ($currentContract = $user->getCurrentCommitmentContract()) {
+            //     $finish = clone $commitmentContract->getStart();
+            //     $finish->modify('-1 day');
+            //     $currentContract->setFinish($finish);
+            //     $entityManager->persist($currentContract);
+            // }
+
+            // Add regular
+            foreach ($commitmentContract->getRegularTimeslots() as $regular) {
+                $regular->setStart($commitmentContract->getStartCycle()->getStart());
             }
 
             $entityManager->persist($commitmentContract);
@@ -88,6 +93,13 @@ class CommitmentContractController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Add regular
+            foreach ($commitmentContract->getRegularTimeslots() as $regular) {
+                if (null === $regular->getStart()) {
+                    $regular->setStart($commitmentContract->getStartCycle()->getStart());
+                }
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('admin_commitment_contract_index', ['user' => $user->getId()]);

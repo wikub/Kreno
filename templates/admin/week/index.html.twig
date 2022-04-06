@@ -16,6 +16,7 @@
                     <th>Semaine</th>
                     <th>Nom</th>
                     <th>Type</th>
+                    <th>Cycle</th>
                     <th>actions</th>
                 </tr>
             </thead>
@@ -25,7 +26,7 @@
                     <td><a href="{{ path('admin_week_show', {'id': week.id}) }}">{{ week.startAt ? week.startAt|date('d/m/Y') : '' }}</a></td>
                     <td><a href="{{ path('admin_week_show', {'id': week.id}) }}">{{ week.getDisplayName }}</a></td>
                     <td>{{ week.weekTypeLabel }}</td>
-                    
+                    <td>{{ week.cycle.start|date('d/m/Y') }} au {{ week.cycle.finish|date('d/m/Y') }}</td>
                     <td>
                         <a href="{{ path('admin_week_edit', {'id': week.id}) }}"><i class="far fa-edit"></i></a>
                     </td>

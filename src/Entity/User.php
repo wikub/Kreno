@@ -116,6 +116,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $commitmentLogs;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $odooId;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
@@ -323,6 +328,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         });
     }
 
+    /**
+     * @return Collection|Job[]
+     */
+    public function getFuturJobsInDays(int $nbDays = 5): Collection
+    {
+        return $this->jobs->filter(function ($job) use ($nbDays) {
+            return $job->getTimeslot()->getStart()->format('Ymd') === (new DateTime())->modify('+'.$nbDays.' days')->format('Ymd');
+        });
+    }
+
     public function addJob(Job $job): self
     {
         if (!$this->jobs->contains($job)) {
@@ -348,6 +363,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getEnabled(): ?bool
     {
         return $this->enabled;
+    }
+
+    public function isEnabled(): bool
+    {
+        return (bool) $this->enabled;
     }
 
     public function setEnabled(bool $enabled): self
@@ -461,6 +481,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $commitmentLog->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOdooId(): ?string
+    {
+        return $this->odooId;
+    }
+
+    public function setOdooId(?string $odooId): self
+    {
+        $this->odooId = $odooId;
 
         return $this;
     }

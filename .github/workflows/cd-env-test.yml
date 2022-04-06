@@ -1,4 +1,4 @@
-name: Pipeline-CD
+name: Pipeline-CD to Test environment
 on:
   push:
     branches: [ env-test ]

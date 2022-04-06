@@ -33,3 +33,23 @@ jobs:
             git pull
             composer2 install
             php bin/console doctrine:migrations:migrate
+
+      - name: copy node_modules via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.TEST_SSH_HOST }}
+          username: ${{ secrets.TEST_SSH_USER }}
+          key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.TEST_SSH_PORT }}
+          source: "node_modules"
+          target: "${{ secrets.TEST_DIST_PROJECT_DIR }}/node_modules"
+      
+      - name: copy build via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.TEST_SSH_HOST }}
+          username: ${{ secrets.TEST_SSH_USER }}
+          key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.TEST_SSH_PORT }}
+          source: "public/build"
+          target: "${{ secrets.TEST_DIST_PROJECT_DIR }}/public/build"

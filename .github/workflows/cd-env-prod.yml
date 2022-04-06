@@ -1,4 +1,4 @@
-name: Pipeline-CD
+name: Pipeline-CD to Production environment
 on:
   push:
     branches: [ env-prod ]

@@ -15,6 +15,7 @@ use App\Entity\User;
 use App\Form\Admin\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,10 +29,16 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $users = $paginator->paginate(
+            $userRepository->getQueryBuilder(),
+            $request->query->getInt('page', 1),
+            30
+        );
+
         return $this->render('admin/user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $users,
         ]);
     }
 
@@ -93,7 +100,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/enable", name="enable", methods={"GET"})
      */
-    public function enable(User $user, EntityManagerInterface $entityManager): Response
+    public function enable(User $user, EntityManagerInterface $entityManager, Request $request): Response
     {
         $user->setEnabled(true);
         $entityManager->persist($user);
@@ -101,13 +108,17 @@ class UserController extends AbstractController
 
         $this->addFlash('success', 'Le membre a été activé');
 
-        return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
+        if (null === $request->headers->get('referer')) {
+            return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
+        }
+
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**
      * @Route("/{id}/disable", name="disable", methods={"GET"})
      */
-    public function disable(User $user, EntityManagerInterface $entityManager): Response
+    public function disable(User $user, EntityManagerInterface $entityManager, Request $request): Response
     {
         $error = 0;
 
@@ -128,7 +139,11 @@ class UserController extends AbstractController
             $this->addFlash('success', 'Le membre a été desactivé');
         }
 
-        return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
+        if (null === $request->headers->get('referer')) {
+            return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
+        }
+
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**

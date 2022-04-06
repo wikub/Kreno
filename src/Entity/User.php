@@ -116,6 +116,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $commitmentLogs;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $odooId;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
@@ -476,6 +481,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $commitmentLog->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOdooId(): ?string
+    {
+        return $this->odooId;
+    }
+
+    public function setOdooId(?string $odooId): self
+    {
+        $this->odooId = $odooId;
 
         return $this;
     }

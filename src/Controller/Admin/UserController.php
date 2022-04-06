@@ -15,6 +15,7 @@ use App\Entity\User;
 use App\Form\Admin\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,10 +29,16 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $users = $paginator->paginate(
+            $userRepository->getQueryBuilder(),
+            $request->query->getInt('page', 1),
+            30
+        );
+
         return $this->render('admin/user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $users,
         ]);
     }
 

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Form\Admin;
 
 use App\Entity\User;
@@ -19,36 +28,40 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label' => 'Identifiant (login)'
+                'label' => 'Identifiant (login) *',
             ])
             ->add('name', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom *',
             ])
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom'
+                'label' => 'Prénom *',
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Courriel',
-                'required' => false
+                'required' => false,
             ])
             ->add('phonenumber', TextType::class, [
                 'label' => 'Téléphone',
-                'required' => false
+                'required' => false,
             ])
-            ->add('userCategory', EntityType::class, [
-                'label' => 'Catégorie',
-                'class' => UserCategory::class,
-                'choice_label' => 'name',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('uc')
-                        ->where('uc.enabled = TRUE')
-                        ->orderBy('uc.name', 'ASC');
-                },
+            ->add('odooId', TextType::class, [
+                'label' => 'Identifiant Odoo',
+                'required' => false,
             ])
-            ->add('subscriptionType', ChoiceType::class, [
-                'label' => 'Inscription',
-                'choices' => array_flip(User::getSubscriptionTypeLabels())
-            ])
+            // ->add('userCategory', EntityType::class, [
+            //     'label' => 'Catégorie *',
+            //     'class' => UserCategory::class,
+            //     'choice_label' => 'name',
+            //     'query_builder' => function (EntityRepository $er) {
+            //         return $er->createQueryBuilder('uc')
+            //             ->where('uc.enabled = TRUE')
+            //             ->orderBy('uc.name', 'ASC');
+            //     },
+            // ])
+            // ->add('subscriptionType', ChoiceType::class, [
+            //     'label' => 'Inscription *',
+            //     'choices' => array_flip(User::getSubscriptionTypeLabels()),
+            // ])
         ;
     }
 

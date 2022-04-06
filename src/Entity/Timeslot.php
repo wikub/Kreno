@@ -1,38 +1,45 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
 use App\Repository\TimeslotRepository;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass=TimeslotRepository::class)
  */
 class Timeslot
 {
-    const STATUS_DRAFT_VALUE = 1;
-    const STATUS_DRAFT_TEXT = 'Brouillon';
-    const STATUS_OPEN_VALUE = 2;
-    const STATUS_OPEN_TEXT = 'Ouvert';
-    const STATUS_VALID_VALUE = 3;
-    const STATUS_VALID_TEXT = 'Validé';
-    const STATUS_CLOSE_VALUE = 4;
-    const STATUS_CLOSE_TEXT = 'Fermé';
-
-    const STATUS_OPEN_SUBSCRIB_VALUE = 10;
-    const STATUS_OPEN_SUBSCRIB_TEXT = 'Inscription ouverte';
-    const STATUS_OPEN_DONE_VALUE = 11;
-    const STATUS_OPEN_DONE_TEXT = 'Réalisé';
-    
-    /**
+    /*
      * Hook timestampable behavior
      * updates createdAt, updatedAt fields
      */
     use TimestampableEntity;
+    public const STATUS_DRAFT_VALUE = 1;
+    public const STATUS_DRAFT_TEXT = 'Brouillon';
+    public const STATUS_OPEN_VALUE = 2;
+    public const STATUS_OPEN_TEXT = 'Ouvert';
+    public const STATUS_VALID_VALUE = 3;
+    public const STATUS_VALID_TEXT = 'Validé';
+    public const STATUS_CLOSE_VALUE = 4;
+    public const STATUS_CLOSE_TEXT = 'Fermé';
+
+    public const STATUS_OPEN_SUBSCRIB_VALUE = 10;
+    public const STATUS_OPEN_SUBSCRIB_TEXT = 'Inscription ouverte';
+    public const STATUS_OPEN_DONE_VALUE = 11;
+    public const STATUS_OPEN_DONE_TEXT = 'Réalisé';
 
     /**
      * @ORM\Id
@@ -111,7 +118,7 @@ class Timeslot
     {
         $this->enabled = true;
         $this->jobs = new ArrayCollection();
-        //$this->status = ['draft'];
+        // $this->status = ['draft'];
     }
 
     public function getId(): ?int
@@ -125,8 +132,10 @@ class Timeslot
     }
 
     public function getDisplayName(): string
-    {   
-        if( $this->name ) return $this->name;
+    {
+        if ($this->name) {
+            return $this->name;
+        }
 
         return $this->getTimeslotType()->getName();
     }
@@ -134,12 +143,12 @@ class Timeslot
     public function getDisplayDateInterval(): string
     {
         $text = $this->start->format('d/m/Y').' de '.$this->start->format('H:i');
-        if( $this->start->format('Ymd') == $this->finish->format('Ymd') ) {
+        if ($this->start->format('Ymd') === $this->finish->format('Ymd')) {
             $text .= ' à '.$this->finish->format('H:i');
         } else {
             $text = ' au '.$this->start->format('d/m/Y').' à '.$this->start->format('H:i');
         }
-        
+
         return $text;
     }
 
@@ -223,8 +232,8 @@ class Timeslot
      */
     public function getFreeManagerJobs(): Collection
     {
-        return $this->jobs->filter(function($job) {
-            return ($job->getUser() == null && $job->isManager() == true );
+        return $this->jobs->filter(function ($job) {
+            return null === $job->getUser() && true === $job->isManager();
         });
     }
 
@@ -233,22 +242,22 @@ class Timeslot
      */
     public function getFreeNoManagerJobs(): Collection
     {
-        return $this->jobs->filter(function($job) {
-            return ($job->getUser() == null && $job->isManager() == false );
+        return $this->jobs->filter(function ($job) {
+            return null === $job->getUser() && false === $job->isManager();
         });
     }
 
     public function getManagerJobs(): Collection
     {
-        return $this->jobs->filter(function($job){
-            return $job->isManager() == true;
+        return $this->jobs->filter(function ($job) {
+            return true === $job->isManager();
         });
     }
 
     public function getNoManagerJobs(): Collection
     {
-        return $this->jobs->filter(function($job){
-            return $job->isManager() == false;
+        return $this->jobs->filter(function ($job) {
+            return false === $job->isManager();
         });
     }
 
@@ -317,20 +326,31 @@ class Timeslot
 
     public function isOpen(): bool
     {
-        if( key_exists('open', $this->status) ) return true;
+        if (\array_key_exists('open', $this->status)) {
+            return true;
+        }
+
         return false;
     }
 
     public function isClosed(): bool
     {
-        if( key_exists('closed', $this->status) ) return true;
+        if (\array_key_exists('closed', $this->status)) {
+            return true;
+        }
+
         return false;
     }
 
     public function isValidated(): bool
     {
-        if( key_exists('validated', $this->status) ) return true;
-        if( key_exists('commitment_logged', $this->status) ) return true;
+        if (\array_key_exists('validated', $this->status)) {
+            return true;
+        }
+        if (\array_key_exists('commitment_logged', $this->status)) {
+            return true;
+        }
+
         return false;
     }
 
@@ -364,7 +384,4 @@ class Timeslot
 
         return $this;
     }
-
-
-
 }

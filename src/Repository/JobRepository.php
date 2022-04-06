@@ -1,11 +1,18 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Repository;
 
 use App\Entity\CommitmentContract;
-use App\Entity\CommitmentContractRegularTimeslot;
 use App\Entity\Job;
-use App\Entity\JobDoneType;
 use App\Entity\TimeslotTemplate;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -24,13 +31,13 @@ class JobRepository extends ServiceEntityRepository
         parent::__construct($registry, Job::class);
     }
 
-    public function findAllOrderByTimeslotStart(User $user) 
+    public function findAllOrderByTimeslotStart(User $user)
     {
         return $this->createQueryBuilder('j')
             ->join('j.timeslot', 't')
             ->andWhere('j.user = :user')
             ->setParameter('user', $user)
-            ->orderBy('t.start','ASC')
+            ->orderBy('t.start', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -39,9 +46,9 @@ class JobRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('j')
             ->join('j.timeslot', 't')
-            //->join('t.template', 'temp')
-            //->join('temp.regularCommitmentContracts', 'rg')
-            //->andwhere('rg.commitmentContract = :contract')
+            // ->join('t.template', 'temp')
+            // ->join('temp.regularCommitmentContracts', 'rg')
+            // ->andwhere('rg.commitmentContract = :contract')
             ->andWhere('t.template = :template')
             ->andWhere('j.user = :user')
             ->andWhere('t.start >= :now')
@@ -52,7 +59,7 @@ class JobRepository extends ServiceEntityRepository
                 ->getResult()
             ;
 
-            // $qb = $this->createQueryBuilder('job');
+        // $qb = $this->createQueryBuilder('job');
             // return $qb->where($qb->expr()->In('job.id', $selectJob->getDQL() ))
             // //->setParameter('contract', $re)
             // ->setParameter('user', $regular->getCommitmentContract()->getUser())

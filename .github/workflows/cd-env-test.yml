@@ -1,0 +1,45 @@
+name: Pipeline-CD to Test environment
+on:
+  push:
+    branches: [ env-test ]
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Yarn install
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          #registry-url: npm.fontawesome.com
+      - run: yarn install
+          #env:
+          #NODE_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+
+      - name: Yarn build
+        run: yarn run encore production
+
+      - name: Deploy Over SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.TEST_SSH_HOST }}
+          username: ${{ secrets.TEST_SSH_USER }}
+          key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.TEST_SSH_PORT }}
+          script: |
+            cd ${{ secrets.TEST_DIST_PROJECT_DIR }}
+            git pull
+            composer2 install
+            php bin/console doctrine:migrations:migrate
+
+      - name: copy yarn build via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.TEST_SSH_HOST }}
+          username: ${{ secrets.TEST_SSH_USER }}
+          key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.TEST_SSH_PORT }}
+          source: "./public/build"
+          target: "${{ secrets.TEST_DIST_PROJECT_DIR }}/public/build"

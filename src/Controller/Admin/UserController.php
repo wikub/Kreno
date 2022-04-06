@@ -1,11 +1,21 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\Admin\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,10 +29,16 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $users = $paginator->paginate(
+            $userRepository->getQueryBuilder(),
+            $request->query->getInt('page', 1),
+            30
+        );
+
         return $this->render('admin/user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $users,
         ]);
     }
 
@@ -32,12 +48,11 @@ class UserController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
-        
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $user->setPassword($this->generatePassword());
 
             $entityManager->persist($user);
@@ -85,34 +100,50 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/enable", name="enable", methods={"GET"})
      */
-    public function enable(User $user, EntityManagerInterface $entityManager): Response
+    public function enable(User $user, EntityManagerInterface $entityManager, Request $request): Response
     {
         $user->setEnabled(true);
         $entityManager->persist($user);
         $entityManager->flush();
-    
-        $this->addFlash(
-            'notice',
-            'Le membre a été activé'
-        );
 
-        return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
+        $this->addFlash('success', 'Le membre a été activé');
+
+        if (null === $request->headers->get('referer')) {
+            return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
+        }
+
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**
      * @Route("/{id}/disable", name="disable", methods={"GET"})
      */
-    public function disable(User $user, EntityManagerInterface $entityManager): Response
+    public function disable(User $user, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $user->setEnabled(false);
-        $entityManager->persist($user);
-        $entityManager->flush();
-        $this->addFlash(
-            'notice',
-            'Le membre a été desactivé'
-        );
-        
-        return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
+        $error = 0;
+
+        if ($user->getFuturJobs()->count() > 0) {
+            $this->addFlash('error', 'Le membre a encore des postes à venir');
+            ++$error;
+        }
+
+        if (null !== $user->getCurrentCommitmentContract()) {
+            $this->addFlash('error', 'Le membre a encore au moins un engagement d\'ouvert');
+            ++$error;
+        }
+
+        if (0 === $error) {
+            $user->setEnabled(false);
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'Le membre a été desactivé');
+        }
+
+        if (null === $request->headers->get('referer')) {
+            return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
+        }
+
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**
@@ -132,13 +163,12 @@ class UserController extends AbstractController
     {
         $length = 15;
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#!?-&@';
-        $charactersLength = strlen($characters);
+        $charactersLength = mb_strlen($characters);
         $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < $length; ++$i) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
+
         return $randomString;
     }
-
-
 }

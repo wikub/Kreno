@@ -4,8 +4,19 @@
     
     {{ form_widget(form) }}
 
-    <div class="btn-group float-end mt-3">
-        <a href="{{ path('admin_user_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
-        <button class="btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Enregister') }}</button>
+    <div class="text-end mt-3">
+        <div class="btn-group">
+            <a href="{{ path('admin_user_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
+            <button class="btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Enregister') }}</button>
+        </div>
+    </div>
+
+    <div class="alert alert-secondary mt-3">
+        <i class="fas fa-info"></i>
+        <ul>
+            <li><b>L'adresse email</b> est conseillé pour recevoir des notifications et récupérer son mot de passe oublié</li>
+            <li><b>Le téléphone</b> est conseillé pour être contacté en cas de problème sur son créneau. Il ne sera visible que de l'administrateur ou du Coordinateur.</li>
+            {# <li><b>La catégorie</b> et <b>l'inscription</b> sont les élements indicatifs renseigné dans Odoo. Ils n'ont aucun effet dans Kreno.</li> #}
+        </ul>
     </div>
 {{ form_end(form) }}

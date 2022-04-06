@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
 use App\Repository\WeekTemplateRepository;
@@ -39,7 +48,7 @@ class WeekTemplate
         1 => 'A',
         2 => 'B',
         3 => 'C',
-        4 => 'D'
+        4 => 'D',
     ];
 
     public function __construct()
@@ -101,7 +110,9 @@ class WeekTemplate
 
     public function getWeekTypeLabel(): ?string
     {
-        if( !key_exists($this->weekType, self::$weekTypeLabel) ) return '';
+        if (!\array_key_exists($this->weekType, self::$weekTypeLabel)) {
+            return '';
+        }
 
         return self::$weekTypeLabel[$this->weekType];
     }

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
 use App\Repository\UserRepository;
@@ -17,12 +26,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
+    /*
      * Hook timestampable behavior
      * updates createdAt, updatedAt fields
      */
     use TimestampableEntity;
-    
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -74,7 +83,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private static $subscriptionTypeLabel = [
         0 => 'Aucun',
         1 => 'Régulier',
-        2 => 'Volant'
+        2 => 'Volant',
     ];
 
     /**
@@ -107,6 +116,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $commitmentLogs;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $odooId;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
@@ -114,9 +128,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->timeslotsValidation = new ArrayCollection();
         $this->enabled = true;
         $this->commitmentLogs = new ArrayCollection();
-
     }
-    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -256,9 +269,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getSubscriptionTypeLabel(): ?string
     {
-        if( array_key_exists($this->subscriptionType, self::$subscriptionTypeLabel) )
+        if (\array_key_exists($this->subscriptionType, self::$subscriptionTypeLabel)) {
             return self::$subscriptionTypeLabel[$this->subscriptionType];
-        
+        }
+
         return '';
     }
 
@@ -299,8 +313,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPastJobs(): Collection
     {
-        return $this->jobs->filter(function($job){
-            return ($job->getTimeslot()->getStart() < (new DateTime()) );
+        return $this->jobs->filter(function ($job) {
+            return $job->getTimeslot()->getStart() < (new DateTime());
         });
     }
 
@@ -309,8 +323,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getFuturJobs(): Collection
     {
-        return $this->jobs->filter(function($job){
-            return ($job->getTimeslot()->getStart() >= (new DateTime()) );
+        return $this->jobs->filter(function ($job) {
+            return $job->getTimeslot()->getStart() >= (new DateTime());
+        });
+    }
+
+    /**
+     * @return Collection|Job[]
+     */
+    public function getFuturJobsInDays(int $nbDays = 5): Collection
+    {
+        return $this->jobs->filter(function ($job) use ($nbDays) {
+            return $job->getTimeslot()->getStart()->format('Ymd') === (new DateTime())->modify('+'.$nbDays.' days')->format('Ymd');
         });
     }
 
@@ -339,6 +363,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getEnabled(): ?bool
     {
         return $this->enabled;
+    }
+
+    public function isEnabled(): bool
+    {
+        return (bool) $this->enabled;
     }
 
     public function setEnabled(bool $enabled): self
@@ -380,11 +409,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getCurrentCommitmentContract(): ?CommitmentContract
     {
-        $current = $this->commitmentContracts->filter(function($contract){
-            return $contract->getFinish() == null;
-        })->first();;
+        $current = $this->commitmentContracts->filter(function ($contract) {
+            return null === $contract->getFinish();
+        })->first();
 
-        if( $current ) return $current;
+        if ($current) {
+            return $current;
+        }
+
         return null;
     }
 
@@ -417,7 +449,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    
+
     public function displayName(): ?string
     {
         return $this->firstname.' '.$this->name;
@@ -453,4 +485,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getOdooId(): ?string
+    {
+        return $this->odooId;
+    }
+
+    public function setOdooId(?string $odooId): self
+    {
+        $this->odooId = $odooId;
+
+        return $this;
+    }
 }

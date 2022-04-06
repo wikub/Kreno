@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Form;
 
 use App\Entity\TimeslotTemplate;
@@ -12,7 +21,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Choice;
 
 class TimeslotTemplateType extends AbstractType
 {
@@ -20,31 +28,31 @@ class TimeslotTemplateType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
             ])
             ->add('dayWeek', ChoiceType::class, [
                 'label' => 'Jour',
-                'choices' => array_flip(TimeslotTemplate::$dayWeekLabel)
+                'choices' => array_flip(TimeslotTemplate::$dayWeekLabel),
             ])
             ->add('start', TimeType::class, [
                 'label' => 'Début',
-                'minutes' => [0,15,30,45]
+                'minutes' => [0, 15, 30, 45],
             ])
-            ->add('finish', TimeType::class,[
+            ->add('finish', TimeType::class, [
                 'label' => 'Fin',
-                'minutes' => [0,15,30,45]
+                'minutes' => [0, 15, 30, 45],
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description'
+                'label' => 'Description',
             ])
             ->add('nbJob', ChoiceType::class, [
                 'label' => 'Nombre de poste',
-                'choices' => [1 => 1,2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9]
+                'choices' => [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9],
             ])
             ->add('timeslotType', EntityType::class, [
                 'label' => 'Type',
                 'class' => TimeslotType::class,
-                'choice_label' => 'name'
+                'choice_label' => 'name',
             ])
         ;
     }

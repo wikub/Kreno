@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller\Admin;
 
 use App\Entity\CommitmentLog;
@@ -7,7 +16,6 @@ use App\Entity\User;
 use App\Form\Admin\CommitmentLogType;
 use App\Repository\CommitmentLogRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +32,7 @@ class CommitmentLogController extends AbstractController
     public function index(CommitmentLogRepository $commitmentLogRepository, User $user): Response
     {
         $commitmentLogs = $commitmentLogRepository->findBy(['user' => $user], ['createdAt' => 'DESC']);
-        
+
         $sumNbTimeslot = $commitmentLogRepository->getSumNbTimeslot($user);
         $sumNbHour = $commitmentLogRepository->getSumNbHour($user);
 
@@ -32,7 +40,7 @@ class CommitmentLogController extends AbstractController
             'commitment_logs' => $commitmentLogs,
             'user' => $user,
             'sumNbTimeslot' => $sumNbTimeslot,
-            'sumNbHour' => $sumNbHour
+            'sumNbHour' => $sumNbHour,
         ]);
     }
 

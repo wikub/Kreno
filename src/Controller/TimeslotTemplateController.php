@@ -1,11 +1,19 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller;
 
 use App\Entity\TimeslotTemplate;
 use App\Entity\WeekTemplate;
 use App\Form\TimeslotTemplateType;
-use App\Repository\TimeslotTemplateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +25,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TimeslotTemplateController extends AbstractController
 {
-    
     /**
      * @Route("/week/{weekTemplate}/new", name="new", methods={"GET", "POST"})
      */
@@ -48,12 +55,11 @@ class TimeslotTemplateController extends AbstractController
     public function clone_new(Request $request, EntityManagerInterface $entityManager, TimeslotTemplate $timeslotTemplate): Response
     {
         $cloneTimeslotTemplate = clone $timeslotTemplate;
-        
+
         $entityManager->persist($cloneTimeslotTemplate);
         $entityManager->flush();
 
         return $this->redirectToRoute('timeslot_template_edit', ['id' => $cloneTimeslotTemplate->getId()]);
-        
     }
 
     /**

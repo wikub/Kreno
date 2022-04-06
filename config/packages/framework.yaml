@@ -10,6 +10,7 @@ framework:
         handler_id: null
         cookie_secure: auto
         cookie_samesite: lax
+        name: 'KRENO_%env(APP_ENV)%'
         storage_factory_id: session.storage.factory.native
 
     #esi: true

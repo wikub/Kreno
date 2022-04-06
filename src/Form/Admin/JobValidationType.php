@@ -1,11 +1,19 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Form\Admin;
 
 use App\Entity\Job;
 use App\Entity\JobDoneType;
 use App\Entity\User;
-
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -22,7 +30,9 @@ class JobValidationType extends AbstractType
             'label' => 'Membre',
             'required' => false,
             'class' => User::class,
-            'choice_label' => 'name',
+            'choice_label' => function (User $user) {
+                return $user->getName().' '.$user->getFirstname();
+            },
             'placeholder' => 'Libre',
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('u')
@@ -31,7 +41,7 @@ class JobValidationType extends AbstractType
         ])
         ->add('manager', CheckboxType::class, [
             'label' => 'Référent',
-            'required' => false
+            'required' => false,
         ])
         ->add('jobDone', EntityType::class, [
             'label' => 'Validation',
@@ -50,7 +60,7 @@ class JobValidationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Job::class,
-            'by_reference' => false
+            'by_reference' => false,
         ]);
     }
 }

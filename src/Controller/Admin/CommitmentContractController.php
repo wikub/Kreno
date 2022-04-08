@@ -15,6 +15,7 @@ use App\Entity\CommitmentContract;
 use App\Entity\User;
 use App\Form\Admin\CommitmentContractType;
 use App\Repository\CommitmentContractRepository;
+use App\Repository\CycleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +41,7 @@ class CommitmentContractController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager, User $user): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, User $user, CycleRepository $cycleRepository): Response
     {
         $commitmentContract = new CommitmentContract();
         $commitmentContract->setUser($user);
@@ -87,7 +88,7 @@ class CommitmentContractController extends AbstractController
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, CommitmentContract $commitmentContract, EntityManagerInterface $entityManager, User $user): Response
+    public function edit(Request $request, CommitmentContract $commitmentContract, EntityManagerInterface $entityManager, User $user, CycleRepository $cycleRepository): Response
     {
         $form = $this->createForm(CommitmentContractType::class, $commitmentContract);
         $form->handleRequest($request);

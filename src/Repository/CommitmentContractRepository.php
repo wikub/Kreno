@@ -12,6 +12,7 @@
 namespace App\Repository;
 
 use App\Entity\CommitmentContract;
+use App\Entity\Cycle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,20 @@ class CommitmentContractRepository extends ServiceEntityRepository
             ->andWhere('cc.start >= :startCycle AND cc.start <=  :finishCycle')
             ->setParameter('startCycle', $startCycle)
             ->setParameter('finishCycle', $finishCycle)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findOpenForCycle(Cycle $cycle)
+    {
+        return $this->createQueryBuilder('cc')
+            ->join('cc.startCycle', 'startCycle')
+            ->leftJoin('cc.finishCycle', 'finishCycle')
+            ->andWhere('startCycle.start <= :startCycle AND (finishCycle.finish IS NULL OR :startCycle <= finishCycle.finish) ')
+            ->andWhere('startCycle.start <= :finishCycle AND (finishCycle.finish IS NULL OR :finishCycle <= finishCycle.finish) ')
+            ->setParameter('startCycle', $cycle->getStart())
+            ->setParameter('finishCycle', $cycle->getFinish())
             ->getQuery()
             ->getResult()
             ;

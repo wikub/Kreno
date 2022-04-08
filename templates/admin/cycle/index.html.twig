@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cycles{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-hourglass"></i> Cycles</h1>
+    </div>
+
+    {% include '_elements/_flash_message.html.twig' %}
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Début</th>
+                    <th>Fin</th>
+                    <th>Application des engagegements</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for cycle in cycles %}
+                <tr>
+                    <td>{{ cycle.start|date('d/m/Y') }}</td>
+                    <td>{{ cycle.finish|date('d/m/Y') }}</td>
+                    <td>
+                        {{ cycle.applyCommimentContracts?cycle.applyCommimentContracts|date('d/m/Y') }}
+                        {% if cycle.id == lastOpenCycle.id %}
+                            <a href="{{ path('admin_cycle_apply_commit', {'id': cycle.id}) }}">Appliquer les engagements</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="">Planning</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">Aucun cycle trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="navigation text-center">
+            {{ knp_pagination_render(cycles, null, {}, {
+                'align': 'center',
+            }) }}
+        </div>
+    </div>
+    
+{% endblock %}

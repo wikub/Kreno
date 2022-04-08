@@ -28,8 +28,10 @@ jobs:
           username: ${{ secrets.TEST_SSH_USER }}
           key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
           port: ${{ secrets.TEST_SSH_PORT }}
+          script_stop: true
           script: |
             cd ${{ secrets.TEST_DIST_PROJECT_DIR }}
+            pwd
             git pull
             composer2 install
-            php bin/console doctrine:migrations:migrate
+            php bin/console --no-interaction doctrine:migrations:migrate 

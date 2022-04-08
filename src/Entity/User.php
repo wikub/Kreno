@@ -76,17 +76,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $userCategory;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $subscriptionType;
-
-    private static $subscriptionTypeLabel = [
-        0 => 'Aucun',
-        1 => 'Régulier',
-        2 => 'Volant',
-    ];
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $email;
@@ -258,32 +247,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUserCategory(?UserCategory $userCategory): self
     {
         $this->userCategory = $userCategory;
-
-        return $this;
-    }
-
-    public function getSubscriptionType(): ?int
-    {
-        return $this->subscriptionType;
-    }
-
-    public function getSubscriptionTypeLabel(): ?string
-    {
-        if (\array_key_exists($this->subscriptionType, self::$subscriptionTypeLabel)) {
-            return self::$subscriptionTypeLabel[$this->subscriptionType];
-        }
-
-        return '';
-    }
-
-    public static function getSubscriptionTypeLabels(): ?array
-    {
-        return self::$subscriptionTypeLabel;
-    }
-
-    public function setSubscriptionType(int $subscriptionType): self
-    {
-        $this->subscriptionType = $subscriptionType;
 
         return $this;
     }

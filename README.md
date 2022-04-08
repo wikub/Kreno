@@ -1,3 +1,5 @@
+[![Pipeline-CI](https://github.com/wikub/Kreno/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/wikub/Kreno/actions/workflows/ci.yml)
+
 # Kreno 
 
 Kreno est une application de gestion de créneaux à destination des supermachés coopératifs

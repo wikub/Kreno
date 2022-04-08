@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * This file is part of the Kreno package.
- *
- * (c) Valentin Van Meeuwen <contact@wikub.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
@@ -19,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220405155544 extends AbstractMigration
+final class Version20220408091605 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -30,13 +21,13 @@ final class Version20220405155544 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE commitment_log CHANGE nb_hour nb_hour NUMERIC(10, 1) DEFAULT \'0\' NOT NULL');
-        $this->addSql('ALTER TABLE user ADD odoo_id VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE user DROP subscription_type');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE commitment_log CHANGE nb_hour nb_hour NUMERIC(10, 1) DEFAULT \'0.0\' NOT NULL');
-        $this->addSql('ALTER TABLE `user` DROP odoo_id');
+        $this->addSql('ALTER TABLE `user` ADD subscription_type INT NOT NULL');
     }
 }

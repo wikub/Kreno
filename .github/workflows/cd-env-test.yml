@@ -31,7 +31,7 @@ jobs:
           script_stop: true
           script: |
             cd ${{ secrets.TEST_DIST_PROJECT_DIR }}
-            pwd
+            source ~/.profile
             git pull
             composer2 install
             php bin/console --no-interaction doctrine:migrations:migrate 

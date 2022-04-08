@@ -28,11 +28,13 @@ jobs:
           username: ${{ secrets.ENV_PROD_SSH_USER }}
           key: ${{ secrets.ENV_PROD_SSH_PRIVATE_KEY }}
           port: ${{ secrets.ENV_PROD_SSH_PORT }}
+          script_stop: true
           script: |
             cd ${{ secrets.ENV_PROD_DIST_PROJECT_DIR }}
+            source ~/.profile
             git pull
             composer2 install
-            php bin/console doctrine:migrations:migrate
+            php bin/console --no-interaction doctrine:migrations:migrate 
 
       - name: copy yarn build via ssh password
         uses: appleboy/scp-action@master

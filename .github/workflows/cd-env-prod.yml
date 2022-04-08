@@ -19,6 +19,7 @@ jobs:
           script_stop: true
           script: |
             cd ${{ secrets.ENV_PROD_DIST_PROJECT_DIR }}
+            source ~/.profile
             git pull
             composer2 install
             php bin/console --no-interaction doctrine:migrations:migrate 

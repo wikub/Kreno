@@ -33,19 +33,23 @@ class CommitmentContractType extends AbstractType
                     return $cycle->getName();
                 },
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('c')
+                    $qb = $er->createQueryBuilder('c')
                         ->orderBy('c.start', 'ASC');
+
+                    return $qb;
                 },
             ])
             ->add('finishCycle', EntityType::class, [
-                'label' => 'Premier cycle',
+                'label' => 'Dernier cycle',
                 'class' => Cycle::class,
                 'choice_label' => function ($cycle) {
                     return $cycle->getName();
                 },
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('c')
-                        ->orderBy('c.start', 'ASC');
+                    $qb = $er->createQueryBuilder('c');
+                    $qb->orderBy('c.start', 'ASC');
+
+                    return $qb;
                 },
                 'required' => false,
             ])
@@ -72,6 +76,7 @@ class CommitmentContractType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CommitmentContract::class,
+            'lastClosedCycle' => null,
         ]);
     }
 }

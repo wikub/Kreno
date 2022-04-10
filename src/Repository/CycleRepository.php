@@ -15,6 +15,7 @@ use App\Entity\Cycle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -94,6 +95,34 @@ class CycleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function getQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.start', 'ASC')
+            ;
+    }
+
+    public function getLastOpen(): ?Cycle
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.applyCommimentContracts IS NULL')
+            ->orderBy('c.start', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function getLastClose(): ?Cycle
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.applyCommimentContracts IS NOT NULL')
+            ->orderBy('c.start', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return Cycle[] Returns an array of Cycle objects
     //  */

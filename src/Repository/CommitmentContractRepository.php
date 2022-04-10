@@ -12,8 +12,11 @@
 namespace App\Repository;
 
 use App\Entity\CommitmentContract;
+use App\Entity\Cycle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * @method CommitmentContract|null find($id, $lockMode = null, $lockVersion = null)
@@ -40,6 +43,57 @@ class CommitmentContractRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    /**
+     * @desc : find all open contracts for a cycle
+     */
+    public function findOpenForCycle(Cycle $cycle)
+    {
+        return $this->createQueryBuilder('cc')
+            ->join('cc.startCycle', 'startCycle')
+            ->leftJoin('cc.finishCycle', 'finishCycle')
+            ->andWhere('startCycle.start <= :startCycle AND (finishCycle.finish IS NULL OR :startCycle <= finishCycle.finish) ')
+            ->andWhere('startCycle.start <= :finishCycle AND (finishCycle.finish IS NULL OR :finishCycle <= finishCycle.finish) ')
+            ->setParameter('startCycle', $cycle->getStart())
+            ->setParameter('finishCycle', $cycle->getFinish())
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @desc : find all open contract between two cycles
+     */
+    public function findOpenForCommitmentContract(CommitmentContract $commitmentContract)
+    {
+        $startCycle = $commitmentContract->getStartCycle()->getStart();
+        if (null === $commitmentContract->getFinishCycle()) {
+            $finishCycle = null;
+        } else {
+            $finishCycle = $commitmentContract->getFinishCycle()->getFinish();
+        }
+
+        if (null !== $finishCycle && $startCycle > $finishCycle) {
+            // throw new Exception('The start cycle is after the finish cycle');
+            return new ArrayCollection();
+        }
+
+        $qb = $this->createQueryBuilder('cc')
+            ->join('cc.startCycle', 'startCycle')
+            ->leftJoin('cc.finishCycle', 'finishCycle')
+            ->andWhere('startCycle.start <= :startCycle AND (finishCycle.finish IS NULL OR :startCycle <= finishCycle.finish) ')
+            ->andWhere('startCycle.start <= :finishCycle AND (finishCycle.finish IS NULL OR :finishCycle <= finishCycle.finish) ')
+            ->setParameter('startCycle', $startCycle)
+            ->setParameter('finishCycle', $finishCycle);
+
+        if ($commitmentContract->getId()) {
+            $qb->andWhere('cc.id <> :id')
+                ->setParameter('id', $commitmentContract->getId());
+        }
+
+        return $qb->getQuery()
+            ->getResult();
     }
 
     // /**

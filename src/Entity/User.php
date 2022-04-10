@@ -76,17 +76,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $userCategory;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $subscriptionType;
-
-    private static $subscriptionTypeLabel = [
-        0 => 'Aucun',
-        1 => 'Régulier',
-        2 => 'Volant',
-    ];
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $email;
@@ -115,6 +104,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=CommitmentLog::class, mappedBy="user", orphanRemoval=true)
      */
     private $commitmentLogs;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $odooId;
 
     public function __construct()
     {
@@ -257,32 +251,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getSubscriptionType(): ?int
-    {
-        return $this->subscriptionType;
-    }
-
-    public function getSubscriptionTypeLabel(): ?string
-    {
-        if (\array_key_exists($this->subscriptionType, self::$subscriptionTypeLabel)) {
-            return self::$subscriptionTypeLabel[$this->subscriptionType];
-        }
-
-        return '';
-    }
-
-    public static function getSubscriptionTypeLabels(): ?array
-    {
-        return self::$subscriptionTypeLabel;
-    }
-
-    public function setSubscriptionType(int $subscriptionType): self
-    {
-        $this->subscriptionType = $subscriptionType;
-
-        return $this;
-    }
-
     public function getEmail(): ?string
     {
         return $this->email;
@@ -405,7 +373,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getCurrentCommitmentContract(): ?CommitmentContract
     {
         $current = $this->commitmentContracts->filter(function ($contract) {
-            return null === $contract->getFinish();
+            return null === $contract->getFinishCycle();
         })->first();
 
         if ($current) {
@@ -476,6 +444,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $commitmentLog->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOdooId(): ?string
+    {
+        return $this->odooId;
+    }
+
+    public function setOdooId(?string $odooId): self
+    {
+        $this->odooId = $odooId;
 
         return $this;
     }

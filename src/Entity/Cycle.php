@@ -43,6 +43,11 @@ class Cycle
      */
     private $finish;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $applyCommimentContracts;
+
     public function __construct()
     {
         $this->weeks = new ArrayCollection();
@@ -110,5 +115,17 @@ class Cycle
     public function getName(): string
     {
         return $this->start->format('d/m/Y').' au '.$this->finish->format('d/m/Y');
+    }
+
+    public function getApplyCommimentContracts(): ?\DateTimeInterface
+    {
+        return $this->applyCommimentContracts;
+    }
+
+    public function setApplyCommimentContracts(?\DateTimeInterface $applyCommimentContracts): self
+    {
+        $this->applyCommimentContracts = $applyCommimentContracts;
+
+        return $this;
     }
 }

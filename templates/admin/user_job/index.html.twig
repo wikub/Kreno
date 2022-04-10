@@ -19,7 +19,7 @@
             <tbody>
             {% for job in jobs %}
                 <tr>
-                    <td>{{ job.timeslot.getDisplayDateInterval }} - {{ job.timeslot.getDisplayName }}</td>
+                    <td><a href="{{ path('admin_timeslot_show', {'id' : job.timeslot.id}) }}" target="_blank">{{ job.timeslot.getDisplayDateInterval }} - {{ job.timeslot.getDisplayName }}</a></td>
                     <td class="text-center">{{ job.manager ? 'Oui' : '' }}</td>
                     <td class="text-center">{{ job.jobDone ? job.jobDone.name }} </td>
                 </tr>

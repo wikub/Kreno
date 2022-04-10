@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cycle #{{cycle.id}} - Applications des engagegements{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-hourglass"></i> Cycle #{{ cycle.id }}</h1>
+    </div>
+
+    {% include '_elements/_flash_message.html.twig' %}
+
+    <div class="card">
+        <div class="card-header fw-bold">Du {{ cycle.start|date('d/m/Y') }} au {{ cycle.finish|date('d/m/Y') }}</div>
+        <div class="card-body">
+            <p>L'application des contracts d'engagement sur le cycle consiste à débiter les heures et créneaux dû pour chaque coopérateur.</p>
+            <p>Les engagegements du coopérateur sont définit dans son contrat d'engagegement.</p>
+            <p>Une fois l'action réalisé, aucun contrat d'engagegement de pourra être ouvert pour ce cycle ou avant.</p>
+            <div class="text-center"> 
+            <form method="POST" action="{{ path('admin_cycle_apply_commit', {'id': cycle.id}) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('apply' ~ cycle.id) }}">
+                <a href="{{ path('admin_cycle_index') }}" class="btn btn-outline-secondary">Annuler</a>
+                <button class="btn btn-outline-danger">Appliquer les engagegements sur ce cycle</button>
+            </form>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

@@ -30,7 +30,7 @@ class ScheduleController extends AbstractController
         $currentCycle = $cycleRepository->findCurrent();
 
         if (null !== $currentCycle) {
-            return $this->redirectToRoute('schedule_show', ['id' => $currentCycle->getId()]);
+            return $this->redirectToRoute('schedule_show', ['cycle' => $currentCycle->getId()]);
         }
 
         $this->addFlash('notice', 'Aucun cycle n\'a été trouvé !');
@@ -46,7 +46,7 @@ class ScheduleController extends AbstractController
         $nextCycle = $cycleRepository->findNext($cycle);
 
         if (null !== $nextCycle) {
-            return $this->redirectToRoute('schedule_show', ['id' => $nextCycle->getId()]);
+            return $this->redirectToRoute('schedule_show', ['cycle' => $nextCycle->getId()]);
         }
 
         $this->addFlash('notice', 'Aucun cycle n\'a été trouvé !');
@@ -62,7 +62,7 @@ class ScheduleController extends AbstractController
         $previousCycle = $cycleRepository->findPrevious($cycle);
 
         if (null !== $previousCycle) {
-            return $this->redirectToRoute('schedule_show', ['id' => $previousCycle->getId()]);
+            return $this->redirectToRoute('schedule_show', ['cycle' => $previousCycle->getId()]);
         }
 
         $this->addFlash('notice', 'Aucune semaine n\'a été trouvé !');

@@ -42,9 +42,29 @@
         </div>
     </div>
 
-    <div class="btn-group float-end mt-3">
-        <a href="{{ path('admin_commitment_contract_index', {'user': user.id}) }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
-        <button class="btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Enregister') }}</button>
+    <div class="mt-3 clearfix">
+        <div class="btn-group float-end">
+            <a href="{{ path('admin_commitment_contract_index', {'user': user.id}) }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
+            <button class="btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Enregister') }}</button>
+        </div>
+    </div>
+    <div class="card bg-light mt-3">
+        <div class="card-body">
+            <p class="card-title h5"><i class="fas fa-info"></i> Informations</p>
+            <ul>
+                <li>Un engagement commence et se termine durant un cycle. Pour un engagement, sur un cycle le premier et le dernier cycle sont identique.</li>
+                <li>
+                    L'inscription à des créneaux réguliers se fait à partir des <em>semaines et créneaux modèles</em>. <br />
+                    L'inscription est automatique pour toute les cycles fututes générés ou pas.<br />
+                    En cas de changement de l'inscription (modification ou suppression) celle-ci impact uniquement les créneaux futures.
+                </li>
+                <li>Il est toujours possible d'inscrire le coopérateur de manière volante sans impacter le créneau régulier.</li>
+                <li>
+                    Si vous souhaitez modifier/supprimer un créneau régulier ponctuellement, il ne faut pas modifier l'inscription ici, mais directement dans le planning.<br />
+                    Si par la suite, vous modifiez l'inscription du créneau régulier ici, ça impactera tous les créneaux du future.
+                </li>
+            </ul>
+        </div>
     </div>
 
 {{ form_end(form) }}

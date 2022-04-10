@@ -9,7 +9,44 @@
 
 <div class="row">
     <div class="col">
-    
+        <h2 class="h3">Bonjour {{app.user.firstname}} !</h2>
+
+        <div class="mb-3">
+            <a href="#" class="btn btn-primary">S'inscrire à un créneau</a>
+        </div>
+        
+        <div class="card mb-3">
+            <div class="card-header fw-bold"><i class="fas fa-hard-hat"></i> Mes prochains créneaux</div>
+            <div class="card-body">
+                <ul>
+                    {% for job in nextJobs %}
+                    <li>{{job.timeslot.getDisplayDateInterval}} - {{ job.timeslot.timeslotType.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="col">
+        
+        <div class="card mb-3">
+            <div class="card-header fw-bold"><i class="fas fa-file-signature"></i> Mon engagement en cours</div>
+            <div class="card-body">
+                {% if currentCommitmentContract %}
+                    {% include 'index/_currentCommitmentContract.html.twig' with {'contract': currentCommitmentContract} %}
+                {% else %}
+                    <p class="card-text">Aucun engagement en cours</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header fw-bold"><i class="fas fa-balance-scale"></i> Mon solde d'engagement</div>
+            <div class="card-body">
+                {% include 'index/_balanceCommimentLog.html.twig' %}
+            </div>
+        </div>
+
     </div>
 </div>
 {% endblock %}

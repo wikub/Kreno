@@ -12,6 +12,7 @@
 namespace App\Service;
 
 use App\Entity\CommitmentLog;
+use App\Entity\Cycle;
 use App\Repository\CommitmentContractRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -28,19 +29,39 @@ class CommitmentContratDebitLogApply
         $this->commitmentContractRepository = $commitmentContractRepository;
     }
 
-    public function applyDebit()
+    // public function applyDebit()
+    // {
+    //     $contracts = $this->commitmentContractRepository->findCurrentContract();
+
+    //     foreach ($contracts as $contract) {
+    //         $log = new CommitmentLog();
+    //         $log->setUser($contract->getUser());
+    //         $log->setNbTimeslot($contract->getType()->getNbTimeslotMin() * -1);
+    //         $log->setNbHour($contract->getType()->getNbHourMin() * -1);
+    //         $log->setComment('Debit cycle');
+
+    //         $this->em->persist($log);
+    //     }
+    //     $this->em->flush();
+    // }
+
+    public function applyCommitmentContracts(Cycle $cycle)
     {
-        $contracts = $this->commitmentContractRepository->findCurrentContract();
+        $contracts = $this->commitmentContractRepository->findOpenForCycle($cycle);
 
         foreach ($contracts as $contract) {
             $log = new CommitmentLog();
             $log->setUser($contract->getUser());
             $log->setNbTimeslot($contract->getType()->getNbTimeslotMin() * -1);
             $log->setNbHour($contract->getType()->getNbHourMin() * -1);
-            $log->setComment('Debit cycle');
+            $log->setComment('Application engagements du cycle '.$cycle->getStart()->format('d/m/Y').' au '.$cycle->getFinish()->format('d/m/Y').'.');
 
             $this->em->persist($log);
         }
+
+        $cycle->setApplyCommimentContracts(new \DateTime());
+        $this->em->persist($cycle);
+
         $this->em->flush();
     }
 }

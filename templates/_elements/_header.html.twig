@@ -4,6 +4,10 @@
     <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto me-3">
       {% if app.user %}
         <a class="me-3 py-2 text-dark text-decoration-none" href="#">{{ app.user.displayName }}</a>
+        {% if is_granted('IS_IMPERSONATOR') %}
+            <a class="me-3 py-2 text-dark text-decoration-none" href="{{ impersonation_exit_path(path('admin_user_show', {'id': app.user.id}) ) }}"><i class="fas fa-door-closed"></i></a>
+        {% endif %}
+
         <a class="py-2 text-dark text-decoration-none" href="{{ path('app_logout') }}">Deconnexion</a>
       {% endif %}
     </nav>

@@ -32,6 +32,7 @@
                     <td>
                         <a href="{{ path('admin_user_show', {'id': user.id}) }}"><i class="fas fa-eye"></i></a>
                         <a href="{{ path('admin_user_edit', {'id': user.id}) }}"><i class="fas fa-user-edit"></i></a>
+                        <a href="{{ path('index_index', {'_switch_user': user.username}) }}"><i class="fas fa-house-user"></i></a>
                         {% if user.isEnabled %}
                             <a href="{{ path('admin_user_disable', {'id': user.id}) }}" class="text-success" title="Désactiver"><i class="fas fa-power-off"></i></a>
                         {% else %}

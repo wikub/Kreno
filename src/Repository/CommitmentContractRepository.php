@@ -13,6 +13,7 @@ namespace App\Repository;
 
 use App\Entity\CommitmentContract;
 use App\Entity\Cycle;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
@@ -42,6 +43,20 @@ class CommitmentContractRepository extends ServiceEntityRepository
             ->setParameter('finishCycle', $finishCycle)
             ->getQuery()
             ->getResult()
+            ;
+    }
+
+    public function getCurrentContractForUser(User $user)
+    {
+        return $this->createQueryBuilder('cc')
+            ->join('cc.startCycle', 'startCycle')
+            ->leftJoin('cc.finishCycle', 'finishCycle')
+            ->andWhere('startCycle.start <= :dateNow AND (finishCycle.finish IS NULL OR :dateNow <= finishCycle.finish)')
+            ->setParameter('dateNow', new \DateTime())
+            ->andWhere('cc.user = :user')
+            ->setParameter('user', $user->getId())
+            ->getQuery()
+            ->getOneOrNullResult()
             ;
     }
 

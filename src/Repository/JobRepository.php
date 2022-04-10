@@ -71,6 +71,22 @@ class JobRepository extends ServiceEntityRepository
             // ;
     }
 
+    public function findNextForUser(User $user)
+    {
+        return $this->createQueryBuilder('j')
+            ->join('j.timeslot', 't')
+            ->andWhere('j.user = :user')
+            ->setParameter('user', $user->getId())
+            ->andWhere('t.start >= :dateNow')
+            ->setParameter('dateNow', new \DateTime())
+            ->andWhere('t.start <= :dateLimit')
+            ->setParameter('dateLimit', (new \DateTime())->modify('+45 days'))
+            ->orderBy('t.start', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Job[] Returns an array of Job objects
     //  */

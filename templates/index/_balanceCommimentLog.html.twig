@@ -1,0 +1,8 @@
+<p class="card-text">Solde créneaux :
+    <span class="{{ (sumNbTimeslot<0)?'text-danger' }} fw-bold">{{ sumNbTimeslot }}</span>
+</p>
+<p class="card-text">Solde heures :
+    <span class="{{ (sumNbHour<0)?'text-danger' }} fw-bold">{{ sumNbHour }}</span>
+</p>
+<p class="card-text">Si votre solde est <span class="text-danger">négatif</span>, c'est que vous n'avez pas suffisament respecté votre engagement. 
+L'objectif est d'avoir un solde à l'équilible (avec au moins 0 ou plus). Pour plus d'information demandé à la direction.</p>

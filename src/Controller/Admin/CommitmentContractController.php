@@ -43,6 +43,12 @@ class CommitmentContractController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager, User $user, CycleRepository $cycleRepository): Response
     {
+        if (null !== $user->getCurrentCommitmentContract()) {
+            $this->addFlash('warning', 'Fermer le contrat courant avant d\'en ouvrir un nouveau');
+
+            return $this->redirectToRoute('admin_commitment_contract_index', ['user' => $user->getId()]);
+        }
+
         $commitmentContract = new CommitmentContract();
         $commitmentContract->setUser($user);
 

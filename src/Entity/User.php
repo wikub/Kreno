@@ -373,7 +373,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getCurrentCommitmentContract(): ?CommitmentContract
     {
         $current = $this->commitmentContracts->filter(function ($contract) {
-            return null === $contract->getFinish();
+            return null === $contract->getFinishCycle();
         })->first();
 
         if ($current) {

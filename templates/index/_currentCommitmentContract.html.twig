@@ -1,0 +1,24 @@
+
+        <p class="card-text">
+        {% if contract.finishCycle %}
+            Du {{ contract.startCycle.start|date('d/m/Y') }} au {{ contract.finishCycle.finish|date('d/m/Y') }}
+        {% else %}
+            A partir du {{ contract.startCycle.start|date('d/m/Y') }}
+        {% endif %}
+        </p>
+        <p class="card-text">
+            {% if contract.regularTimeslots|length > 0 %}
+            <b>Créneaux réguliers :</b> 
+                <ul>
+                    {% for regular in contract.regularTimeslots %}
+                    <li>Semaine {{ regular.timeslotTemplate.weekTemplate.weekTypeLabel }} - {{ regular.timeslotTemplate.dayWeekLabel }} de {{regular.timeslotTemplate.start|date('H:i')}} à {{regular.timeslotTemplate.finish|date('H:i')}} - {{ regular.timeslotTemplate.name }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </p>
+        <p class="card-text">
+            <b>Engagement :</b>
+            {% if contract.type.nbTimeslotMin > 0 %}Nombre de créneaux minimum par cycle : {{contract.type.nbTimeslotMin}} {% endif %}
+            {% if contract.type.nbHourMin > 0 %}Nombre de heure minimum par cycle : {{contract.type.nbHourMin}} {% endif %}
+        </p>

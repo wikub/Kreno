@@ -12,12 +12,14 @@
 namespace App\Entity;
 
 use App\Repository\CommitmentContractRepository;
+use App\Validator as AppAssert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CommitmentContractRepository::class)
+ * @AppAssert\CommitmentContract
  */
 class CommitmentContract
 {
@@ -46,13 +48,13 @@ class CommitmentContract
     private $regularTimeslots;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Cycle::class)
+     * @ORM\ManyToOne(targetEntity=Cycle::class, fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $startCycle;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Cycle::class)
+     * @ORM\ManyToOne(targetEntity=Cycle::class, fetch="EAGER")
      */
     private $finishCycle;
 

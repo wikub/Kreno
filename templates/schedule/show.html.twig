@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Planning par cycle - {{ cycle.getName }}{% endblock %}
+
+{% block body %}
+<div class="pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-calendar-alt"></i> Cycle du {{ cycle.getName }}</h1>
+</div>
+
+{% include '_elements/_flash_message.html.twig' %}
+
+<div class="pb-2 mb-3 border-bottom">
+    <div class="btn-group col" role="group">
+        <a href="{{ path('schedule_previous', {'cycle': cycle.id}) }}" class="btn btn-outline-secondary"><i class="fas fa-backward"></i> Précédente</a>
+        <a href="{{ path('schedule_index') }}" class="btn btn-outline-secondary"><i class="fas fa-list"></i></a>
+        <a href="{{ path('schedule_next', {'cycle': cycle.id}) }}" class="btn btn-outline-secondary"><i class="fas fa-forward"></i> Suivante</a>
+    </div>
+</div>
+
+{% for week in cycle.weeks %}
+    {% include 'schedule/_week.html.twig' %}
+{% endfor %}
+
+{% endblock %}

@@ -4,65 +4,31 @@
 
 {% block body %}
 <div class="pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2"><i class="fas fa-calendar-alt"></i> Planning</h1>
+    <h1 class="h2"><i class="fas fa-calendar-alt"></i> Cycle</h1>
 </div>
 
-<div class="row mb-3 pb-2 border-bottom">
-    <div class="col">
-    {{ form_start(formFilter) }}
-        {{ form_widget(formFilter.week) }}
-    <button class="btn btn-sm btn-success">Afficher</button>
-    {{ form_end(formFilter) }}
-    </div>
-</div>
+{% include '_elements/_flash_message.html.twig' %}
 
-{% if week %}
-<div>
-    <div class="row align-items-start mb-3">
-        {% for day in week.getDays %}
-        <div class="col text-center">
-            {{ day.date|date('l d/m') }}
-        </div>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Cycle</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cycle in cycles %}
+            <tr>
+                <td><a href="{{ path('schedule_show', {'cycle': cycle.id}) }}">{{ cycle.getName }}</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="1">Aucun cycle</td>
+            </tr>
         {% endfor %}
-    </div>
-    <div class="row align-items-start">
-        {% for day in week.getDays %}
-        <div class="col">
-            {% for timeslot in day.timeslots %}
-                <div class="card mb-3">
-                    <div class="card-header">
-                        {{ timeslot.name }}
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            {{ timeslot.start|date('H:i') }} à {{ timeslot.finish|date('H:i') }}
-                        </p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                    {% for job in timeslot.managerJobs %}
-                    <li class="list-group-item {{ job.user?'bg-primary':'bg-warning'}} ">
-                        <i class="fas fa-user-tie"></i> 
-                        {{ job.user?job.user.firstname:'libre' }} {{ job.user?job.user.name }}
-                    </li>
-                    {% endfor %}
-                    {% for job in timeslot.getNoManagerJobs %}
-                        <li class="list-group-item {{ job.user?'bg-primary':'bg-warning'}} ">
-                            {% if job.user %}
-                            {{job.user.firstname}} {{job.user.name}}
-                            {% else %}
-                            libre
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-
-                    </ul>
-                </div>
-            {% endfor %}
-        </div>
-        {% endfor %}
-    </div>
+        </tbody>
+    </table>
 
 </div>
-{% endif %}
 
 {% endblock %}

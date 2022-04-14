@@ -30,7 +30,9 @@ class JobValidationType extends AbstractType
             'label' => 'Membre',
             'required' => false,
             'class' => User::class,
-            'choice_label' => 'name',
+            'choice_label' => function (User $user) {
+                return $user->getName().' '.$user->getFirstname();
+            },
             'placeholder' => 'Libre',
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('u')

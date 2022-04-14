@@ -13,7 +13,7 @@
         <table class="table table-bordered">
             <tbody>
                 <tr>
-                    <th>Username</th>
+                    <th>Identifiant</th>
                     <td>{{ user.username }}</td>
                 </tr>
                 <tr>
@@ -29,20 +29,8 @@
                     <td>{% if user.email %}<a href="mailto:{{user.email}}">{{ user.email }}</a>{% endif %}</td>
                 </tr>
                 <tr>
-                    <th>Telephone</th>
+                    <th>Téléphone</th>
                     <td>{{ user.phonenumber }}</td>
-                </tr>
-                <tr>
-                    <th>Categorie</th>
-                    <td>{{ user.userCategory.name }}</td>
-                </tr>
-                <tr>
-                    <th>Inscription</th>
-                    <td>{{ user.subscriptionTypeLabel }}</td>
-                </tr>
-                <tr>
-                    <th>Actif</th>
-                    <td>{{ user.enabled?'Oui':'Non' }}</td>
                 </tr>
             </tbody>
         </table>

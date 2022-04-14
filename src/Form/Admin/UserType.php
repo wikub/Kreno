@@ -44,20 +44,24 @@ class UserType extends AbstractType
                 'label' => 'Téléphone',
                 'required' => false,
             ])
-            ->add('userCategory', EntityType::class, [
-                'label' => 'Catégorie *',
-                'class' => UserCategory::class,
-                'choice_label' => 'name',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('uc')
-                        ->where('uc.enabled = TRUE')
-                        ->orderBy('uc.name', 'ASC');
-                },
+            ->add('odooId', TextType::class, [
+                'label' => 'Identifiant Odoo',
+                'required' => false,
             ])
-            ->add('subscriptionType', ChoiceType::class, [
-                'label' => 'Inscription *',
-                'choices' => array_flip(User::getSubscriptionTypeLabels()),
-            ])
+            // ->add('userCategory', EntityType::class, [
+            //     'label' => 'Catégorie *',
+            //     'class' => UserCategory::class,
+            //     'choice_label' => 'name',
+            //     'query_builder' => function (EntityRepository $er) {
+            //         return $er->createQueryBuilder('uc')
+            //             ->where('uc.enabled = TRUE')
+            //             ->orderBy('uc.name', 'ASC');
+            //     },
+            // ])
+            // ->add('subscriptionType', ChoiceType::class, [
+            //     'label' => 'Inscription *',
+            //     'choices' => array_flip(User::getSubscriptionTypeLabels()),
+            // ])
         ;
     }
 

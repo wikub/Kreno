@@ -1,0 +1,89 @@
+App\Entity\TimeslotType:
+    timeslotType1:
+        name: 'Magasin'
+        enabled: true
+        description: 'Type de tâches : tenue de la caisse, réassort, accueil, etiquettage, affichage produits, tri des fruits et légumes, vérification des dates de péremption, découpe fromages, accueil livraisons, pointage livraisons.'
+    timeslotType2:
+        name: 'Administration'
+        enabled: true
+        description: 'Type de tâches : saisie des bulletins de souscription, mise à jour statuts des membres (listes de prix), mise à jour des créneaux, relances paiement parts sociales, suivi parts suspendues, suivi bons de réduction, comptabilité, encaissement chèques, suivi RH, permanence téléphonique. '
+    timeslotType3:
+        name: 'Inventaire total'
+        enabled: true
+        description: 'Type de tâches : Inventaire produits frais (tous les lundis), inventaire général (mensuel le lundi), destockage pertes, préparation commande frais. '
+    timeslotType4:
+        name: 'GT et chantiers'
+        enabled: true
+        description: 'Créneaux irréguliers à ajouter au coup par coup. Nécessaire pour suivre la participation des coordos. Type de tâches : nom du chantier du GT ou de l’instance. Par exemple : groupe Communication, groupe informatique, Cellule Coopérative….'
+    timeslotType5:
+        name: 'Inventaire frais'
+        enabled: true
+        description: 'Type de tâches : Inventaire produits frais (tous les lundis), destockage pertes, préparation commande frais. '
+
+App\Entity\JobDoneType:
+    jobDoneType1:
+        name: 'Présent'
+        commitment_calculation: 1
+        position: 1
+    jobDoneType2:
+        name: 'Absent'
+        commitment_calculation: 0
+        position: 2
+    jobDoneType3:
+        name: 'Excusé'
+        commitment_calculation: 1
+        position: 2
+
+App\Entity\Setting:
+    setting1:
+        code: 'CYCLE_START'
+        value: '2022-01-03'
+        type: 'DATE'
+    setting2:
+        code: 'CYCLE_NB_WEEKS'
+        value: '4'
+        type: 'INT'
+
+App\Entity\CommitmentType:
+    commitmentType1:
+        name: 'Bénéficiaire'
+        description: ''
+        nb_timeslot_min: '1'
+        nb_hour_min: '0'
+        regular: 0
+        manager: 0
+    commitmentType2:
+        name: 'Coordinateur'
+        description: ''
+        nb_timeslot_min: '2'
+        nb_hour_min: '0'
+        regular: 0
+        manager: 0
+    commitmentType3:
+        name: 'Coordinateur mixte'
+        description: ''
+        nb_timeslot_min: '1'
+        nb_hour_min: '3'
+        regular: 0
+        manager: 0
+    commitmentType4:
+        name: 'Coordinateur chantier'
+        description: ''
+        nb_timeslot_min: '0'
+        nb_hour_min: '6'
+        regular: 0
+        manager: 0
+
+App\Entity\WeekTemplate:
+    weekTemplate1:
+        name: 'Semaine A'
+        week_type: 1
+    weekTemplate2:
+        name: 'Semaine B'
+        week_type: 2
+    weekTemplate3:
+        name: 'Semaine C'
+        week_type: 3
+    weekTemplate4:
+        name: 'Semaine D'
+        week_type: 4

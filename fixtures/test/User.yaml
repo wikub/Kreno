@@ -4,3 +4,6 @@ App\Entity\User:
         firstname: <firstname()>
         email: <email()>
         username: <username()>
+        password: <password()>
+        phonenumber: <phonenumber()>
+

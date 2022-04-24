@@ -102,6 +102,7 @@
     },
     "knplabs/knp-paginator-bundle": {
         "version": "v5.8.0"
+    },
     "hautelook/alice-bundle": {
         "version": "2.10",
         "recipe": {

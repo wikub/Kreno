@@ -32,12 +32,12 @@ services:
         calls:
             - [ setAnnotationReader, [ "@annotation_reader" ] ]
     
-    App\EventListener\TimeslotPostValidation:
+    App\EventListener\TimeslotEventListener:
         tags:
             -
                 name: 'doctrine.orm.entity_listener'
                 event: 'postUpdate'
-                entity: 'App\Entity\Timeslot'
+                entity: 'App\Entity\Timeslot'  
     
     App\EventListener\RegularTimeslotPersist:
         tags:

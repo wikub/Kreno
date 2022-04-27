@@ -79,7 +79,7 @@ class Timeslot
     private $timeslotType;
 
     /**
-     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="timeslot", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="timeslot", fetch="EAGER", cascade={"all"})
      */
     private $jobs;
 
@@ -264,7 +264,7 @@ class Timeslot
     public function addJob(Job $job): self
     {
         if (!$this->jobs->contains($job)) {
-            $this->jobs[] = $job;
+            $this->jobs->add($job);
             $job->setTimeslot($this);
         }
 
@@ -347,6 +347,12 @@ class Timeslot
         if (\array_key_exists('validated', $this->status)) {
             return true;
         }
+
+        return false;
+    }
+
+    public function isCommitmentLogged(): bool
+    {
         if (\array_key_exists('commitment_logged', $this->status)) {
             return true;
         }

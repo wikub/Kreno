@@ -89,7 +89,8 @@ class TimeslotValidationController extends AbstractController
     public function processSelection(Request $request, TimeslotAutoValidation $service): Response
     {
         // Get Post data
-        $timeslotsSelection = $request->request->get('timeslots');
+        $timeslotsSelection = (array) $request->request->get('timeslots');
+
         if (!\is_array($timeslotsSelection) || 0 === \count($timeslotsSelection)) {
             $this->addFlash('warning', 'Il n\'y a aucun créneaux sélectionnés');
 

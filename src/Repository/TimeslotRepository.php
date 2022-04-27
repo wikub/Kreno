@@ -58,7 +58,7 @@ class TimeslotRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.start <= :h24')
-            ->setParameter('h24', (new \DateTime())->modify('+1 day'))
+            ->setParameter('h24', (new \DateTime())->modify('-1 day'))
             ->andWhere('t.status LIKE \'%open%\'')
             ->orderBy('t.start', 'ASC')
             ->getQuery()
@@ -87,6 +87,17 @@ class TimeslotRepository extends ServiceEntityRepository
         return $qb->getQuery()
             ->getResult();
     }
+
+    public function findSelection(array $timeslots)
+    {
+        return $this->createQueryBuilder('t')
+        ->andWhere('t.id IN (:timeslotsSelection)')
+        ->setParameter('timeslotsSelection', $timeslots)
+        ->getQuery()
+        ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Timeslot[] Returns an array of Timeslot objects
     //  */

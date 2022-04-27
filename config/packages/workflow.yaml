@@ -33,6 +33,9 @@ framework:
                 to_commitment_log:
                     from: validated
                     to: commitment_logged
+                commiment_log_to_open:
+                    from: commitment_logged
+                    to: open
                 to_closed:
                     from: open
                     to: closed

@@ -43,18 +43,31 @@ class TimeslotAutoValidation
     public function timeslotAutoValidation()
     {
         if (!($timeslots = $this->repo->findForValidation24h())) {
-            $this->flash->add('notice', 'Aucun créneau à auto valider');
+            $this->flash->add('notice', 'Aucun créneau à valider');
 
             return;
         }
 
+        $nowText = (new \DateTime())->format('d/m/Y H:i');
+
+        $this->timeslotValidation($timeslots, 'Auto-Validation automatique du '.$nowText);
+    }
+
+    public function timeslotSelectionValidation(array $timeslotsSelection)
+    {
+        $timeslots = $this->repo->findSelection($timeslotsSelection);
+        $nowText = (new \DateTime())->format('d/m/Y H:i');
+
+        $this->timeslotValidation($timeslots, 'Auto-Validation manuel du '.$nowText);
+    }
+
+    private function timeslotValidation(array $timeslots, $comment = '')
+    {
         if (!($jobDone = $this->repoJobDoneType->findDefaultValue())) {
             $this->flash->add('notice', 'Aucune valeur par défaut définit');
 
             return;
         }
-
-        $now = (new \DateTime())->format('d/m/Y H:i');
 
         foreach ($timeslots as $timeslot) {
             foreach ($timeslot->getJobs() as $job) {
@@ -66,7 +79,7 @@ class TimeslotAutoValidation
                 $this->em->persist($job);
             }
 
-            $timeslot->setCommentValidation('Auto validation '.$now);
+            $timeslot->setCommentValidation($comment);
 
             try {
                 $this->timeslotWorkflow->apply($timeslot, 'to_admin_validated');

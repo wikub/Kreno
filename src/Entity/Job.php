@@ -47,6 +47,11 @@ class Job
      */
     private $manager;
 
+    /**
+     * @ORM\OneToOne(targetEntity=CommitmentLog::class, cascade={"persist", "remove"})
+     */
+    private $commitmentLog;
+
     public function __construct()
     {
         $this->manager = false;
@@ -101,6 +106,18 @@ class Job
     public function setManager(bool $manager): self
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function getCommitmentLog(): ?CommitmentLog
+    {
+        return $this->commitmentLog;
+    }
+
+    public function setCommitmentLog(?CommitmentLog $commitmentLog): self
+    {
+        $this->commitmentLog = $commitmentLog;
 
         return $this;
     }

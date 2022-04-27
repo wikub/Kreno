@@ -14,6 +14,7 @@ namespace App\Controller\Admin;
 use App\Entity\Timeslot;
 use App\Form\Admin\TimeslotValidationType;
 use App\Repository\TimeslotRepository;
+use App\Service\TimeslotAutoValidation;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -80,5 +81,26 @@ class TimeslotValidationController extends AbstractController
             'timeslot' => $timeslot,
             'form' => $form,
         ]);
+    }
+
+    /**
+     * @Route("/process-selection", name="process_selection", methods={"POST"})
+     */
+    public function processSelection(Request $request, TimeslotAutoValidation $service): Response
+    {
+        // Get Post data
+        $timeslotsSelection = (array) $request->request->get('timeslots');
+
+        if (!\is_array($timeslotsSelection) || 0 === \count($timeslotsSelection)) {
+            $this->addFlash('warning', 'Il n\'y a aucun créneaux sélectionnés');
+
+            return $this->redirectToRoute('admin_timeslot_validation_index');
+        }
+
+        $service->timeslotSelectionValidation($timeslotsSelection);
+
+        $this->addFlash('success', 'Les créneaux sélectionnés ont été validé et cloturé');
+
+        return $this->redirectToRoute('admin_timeslot_validation_index');
     }
 }

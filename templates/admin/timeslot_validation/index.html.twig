@@ -8,33 +8,38 @@
     </div>
 
     {% include '_elements/_flash_message.html.twig' %}
-
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Créneaux</th>
-                    <th>Début</th>
-                    <th>Type</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for timeslot in timeslots %}
-                <tr>
-                    <td><a class="" href="{{ path('admin_timeslot_validation_process', {'id':timeslot.id}) }}">{{ timeslot.getDisplayName }}</td>
-                    <td>{{ timeslot.getDisplayDateInterval }}</td>
-                    <td>{{ timeslot.timeslotType.name }}</td>
-                    <td><a href="{{ path('admin_timeslot_validation_process', {'id': timeslot.id}) }}" >Valider</a></td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">Aucun créneau à valider</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
+    <form action="{{ path('admin_timeslot_validation_process_selection') }}" method="POST">
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Valider la sélection</button>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th></th>
+                        <th>Créneaux</th>
+                        <th>Début</th>
+                        <th>Type</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for timeslot in timeslots %}
+                    <tr>
+                        <td class="text-center"><input type="checkbox" name="timeslots[{{timeslot.id}}]" value="{{timeslot.id}}" /></td>
+                        <td><a class="" href="{{ path('admin_timeslot_validation_process', {'id':timeslot.id}) }}">{{ timeslot.getDisplayName }}</td>
+                        <td>{{ timeslot.getDisplayDateInterval }}</td>
+                        <td>{{ timeslot.timeslotType.name }}</td>
+                        <td><a href="{{ path('admin_timeslot_validation_process', {'id': timeslot.id}) }}" >Valider</a></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucun créneau à valider</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
 
 {% endblock %}

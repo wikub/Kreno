@@ -115,6 +115,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $comment;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="users", cascade={"persist"})
+     */
+    private $tags;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
@@ -122,6 +127,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->timeslotsValidation = new ArrayCollection();
         $this->enabled = true;
         $this->commitmentLogs = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -473,6 +479,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }

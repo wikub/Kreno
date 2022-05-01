@@ -36,6 +36,10 @@
                     <th>Commentaire</th>
                     <td>{{ user.comment|nl2br }}</td>
                 </tr>
+                <tr>
+                    <th>Mots clés</th>
+                    <td>{% for tag in user.tags %} <span class="bg-info p-2 rounded">{{ tag.name }}</span>{% endfor %}</td>
+                </tr>
             </tbody>
         </table>
     </div>

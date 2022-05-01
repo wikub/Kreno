@@ -12,6 +12,7 @@
 namespace App\Form\Type;
 
 use App\Form\DataTransformer\TagsTransformer;
+use App\Repository\TagRepository;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,10 +22,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TagsType extends AbstractType
 {
     private $transformer;
+    private $tagRepository;
+    private $dataTags;
 
-    public function __construct(TagsTransformer $transformer)
+    public function __construct(TagsTransformer $transformer, TagRepository $tagRepository)
     {
         $this->transformer = $transformer;
+        $this->tagRepository = $tagRepository;
+
+        $tags = $this->tagRepository->findAll();
+        $this->dataTags = [];
+        foreach ($tags as $tag) {
+            $this->dataTags[] = $tag->getName();
+        }
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -34,15 +44,23 @@ class TagsType extends AbstractType
             ->addModelTransformer($this->transformer, true);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('attr', [
-            'class' => 'tag-input',
+            'class' => 'user-tags',
+            'data-tags' => json_encode($this->dataTags),
         ]);
         $resolver->setDefault('required', false);
+        // $resolver->setDefaults([
+        //     'attr' => [
+        //         'class' => 'tag-input',
+        //         'data-tags' => json_encode($this->dataTags),
+        //     ],
+        //     'required' => false,
+        // ]);
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return TextType::class;
     }

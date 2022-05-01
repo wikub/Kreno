@@ -53,10 +53,6 @@ class UserType extends AbstractType
             ->add('tags', TagsType::class, [
                 'label' => 'Mots clés',
                 'help' => '',
-                'required' => false,
-                'attr' => [
-                    'class' => 'tags-autocomplete',
-                ],
             ])
         ;
     }

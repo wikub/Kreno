@@ -12,11 +12,8 @@
 namespace App\Form\Admin;
 
 use App\Entity\User;
-use App\Entity\UserCategory;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Form\Type\TagsType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -53,20 +50,10 @@ class UserType extends AbstractType
                 'label' => 'Commentaire',
                 'required' => false,
             ])
-            // ->add('userCategory', EntityType::class, [
-            //     'label' => 'Catégorie *',
-            //     'class' => UserCategory::class,
-            //     'choice_label' => 'name',
-            //     'query_builder' => function (EntityRepository $er) {
-            //         return $er->createQueryBuilder('uc')
-            //             ->where('uc.enabled = TRUE')
-            //             ->orderBy('uc.name', 'ASC');
-            //     },
-            // ])
-            // ->add('subscriptionType', ChoiceType::class, [
-            //     'label' => 'Inscription *',
-            //     'choices' => array_flip(User::getSubscriptionTypeLabels()),
-            // ])
+            ->add('tags', TagsType::class, [
+                'label' => 'Mots clés',
+                'help' => '',
+            ])
         ;
     }
 

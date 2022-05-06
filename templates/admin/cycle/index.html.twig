@@ -26,7 +26,7 @@
                     <td>{{ cycle.finish|date('d/m/Y') }}</td>
                     <td>
                         {{ cycle.applyCommimentContracts?cycle.applyCommimentContracts|date('d/m/Y') }}
-                        {% if cycle.id == lastOpenCycle.id %}
+                        {% if lastOpenCycle and cycle.id == lastOpenCycle.id %}
                             <a href="{{ path('admin_cycle_apply_commit', {'id': cycle.id}) }}">Appliquer les engagements</a>
                         {% endif %}
                     </td>

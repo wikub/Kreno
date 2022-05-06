@@ -5,7 +5,10 @@
 {% block body %}
     <div class="pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2"><i class="fas fa-calendar-alt"></i> Créneau "{{ timeslot.getDisplayName }}" - {{ timeslot.getDisplayDateInterval }}
-            {% include 'admin/timeslot/_badge_status.html.twig' with {timeslot} %}
+            {% if timeslot.isOpen() %} <span class="badge badge-open">Ouvert</span>{% endif %}
+            {% if timeslot.isClosed() %} <span class="badge badge-closed">Fermé</span>{% endif %}
+            {% if timeslot.isValidated() %} <span class="badge badge-validated">Validé</span>{% endif %}
+            {% if timeslot.isCommitmentLogged() %} <span class="badge badge-validated">Validé & crédité</span>{% endif %}
         </h1>
         <div class="">{{ timeslot.week.getDisplayName }}</div>
     </div>
@@ -62,7 +65,15 @@
                 <tr class="{{ job.user?'bg-light-green':'bg-light-yellow'}}">
                     <td>
                     {% if job.manager %}<i class="fas fa-user-tie"></i>{% endif %}
-                    {{job.user?job.user.firstName:'Libre'}} {{job.user?job.user.name}}
+                    {% if job.user %}
+                        {{job.user.firstName}} {{job.user.name}}
+                        {% if job.user == app.user and job.timeslot.isUnsubscribable %}
+                            <a href="{{ path('timeslot_unsubscribe', {'job': job.id}) }}" class="btn btn-sm btn-danger">Me desinscrire</a>
+                        {% endif%}
+                    {% else %}
+                        Libre  
+                        {% if not userAlreadySubscribe and job.timeslot.isSubscribable %}<a href="{{ path('timeslot_subscribe', {'job': job.id}) }}" class="btn btn-sm btn-primary">M'inscrire</a>{% endif %}
+                    {% endif %}
                     </td>
                     <td>{% if job.commitmentLog %}<i class="fas fa-user-check"></i>{% endif %}</td>
                 </tr>
@@ -74,29 +85,7 @@
 
     <div class="text-center">
         <div class="btn-group mt-3">
-            <a href="{{ path('admin_week_show', {'id': timeslot.week.id }) }}" class="btn btn-outline-secondary"><i class="fas fa-calendar-week"></i> Semaine</a>
-            
-            {% if timeslot.isOpen() %}
-                <a href="{{ path('admin_timeslot_edit', {'id': timeslot.id}) }}" class="btn btn-primary"><i class="fas fa-edit"></i> Modifier</a>
-            {% endif %}
-
-            {% if workflow_can(timeslot, 'to_admin_validated') %}
-            <a href="{{ path('admin_timeslot_validation_process', {'id': timeslot.id}) }}" class="btn btn-success"><i class="fas fa-signature"></i> Valider</a>
-            {% endif %}
-            
-            {% if workflow_can(timeslot, 'to_closed') %}
-            <a href="{{ path('admin_timeslot_close', {'id': timeslot.id}) }}" class="btn btn-warning"><i class="fas fa-power-off"></i> Fermer</a>
-            {% endif %}
-            
-            {% if workflow_can(timeslot, 'to_closed_open') %}
-            <a href="{{ path('admin_timeslot_reopen', {'id': timeslot.id}) }}" class="btn btn-success"><i class="fas fa-power-off"></i> Ré-ouvrir</a>
-            {% endif %}
-            
-            {% if workflow_can(timeslot, 'commiment_log_to_open') %}
-            <a href="{{ path('admin_timeslot_cancel_validation', {'id': timeslot.id}) }}" class="btn btn-warning"><i class="fas fa-backward"></i> Annuler validation</a>
-            {% endif %}
-
-            {% include 'admin/timeslot/_delete_form.html.twig' %}
+            <a href="{{ path('schedule_show', {'cycle': timeslot.week.cycle.id }) }}" class="btn btn-outline-secondary"><i class="fas fa-calendar-week"></i> Cycle</a>
         </div>
     </div>
 {% endblock %}

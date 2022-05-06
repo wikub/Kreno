@@ -283,6 +283,13 @@ class Timeslot
         return $this;
     }
 
+    public function getUserJobs(User $user): Collection
+    {
+        return $this->getJobs()->filter(function ($job) use ($user) {
+            return $job->getUser() === $user;
+        });
+    }
+
     public function getCommentValidation(): ?string
     {
         return $this->commentValidation;
@@ -389,5 +396,23 @@ class Timeslot
         $this->template = $template;
 
         return $this;
+    }
+
+    public function isSubscribable(): bool
+    {
+        if ($this->start <= (new \DateTime())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function isUnsubscribable(): bool
+    {
+        if ($this->start <= (new \DateTime())->modify('+2 days')) {
+            return false;
+        }
+
+        return true;
     }
 }

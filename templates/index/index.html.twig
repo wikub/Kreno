@@ -10,19 +10,28 @@
 <div class="row">
     <div class="col">
         <h2 class="h3">Bonjour {{app.user.firstname}} !</h2>
-
-        <div class="mb-3">
-            <a href="#" class="btn btn-primary">S'inscrire à un créneau</a>
-        </div>
         
         <div class="card mb-3">
             <div class="card-header fw-bold"><i class="fas fa-hard-hat"></i> Mes prochains créneaux</div>
             <div class="card-body">
                 <ul>
                     {% for job in nextJobs %}
-                    <li>{{job.timeslot.getDisplayDateInterval}} - {{ job.timeslot.timeslotType.name }}</li>
+                    <li><a href="{{ path('timeslot_show', {'id':job.timeslot.id}) }}">{{job.timeslot.getDisplayDateInterval}} - {{ job.timeslot.timeslotType.name }}</a></li>
+                    {% else %}
+                    <li>Aucun créneau prévu dans les 45 prochains jours</li>
                     {% endfor %}
                 </ul>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header fw-bold"><i class="fas fa-hard-hat"></i> S'inscrire à un créneau</div>
+            <div class="card-body">
+                <ol>
+                    <li>Va sur le <a href="{{ path('schedule_current') }}">planning</a></li>
+                    <li>Sélectionne un créneau de libre</li>
+                    <li>Et confirme ton inscription</li>
+                </ol>
             </div>
         </div>
 

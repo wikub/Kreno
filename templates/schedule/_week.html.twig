@@ -19,7 +19,7 @@
                         {# {% if timeslot.isOpen() %}<span class="text-open"><i class="fas fa-circle"></i></span>{% endif %}
                         {% if timeslot.isClosed() %}<span class="text-closed"><i class="fas fa-circle"></i></span>{% endif %}
                         {% if timeslot.isValidated() %}<span class="text-validated"><i class="fas fa-circle"></i></span>{% endif %} #}
-                        <a href="{{ path('admin_timeslot_show', {'id': timeslot.id}) }}">{{ timeslot.getDisplayName }}</a>
+                        <a href="{{ path('timeslot_show', {'id': timeslot.id}) }}">{{ timeslot.getDisplayName }}</a>
                     </div>
                     <div class="card-body">
                         <p class="card-text">
@@ -39,7 +39,7 @@
                                 {% if job.user %}
                                 {{job.user.firstname}} {{job.user.name}}
                                 {% else %}
-                                libre
+                                <a href="{{ path('timeslot_show', {'id': timeslot.id}) }}">libre</a>
                                 {% endif %}
                             </li>
                         {% endfor %}

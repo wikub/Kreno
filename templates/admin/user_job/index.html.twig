@@ -19,7 +19,10 @@
             <tbody>
             {% for job in jobs %}
                 <tr>
-                    <td><a href="{{ path('admin_timeslot_show', {'id' : job.timeslot.id}) }}" target="_blank">{{ job.timeslot.getDisplayDateInterval }} - {{ job.timeslot.getDisplayName }}</a></td>
+                    <td>
+                        <a href="{{ path('admin_timeslot_show', {'id' : job.timeslot.id}) }}" target="_blank">{{ job.timeslot.getDisplayDateInterval }} - {{ job.timeslot.getDisplayName }}</a>
+                        {% include 'admin/timeslot/_badge_status.html.twig' with {'timeslot': job.timeslot} %}
+                    </td>
                     <td class="text-center">{{ job.manager ? 'Oui' : '' }}</td>
                     <td class="text-center">{{ job.jobDone ? job.jobDone.name }} </td>
                 </tr>

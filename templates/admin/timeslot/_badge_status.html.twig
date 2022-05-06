@@ -1,0 +1,4 @@
+{% if timeslot.isOpen() %} <span class="badge badge-open">Ouvert</span>{% endif %}
+{% if timeslot.isClosed() %} <span class="badge badge-closed">Fermé</span>{% endif %}
+{% if timeslot.isValidated() %} <span class="badge badge-validated">Validé</span>{% endif %}
+{% if timeslot.isCommitmentLogged() %} <span class="badge badge-validated">Validé & crédité</span>{% endif %}

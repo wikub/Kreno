@@ -5,10 +5,7 @@
 {% block body %}
     <div class="pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2"><i class="fas fa-calendar-alt"></i> Créneau "{{ timeslot.getDisplayName }}" - {{ timeslot.getDisplayDateInterval }}
-            {% if timeslot.isOpen() %} <span class="badge badge-open">Ouvert</span>{% endif %}
-            {% if timeslot.isClosed() %} <span class="badge badge-closed">Fermé</span>{% endif %}
-            {% if timeslot.isValidated() %} <span class="badge badge-validated">Validé</span>{% endif %}
-            {% if timeslot.isCommitmentLogged() %} <span class="badge badge-validated">Validé & crédité</span>{% endif %}
+            {% include 'admin/timeslot/_badge_status.html.twig' with {timeslot} %}
         </h1>
         <div class="">{{ timeslot.week.getDisplayName }}</div>
     </div>

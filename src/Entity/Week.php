@@ -49,7 +49,7 @@ class Week
     ];
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date_immutable")
      */
     private $startAt;
 
@@ -92,7 +92,7 @@ class Week
             return $this->name;
         }
 
-        $finishAt = (clone $this->startAt)->modify('+6 days');
+        $finishAt = $this->startAt->modify('+6 days');
 
         return 'Semaine '.$this->getWeekTypeLabel().' du '.$this->startAt->format('d/m').' au '.$finishAt->format('d/m Y');
     }
@@ -130,12 +130,12 @@ class Week
         return $this;
     }
 
-    public function getStartAt(): ?\DateTimeInterface
+    public function getStartAt(): ?\DateTimeImmutable
     {
         return $this->startAt;
     }
 
-    public function setStartAt(\DateTimeInterface $startAt): self
+    public function setStartAt(\DateTimeImmutable $startAt): self
     {
         $this->startAt = $startAt;
 
@@ -186,14 +186,14 @@ class Week
 
     public function getDays(): ArrayCollection
     {
-        $curDay = clone $this->startAt;
+        $curDay = $this->startAt;
 
         // Init dayOfWeek array
         $dayOfweek = [];
         for ($i = 1; $i <= 7; ++$i) {
-            $dayOfweek[$i]['date'] = clone $curDay;
+            $dayOfweek[$i]['date'] = $curDay;
             $dayOfweek[$i]['timeslots'] = [];
-            $curDay->add(new DateInterval('P1D'));
+            $curDay = $curDay->add(new DateInterval('P1D'));
         }
 
         // Get timeslots for each day of week

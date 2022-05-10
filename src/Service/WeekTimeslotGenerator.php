@@ -16,7 +16,7 @@ use App\Entity\Timeslot;
 use App\Entity\Week;
 use App\Repository\WeekRepository;
 use App\Repository\WeekTemplateRepository;
-use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Workflow\WorkflowInterface;
@@ -43,7 +43,7 @@ class WeekTimeslotGenerator
         $this->flash = $flash;
     }
 
-    public function generate(Datetime $start, DateTime $finish, int $ifWeekExist = 1)
+    public function generate(DateTimeImmutable $start, DateTimeImmutable $finish, int $ifWeekExist = 1)
     {
         $previousWeekType = 4; // WeekType A
         $week = null;
@@ -52,11 +52,11 @@ class WeekTimeslotGenerator
             $start->modify('next monday');
         }
 
-        $previousDate = (clone $start)->modify('-7 days');
+        $previousDate = $start->modify('-7 days');
         // Check if weeks exist
         if (0 !== $this->weekRepo->count([])) {
             // Récupère la semaine prècédent
-            $previousDate = (clone $start)->modify('-7 days');
+            $previousDate = $start->modify('-7 days');
             $previousWeek = $this->weekRepo->findByStartDate($previousDate);
             $previousWeekType = $previousWeek->getWeekType();
 
@@ -108,15 +108,17 @@ class WeekTimeslotGenerator
                 $timeslot->setWeek($week);
                 $timeslot->setDescription($timeslotTemplate->getDescription());
 
-                $startTimeslotAt = clone $week->getStartAt();
-                $startTimeslotAt->modify('+ '.($timeslotTemplate->getDayWeek() - 1).' days');
-                $startTimeslotAt->setTime($timeslotTemplate->getStart()->format('H'), $timeslotTemplate->getStart()->format('i'));
-                $timeslot->setStart($startTimeslotAt);
+                $timeslot->setStart(
+                    $week->getStartAt()
+                        ->modify('+ '.($timeslotTemplate->getDayWeek() - 1).' days')
+                        ->setTime($timeslotTemplate->getStart()->format('H'), $timeslotTemplate->getStart()->format('i'))
+                );
 
-                $finishTimeslotAt = clone $week->getStartAt();
-                $finishTimeslotAt->modify('+ '.($timeslotTemplate->getDayWeek() - 1).' days');
-                $finishTimeslotAt->setTime($timeslotTemplate->getFinish()->format('H'), $timeslotTemplate->getFinish()->format('i'));
-                $timeslot->setFinish($finishTimeslotAt);
+                $timeslot->setFinish(
+                    $week->getStartAt()
+                        ->modify('+ '.($timeslotTemplate->getDayWeek() - 1).' days')
+                        ->setTime($timeslotTemplate->getFinish()->format('H'), $timeslotTemplate->getFinish()->format('i'))
+                );
 
                 $timeslot->setTemplate($timeslotTemplate);
 

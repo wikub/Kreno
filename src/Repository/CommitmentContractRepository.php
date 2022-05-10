@@ -34,8 +34,8 @@ class CommitmentContractRepository extends ServiceEntityRepository
 
     public function findCurrentContract()
     {
-        $finishCycle = new \DateTime();
-        $startCycle = (clone $finishCycle)->modify('-4 weeks');
+        $finishCycle = new \DateTimeImmutable();
+        $startCycle = $finishCycle->modify('-4 weeks');
 
         return $this->createQueryBuilder('cc')
             ->andWhere('cc.start >= :startCycle AND cc.start <=  :finishCycle')

@@ -39,6 +39,12 @@
                     <th>Actif</th>
                     <td>{{ timeslot.enabled ? '<span class="text-success">Oui</span>' : '<span class="text-warning">Non</span>' }}</td>
                 </tr>
+                {% if timeslot.isValidated or timeslot.isCommitmentLogged %}
+                <tr>
+                    <th>Commentaire</th>
+                    <td>{{ timeslot.commentValidation|nl2br }}</td>
+                </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>
@@ -54,7 +60,11 @@
             <thead class="table-dark">
                 <tr>
                     <th>Membre</th>
-                    <th></th>
+                    <th>Référent</th>
+                    {% if timeslot.isValidated or timeslot.isCommitmentLogged %}
+                        <th>Statut</th>
+                        <th></th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -64,7 +74,11 @@
                     {% if job.manager %}<i class="fas fa-user-tie"></i>{% endif %}
                     {{job.user?job.user.firstName:'Libre'}} {{job.user?job.user.name}}
                     </td>
+                    <td>{{ job.isManager?'Oui':'Non' }}</td>
+                    {% if timeslot.isValidated or timeslot.isCommitmentLogged %}
+                    <td>{{ job.jobDone ? job.jobDone.name }}</td>
                     <td>{% if job.commitmentLog %}<i class="fas fa-user-check"></i>{% endif %}</td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>

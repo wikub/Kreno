@@ -6,7 +6,7 @@
     <div class="row align-items-start mb-3 ">
         {% for day in week.getDays %}
         <div class="col text-center bg-light p-2">
-            <strong>{{ day.date|date('l d') }}</strong>
+            <strong>{{ day.date|date('l')|trans(domain='app') }} {{ day.date|date('d/m') }}</strong>
         </div>
         {% endfor %}
     </div>

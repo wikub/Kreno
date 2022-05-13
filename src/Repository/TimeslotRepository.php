@@ -14,7 +14,7 @@ namespace App\Repository;
 use App\Entity\Timeslot;
 use App\Entity\TimeslotTemplate;
 use App\Entity\Week;
-use DateTime;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -66,7 +66,7 @@ class TimeslotRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findFutureByTimeslotTemplate(TimeslotTemplate $template, DateTime $start = null, Datetime $finish = null)
+    public function findFutureByTimeslotTemplate(TimeslotTemplate $template, DateTimeImmutable $start = null, DateTimeImmutable $finish = null)
     {
         $now = new \DateTime();
         if (null === $start || $start <= $now) {

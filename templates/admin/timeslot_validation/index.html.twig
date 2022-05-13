@@ -19,6 +19,7 @@
                         <th></th>
                         <th>Créneaux</th>
                         <th>Début</th>
+                        <th>Postes</th>
                         <th>Type</th>
                         <th></th>
                     </tr>
@@ -29,6 +30,14 @@
                         <td class="text-center"><input type="checkbox" name="timeslots[{{timeslot.id}}]" value="{{timeslot.id}}" /></td>
                         <td><a class="" href="{{ path('admin_timeslot_validation_process', {'id':timeslot.id}) }}">{{ timeslot.getDisplayName }}</td>
                         <td>{{ timeslot.getDisplayDateInterval }}</td>
+                        <td>
+                            {% for job in timeslot.managerJobs %}
+                                <i class="fas fa-user-tie {{ job.user?'text-primary':'text-warning'}} "></i>
+                            {% endfor %}
+                            {% for job in timeslot.noManagerJobs %}
+                                <i class="fas fa-user {{ job.user?'text-primary':'text-warning'}} "></i>
+                            {% endfor %}
+                        </td>
                         <td>{{ timeslot.timeslotType.name }}</td>
                         <td><a href="{{ path('admin_timeslot_validation_process', {'id': timeslot.id}) }}" >Valider</a></td>
                     </tr>

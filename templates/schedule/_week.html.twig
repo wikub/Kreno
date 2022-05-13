@@ -6,7 +6,7 @@
     <div class="row align-items-start mb-3 ">
         {% for day in week.getDays %}
         <div class="col text-center bg-light p-2">
-            <strong>{{ day.date|date('l d') }}</strong>
+            <strong>{{ day.date|date('l')|trans(domain='app') }} {{ day.date|date('d/m') }}</strong>
         </div>
         {% endfor %}
     </div>
@@ -15,7 +15,13 @@
         <div class="col">
             {% for timeslot in day.timeslots %}
                 <div class="card mb-3 border-dark">
-                    <div class="card-header {{ timeslot.isOpen()?'bg-open'}} {{ timeslot.isClosed()?'bg-closed'}} {{ timeslot.isValidated()?'bg-validated'}}">
+                    <div class="
+                        card-header
+                        {{ timeslot.isOpen()?'bg-open'}}
+                        {{ timeslot.isClosed()?'bg-closed'}}
+                        {{ (timeslot.isValidated() or timeslot.isCommitmentLogged()) ?'bg-validated'}}
+                        text-center
+                    ">
                         {# {% if timeslot.isOpen() %}<span class="text-open"><i class="fas fa-circle"></i></span>{% endif %}
                         {% if timeslot.isClosed() %}<span class="text-closed"><i class="fas fa-circle"></i></span>{% endif %}
                         {% if timeslot.isValidated() %}<span class="text-validated"><i class="fas fa-circle"></i></span>{% endif %} #}
@@ -26,7 +32,7 @@
                             {{ timeslot.start|date('H:i') }} à {{ timeslot.finish|date('H:i') }}
                         </p>
                     </div>
-                    {% if timeslot.isOpen() %}
+                    {% if not timeslot.isClosed() %}
                         <ul class="list-group list-group-flush">
                         {% for job in timeslot.managerJobs %}
                         <li class="list-group-item {{ job.user?'bg-light-green':'bg-light-yellow'}} ">

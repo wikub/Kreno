@@ -16,7 +16,7 @@ use App\Entity\Job;
 use App\Entity\Timeslot;
 use App\Entity\Week;
 use App\Repository\WeekTemplateRepository;
-use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Workflow\WorkflowInterface;
@@ -40,7 +40,7 @@ class CycleGenerator
         $this->flash = $flash;
     }
 
-    public function generate(Datetime $start, DateTime $finish)
+    public function generate(DateTimeInterface $start, DateTimeInterface $finish)
     {
         // Cycle creation
         $cycle = new Cycle();
@@ -70,15 +70,17 @@ class CycleGenerator
                 $timeslot->setWeek($week);
                 $timeslot->setDescription($timeslotTemplate->getDescription());
 
-                $startTimeslotAt = clone $week->getStartAt();
-                $startTimeslotAt->modify('+ '.($timeslotTemplate->getDayWeek() - 1).' days');
-                $startTimeslotAt->setTime($timeslotTemplate->getStart()->format('H'), $timeslotTemplate->getStart()->format('i'));
-                $timeslot->setStart($startTimeslotAt);
+                $timeslot->setStart(
+                    $week->getStartAt()
+                        ->modify('+ '.($timeslotTemplate->getDayWeek() - 1).' days')
+                        ->setTime($timeslotTemplate->getStart()->format('H'), $timeslotTemplate->getStart()->format('i'))
+                );
 
-                $finishTimeslotAt = clone $week->getStartAt();
-                $finishTimeslotAt->modify('+ '.($timeslotTemplate->getDayWeek() - 1).' days');
-                $finishTimeslotAt->setTime($timeslotTemplate->getFinish()->format('H'), $timeslotTemplate->getFinish()->format('i'));
-                $timeslot->setFinish($finishTimeslotAt);
+                $timeslot->setFinish(
+                    $week->getStartAt()
+                        ->modify('+ '.($timeslotTemplate->getDayWeek() - 1).' days')
+                        ->setTime($timeslotTemplate->getFinish()->format('H'), $timeslotTemplate->getFinish()->format('i'))
+                );
 
                 $timeslot->setTemplate($timeslotTemplate);
 
@@ -116,7 +118,7 @@ class CycleGenerator
             $this->em->flush();
             $this->flash->add('success', 'la semaine du '.$start->format('d/m/Y').' a été créée.');
 
-            $start->modify('+7 days');
+            $start = $start->modify('+7 days');
             $weekTemplate = next($weekTemplates);
         }
     }

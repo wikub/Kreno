@@ -34,12 +34,12 @@ class Cycle
     private $weeks;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date_immutable")
      */
     private $start;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date_immutable")
      */
     private $finish;
 
@@ -88,24 +88,24 @@ class Cycle
         return $this;
     }
 
-    public function getStart(): ?\DateTimeInterface
+    public function getStart(): ?\DateTimeImmutable
     {
         return $this->start;
     }
 
-    public function setStart(\DateTimeInterface $start): self
+    public function setStart(\DateTimeImmutable $start): self
     {
         $this->start = $start;
 
         return $this;
     }
 
-    public function getFinish(): ?\DateTimeInterface
+    public function getFinish(): ?\DateTimeImmutable
     {
         return $this->finish;
     }
 
-    public function setFinish(\DateTimeInterface $finish): self
+    public function setFinish(\DateTimeImmutable $finish): self
     {
         $this->finish = $finish;
 

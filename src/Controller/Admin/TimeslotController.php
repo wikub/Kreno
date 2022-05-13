@@ -96,12 +96,6 @@ class TimeslotController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($timeslot->getJobs() as $job) {
-                $entityManager->merge($job);
-            }
-
-            // dd($timeslot);
-
             $entityManager->persist($timeslot);
             $entityManager->flush();
 

@@ -79,7 +79,7 @@ class Timeslot
     private $timeslotType;
 
     /**
-     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="timeslot", fetch="EAGER", cascade={"all"})
+     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="timeslot", fetch="EAGER", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $jobs;
 

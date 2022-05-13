@@ -34,11 +34,6 @@ class Tag
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $domain;
-
-    /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="tags")
      */
     private $users;
@@ -61,18 +56,6 @@ class Tag
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDomain(): ?string
-    {
-        return $this->domain;
-    }
-
-    public function setDomain(?string $domain): self
-    {
-        $this->domain = $domain;
 
         return $this;
     }

@@ -43,7 +43,7 @@ class WeekTimeslotGenerator
         $this->flash = $flash;
     }
 
-    public function generate(DateTimeImmutable $start, DateTimeImmutable $finish, int $ifWeekExist = 1)
+    public function generate(DateTime $start, DateTime $finish, int $ifWeekExist = 1)
     {
         $previousWeekType = 4; // WeekType A
         $week = null;

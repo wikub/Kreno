@@ -56,13 +56,6 @@ class CommitmentContractController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // if ($currentContract = $user->getCurrentCommitmentContract()) {
-            //     $finish = clone $commitmentContract->getStart();
-            //     $finish->modify('-1 day');
-            //     $currentContract->setFinish($finish);
-            //     $entityManager->persist($currentContract);
-            // }
-
             // Add regular
             foreach ($commitmentContract->getRegularTimeslots() as $regular) {
                 $regular->setStart($commitmentContract->getStartCycle()->getStart());

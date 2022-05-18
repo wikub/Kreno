@@ -14,7 +14,7 @@ namespace App\Repository;
 use App\Entity\Timeslot;
 use App\Entity\TimeslotTemplate;
 use App\Entity\Week;
-use DateTime;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -58,7 +58,7 @@ class TimeslotRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.start <= :h24')
-            ->setParameter('h24', (new \DateTime())->modify('+1 day'))
+            ->setParameter('h24', (new \DateTime())->modify('-1 day'))
             ->andWhere('t.status LIKE \'%open%\'')
             ->orderBy('t.start', 'ASC')
             ->getQuery()
@@ -66,7 +66,7 @@ class TimeslotRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findFutureByTimeslotTemplate(TimeslotTemplate $template, DateTime $start = null, Datetime $finish = null)
+    public function findFutureByTimeslotTemplate(TimeslotTemplate $template, DateTimeImmutable $start = null, DateTimeImmutable $finish = null)
     {
         $now = new \DateTime();
         if (null === $start || $start <= $now) {
@@ -87,6 +87,17 @@ class TimeslotRepository extends ServiceEntityRepository
         return $qb->getQuery()
             ->getResult();
     }
+
+    public function findSelection(array $timeslots)
+    {
+        return $this->createQueryBuilder('t')
+        ->andWhere('t.id IN (:timeslotsSelection)')
+        ->setParameter('timeslotsSelection', $timeslots)
+        ->getQuery()
+        ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Timeslot[] Returns an array of Timeslot objects
     //  */

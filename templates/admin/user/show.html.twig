@@ -7,8 +7,6 @@
 
     {% include '_elements/_flash_message.html.twig' %}
 
-    
-
     <div class="table-responsive mb-3">
         <table class="table table-bordered">
             <tbody>
@@ -31,6 +29,14 @@
                 <tr>
                     <th>Téléphone</th>
                     <td>{{ user.phonenumber }}</td>
+                </tr>
+                <tr>
+                    <th>Commentaire</th>
+                    <td>{{ user.comment|nl2br }}</td>
+                </tr>
+                <tr>
+                    <th>Mots clés</th>
+                    <td>{% for tag in user.tags %} <span class="bg-info p-2 rounded">{{ tag.name }}</span>{% endfor %}</td>
                 </tr>
             </tbody>
         </table>

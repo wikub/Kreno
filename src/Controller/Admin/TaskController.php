@@ -49,12 +49,12 @@ class TaskController extends AbstractController
         $lastCycle = $cycleRepository->findLast();
 
         // Find next Cycles to generate
-        $lastFinishDate = (new \DateTime($settingCycleStart->getValue()))->modify('-1 day');
+        $lastFinishDate = (new \DateTimeImmutable($settingCycleStart->getValue()))->modify('-1 day');
         if (null !== $lastCycle) {
             $lastFinishDate = $lastCycle->getFinish();
         }
-        $nextStartDate = (clone $lastFinishDate)->modify('+1 day');
-        $nextFinishDate = (clone $nextStartDate)->modify('+'.$settingCycleNbWeeks->getValue().' weeks - 1 day');
+        $nextStartDate = $lastFinishDate->modify('+1 day');
+        $nextFinishDate = $nextStartDate->modify('+'.$settingCycleNbWeeks->getValue().' weeks - 1 day');
         if ($this->isCsrfTokenValid('generate-cycle'.$nextStartDate->format('Ymd'), $request->request->get('_token'))) {
             $generator->generate($nextStartDate, $nextFinishDate);
         }

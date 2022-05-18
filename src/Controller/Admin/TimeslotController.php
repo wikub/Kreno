@@ -183,4 +183,25 @@ class TimeslotController extends AbstractController
 
         return $this->redirectToRoute('admin_week_show', ['id' => $week->getId()]);
     }
+
+    /**
+     * @Route("/{id}/cancel-validation", name="cancel_validation")
+     */
+    public function cancelValidation(Timeslot $timeslot, Request $request): Response
+    {
+        try {
+            $this->timeslotWorkflow->apply($timeslot, 'commiment_log_to_open');
+        } catch (LogicException $exception) {
+            $this->addFlash('error', 'L\'opération ne peut pas être réalisée [workflow]');
+
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $this->em->persist($timeslot);
+        $this->em->flush();
+
+        $this->addFlash('success', 'Annulation de la validation du créneau (Attention, les membres ont été débité de leur créneau)');
+
+        return $this->redirect($request->headers->get('referer'));
+    }
 }

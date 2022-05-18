@@ -79,7 +79,7 @@ class Timeslot
     private $timeslotType;
 
     /**
-     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="timeslot", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="timeslot", fetch="EAGER", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $jobs;
 
@@ -264,7 +264,7 @@ class Timeslot
     public function addJob(Job $job): self
     {
         if (!$this->jobs->contains($job)) {
-            $this->jobs[] = $job;
+            $this->jobs->add($job);
             $job->setTimeslot($this);
         }
 
@@ -281,6 +281,13 @@ class Timeslot
         }
 
         return $this;
+    }
+
+    public function getUserJobs(User $user): Collection
+    {
+        return $this->getJobs()->filter(function ($job) use ($user) {
+            return $job->getUser() === $user;
+        });
     }
 
     public function getCommentValidation(): ?string
@@ -347,6 +354,12 @@ class Timeslot
         if (\array_key_exists('validated', $this->status)) {
             return true;
         }
+
+        return false;
+    }
+
+    public function isCommitmentLogged(): bool
+    {
         if (\array_key_exists('commitment_logged', $this->status)) {
             return true;
         }
@@ -383,5 +396,23 @@ class Timeslot
         $this->template = $template;
 
         return $this;
+    }
+
+    public function isSubscribable(): bool
+    {
+        if ($this->start <= (new \DateTime())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function isUnsubscribable(): bool
+    {
+        if ($this->start <= (new \DateTime())->modify('+2 days')) {
+            return false;
+        }
+
+        return true;
     }
 }

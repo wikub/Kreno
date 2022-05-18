@@ -12,3 +12,13 @@
     {{ include('admin/user/_form.html.twig') }}
 
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('user-tags') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('user-tags') }}
+{% endblock %}

@@ -49,7 +49,6 @@ class JobType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Job::class,
-            'by_reference' => false,
         ]);
     }
 }

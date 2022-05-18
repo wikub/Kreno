@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créneau #{{ timeslot.id}}{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-calendar-alt"></i> Créneau "{{ timeslot.getDisplayName }}" - {{ timeslot.getDisplayDateInterval }}
+            {% if timeslot.isOpen() %} <span class="badge badge-open">Ouvert</span>{% endif %}
+            {% if timeslot.isClosed() %} <span class="badge badge-closed">Fermé</span>{% endif %}
+            {% if timeslot.isValidated() %} <span class="badge badge-validated">Validé</span>{% endif %}
+            {% if timeslot.isCommitmentLogged() %} <span class="badge badge-validated">Validé & crédité</span>{% endif %}
+        </h1>
+        <div class="">{{ timeslot.week.getDisplayName }}</div>
+    </div>
+
+    {% include '_elements/_flash_message.html.twig' %}
+
+    <div class="table-responsive mb-3">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ timeslot.name }}</td>
+                </tr>
+                <tr>
+                    <th>Type</th>
+                    <td>{{ timeslot.timeslotType?timeslot.timeslotType.name}}
+                </tr>
+                <tr>
+                    <th>Début</th>
+                    <td>{{ timeslot.start|date('d/m/Y') }} à {{ timeslot.start|date('H:i') }}</td>
+                </tr>
+                <tr>
+                    <th>Fin</th>
+                    <td>{{ timeslot.finish|date('d/m/Y') }} à {{ timeslot.finish|date('H:i') }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ timeslot.description }}</td>
+                </tr>
+                <tr>
+                    <th>Actif</th>
+                    <td>{{ timeslot.enabled ? '<span class="text-success">Oui</span>' : '<span class="text-warning">Non</span>' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mb-3">
+        <h3>Postes</h3>
+    </div>
+
+
+
+    <div class="table-responsive">
+        <table class="jobs table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Membre</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in timeslot.jobs %}
+                <tr class="{{ job.user?'bg-light-green':'bg-light-yellow'}}">
+                    <td>
+                    {% if job.manager %}<i class="fas fa-user-tie"></i>{% endif %}
+                    {% if job.user %}
+                        {{job.user.firstName}} {{job.user.name}}
+                        {% if job.user == app.user and job.timeslot.isUnsubscribable %}
+                            <a href="{{ path('timeslot_unsubscribe', {'job': job.id}) }}" class="btn btn-sm btn-danger">Me desinscrire</a>
+                        {% endif%}
+                    {% else %}
+                        Libre  
+                        {% if not userAlreadySubscribe and job.timeslot.isSubscribable %}<a href="{{ path('timeslot_subscribe', {'job': job.id}) }}" class="btn btn-sm btn-primary">M'inscrire</a>{% endif %}
+                    {% endif %}
+                    </td>
+                    <td>{% if job.commitmentLog %}<i class="fas fa-user-check"></i>{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="text-center">
+        <div class="btn-group mt-3">
+            <a href="{{ path('schedule_show', {'cycle': timeslot.week.cycle.id }) }}" class="btn btn-outline-secondary"><i class="fas fa-calendar-week"></i> Cycle</a>
+        </div>
+    </div>
+{% endblock %}

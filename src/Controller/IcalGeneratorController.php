@@ -34,7 +34,7 @@ class IcalGeneratorController extends AbstractController
     }
 
     /**
-     * @Route("/{token}.ics", name="personnal_calendar")
+     * @Route("/{token}/calendar.ics", name="personnal_calendar")
      */
     public function personnalCalendar(string $token = null)
     {
@@ -62,18 +62,9 @@ class IcalGeneratorController extends AbstractController
     /**
      * @Route("/calendar.ics", name="calendar")
      */
-    public function calendar(string $token = null)
+    public function calendar()
     {
-        if (64 !== mb_strlen($token)) {
-            return new Response('Not Found', Response::HTTP_FORBIDDEN);
-        }
-
-        $user = $this->userRepository->findByCalendarToken($token);
-        if (null === $user) {
-            return new Response('Not Found', Response::HTTP_FORBIDDEN);
-        }
-
-        $content = $this->calendarGenerator->generateForUser($user);
+        $content = $this->calendarGenerator->generate();
 
         $response = new Response();
 

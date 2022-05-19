@@ -120,6 +120,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $tags;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserActivity::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $activities;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
@@ -128,6 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->enabled = true;
         $this->commitmentLogs = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->activities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -503,6 +509,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeTag(Tag $tag): self
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserActivity>
+     */
+    public function getActivities(): Collection
+    {
+        return $this->activities;
+    }
+
+    public function addActivity(UserActivity $activity): self
+    {
+        if (!$this->activities->contains($activity)) {
+            $this->activities[] = $activity;
+            $activity->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivity(UserActivity $activity): self
+    {
+        if ($this->activities->removeElement($activity)) {
+            // set the owning side to null (unless already changed)
+            if ($activity->getUser() === $this) {
+                $activity->setUser(null);
+            }
+        }
 
         return $this;
     }

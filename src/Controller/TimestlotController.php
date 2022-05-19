@@ -13,8 +13,10 @@ namespace App\Controller;
 
 use App\Entity\Job;
 use App\Entity\Timeslot;
+use App\Event\JobSubscribedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,6 +26,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TimestlotController extends AbstractController
 {
+    private $dispatcher;
+
+    public function __construct(EventDispatcher $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
     /**
      * @Route("/timestlot/{id}", name="show")
      */
@@ -69,6 +78,10 @@ class TimestlotController extends AbstractController
         $job->setUser($this->getUser());
         $entityManager->persist($job);
         $entityManager->flush();
+
+        // Create an event job subscription
+        $event = new JobSubscribedEvent($job);
+        $this->dispatcher->dispatch($event, JobSubscribedEvent::NAME);
 
         return $this->redirect($request->headers->get('referer'));
     }

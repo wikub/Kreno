@@ -34,9 +34,35 @@ class IcalGeneratorController extends AbstractController
     }
 
     /**
-     * @Route("/{token}.ics", name="generator")
+     * @Route("/{token}.ics", name="personnal_calendar")
      */
-    public function generator(string $token = null)
+    public function personnalCalendar(string $token = null)
+    {
+        if (64 !== mb_strlen($token)) {
+            return new Response('Not Found', Response::HTTP_FORBIDDEN);
+        }
+
+        $user = $this->userRepository->findByCalendarToken($token);
+        if (null === $user) {
+            return new Response('Not Found', Response::HTTP_FORBIDDEN);
+        }
+
+        $content = $this->calendarGenerator->generateForUser($user);
+
+        $response = new Response();
+
+        $response->setContent($content);
+        $response->headers->set('Content-Type', 'text/calendar; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename="cal.ics');
+        $response->setStatusCode(Response::HTTP_OK);
+
+        return $response;
+    }
+
+    /**
+     * @Route("/calendar.ics", name="calendar")
+     */
+    public function calendar(string $token = null)
     {
         if (64 !== mb_strlen($token)) {
             return new Response('Not Found', Response::HTTP_FORBIDDEN);

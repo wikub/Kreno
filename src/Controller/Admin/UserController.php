@@ -26,6 +26,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UserController extends AbstractController
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * @Route("/", name="index", methods={"GET"})
      */
@@ -170,5 +177,20 @@ class UserController extends AbstractController
         }
 
         return $randomString;
+    }
+
+    /**
+     * @Route("/{id}/new-calendar-token", name="new_calendar_token")
+     */
+    public function generateNewCalendarToken(User $user): Response
+    {
+        $user->setCalendarToken(hash('sha256', random_bytes(255)));
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        $this->addFlash('success', 'Le token a été regénéré');
+
+        return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
     }
 }

@@ -1,20 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MyAccountController!{% endblock %}
+{% block title %}Mon profil{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/vvm/projects/Kreno-dev/src/Controller/MyAccountController.php'|file_link(0) }}">src/Controller/MyAccountController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/vvm/projects/Kreno-dev/templates/my_account/index.html.twig'|file_link(0) }}">templates/my_account/index.html.twig</a></code></li>
-    </ul>
+<div class="pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-user"></i> Mon profil</h1>
 </div>
+
+{% include '_elements/_flash_message.html.twig' %}
+
+<div class="row">
+    <div class="col">
+        <div class="table-responsive mb-3">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>Identifiant</th>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ user.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prenom</th>
+                        <td>{{ user.firstname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Courrier</th>
+                        <td>{% if user.email %}<a href="mailto:{{user.email}}">{{ user.email }}</a>{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Téléphone</th>
+                        <td>{{ user.phonenumber }}</td>
+                    </tr>
+                    <tr>
+                        <th>Commentaire</th>
+                        <td>{{ user.comment|nl2br }}</td>
+                    </tr>
+                    <tr>
+                        <th>Mots clés</th>
+                        <td>{% for tag in user.tags %} <span class="bg-info p-2 rounded">{{ tag.name }}</span>{% endfor %}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center">
+            <div class="btn-group mt-3">
+                <a href="{{ path('myaccount_change_password') }}" class="btn btn-primary"><i class="fas fa-key"></i> Modifier mon mot de passe</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

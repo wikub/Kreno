@@ -120,6 +120,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $tags;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $calendarToken;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
@@ -503,6 +508,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeTag(Tag $tag): self
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getCalendarToken(): ?string
+    {
+        return $this->calendarToken;
+    }
+
+    public function setCalendarToken(?string $calendarToken): self
+    {
+        $this->calendarToken = $calendarToken;
 
         return $this;
     }

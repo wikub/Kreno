@@ -67,6 +67,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->addOrderBy('u.firstname', 'ASC');
     }
 
+    public function findByCalendarToken(string $calendarToken): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.calendarToken = :calendarToken')
+            ->setParameter('calendarToken', $calendarToken)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

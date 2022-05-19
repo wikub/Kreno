@@ -36,13 +36,18 @@
                         <td>{{ user.phonenumber }}</td>
                     </tr>
                     <tr>
-                        <th>Commentaire</th>
-                        <td>{{ user.comment|nl2br }}</td>
+                        <th><i class="fas fa-calendar"></i> Agenda personnel (privé : à ne pas partager)</th>
+                    {% if( user.calendarToken ) %}
+                        <td><a href="{{ url('ical_personnal_calendar', {'token': user.calendarToken}) }}">{{ url('ical_personnal_calendar', {'token': user.calendarToken}) }}</a></td>
+                    {% else %}
+                        <td><a href="{{ path('myaccount_new_calendar_token') }}" class="btn btn-sm btn-primary">Générer un agenda privé</a></td>
+                    {% endif %}
                     </tr>
                     <tr>
-                        <th>Mots clés</th>
-                        <td>{% for tag in user.tags %} <span class="bg-info p-2 rounded">{{ tag.name }}</span>{% endfor %}</td>
+                        <th><i class="fas fa-calendar"></i> Agenda global</th>
+                        <td><a href="{{ url('ical_calendar') }}">{{ url('ical_calendar') }}</a></td>
                     </tr>
+
                 </tbody>
             </table>
         </div>

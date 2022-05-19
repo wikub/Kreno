@@ -13,6 +13,7 @@ namespace App\Repository;
 
 use App\Entity\Timeslot;
 use App\Entity\TimeslotTemplate;
+use App\Entity\User;
 use App\Entity\Week;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -29,6 +30,32 @@ class TimeslotRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Timeslot::class);
+    }
+
+    public function findAllActive()
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.jobs', 'j')
+            ->leftJoin('j.user', 'user')
+            ->andWhere('t.enabled = true')
+            ->orderBy('t.start', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllActiveWhenUserSubscribe(User $user)
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.jobs', 'j')
+            ->join('j.user', 'user')
+            ->andWhere('t.enabled = true')
+            ->andWhere('j.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('t.start', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     public function findByWeek(Week $week)

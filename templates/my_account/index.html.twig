@@ -24,7 +24,7 @@
                         <td>{{ user.name }}</td>
                     </tr>
                     <tr>
-                        <th>Prenom</th>
+                        <th>Prénom</th>
                         <td>{{ user.firstname }}</td>
                     </tr>
                     <tr>
@@ -35,21 +35,35 @@
                         <th>Téléphone</th>
                         <td>{{ user.phonenumber }}</td>
                     </tr>
-                    <tr>
-                        <th><i class="fas fa-calendar"></i> Agenda personnel (privé : à ne pas partager)</th>
-                    {% if( user.calendarToken ) %}
-                        <td><a href="{{ url('ical_personnal_calendar', {'token': user.calendarToken}) }}">{{ url('ical_personnal_calendar', {'token': user.calendarToken}) }}</a></td>
-                    {% else %}
-                        <td><a href="{{ path('myaccount_new_calendar_token') }}" class="btn btn-sm btn-primary">Générer un agenda privé</a></td>
-                    {% endif %}
-                    </tr>
-                    <tr>
-                        <th><i class="fas fa-calendar"></i> Agenda global</th>
-                        <td><a href="{{ url('ical_calendar') }}">{{ url('ical_calendar') }}</a></td>
-                    </tr>
-
                 </tbody>
             </table>
+        </div>
+
+        <div class="card">
+            <div class="card-header fw-bold">
+                Ajouter mes créneaux sur mon agenda personnel automatiquement
+            </div>
+            <div class="card-body">
+                <p class="card-text">Si vous souhaitez intégrer vos créneaux dans votre agenda personnel (Google Agenda, Android, IOS, ...), 
+                il vous suffit de copier le lien ci-dessous puis d'aller dans votre agenda et ajouter un "calendrier avec abonnement" ou "à partir d'une URL/lien".<br />
+                La mise à jour sur votre agenda peut parfois mettre jusqu'à 24h.
+                </p>
+                
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Agenda personnel (privé : à ne pas partager)</strong> : 
+                    {% if( user.calendarToken ) %}
+                        <a href="{{ url('ical_personnal_calendar', {'token': user.calendarToken}) }}">{{ url('ical_personnal_calendar', {'token': user.calendarToken}) }}</a>
+                    {% else %}
+                        <a href="{{ path('myaccount_new_calendar_token') }}" class="btn btn-sm btn-primary">Générer le lien de votre agenda privé</a>
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    <strong>Agenda créneaux La Source :</strong>
+                    <a href="{{ url('ical_calendar') }}">{{ url('ical_calendar') }}</a>
+                </li>
+            </ul>
         </div>
 
         <div class="text-center">

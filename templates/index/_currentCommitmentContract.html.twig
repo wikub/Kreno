@@ -3,7 +3,7 @@
         {% if contract.finishCycle %}
             Du {{ contract.startCycle.start|date('d/m/Y') }} au {{ contract.finishCycle.finish|date('d/m/Y') }}
         {% else %}
-            A partir du {{ contract.startCycle.start|date('d/m/Y') }}
+            À partir du {{ contract.startCycle.start|date('d/m/Y') }}
         {% endif %}
         </p>
         <p class="card-text">
@@ -19,6 +19,6 @@
         </p>
         <p class="card-text">
             <b>Engagement :</b>
-            {% if contract.type.nbTimeslotMin > 0 %}Nombre de créneaux minimum par cycle : {{contract.type.nbTimeslotMin}} {% endif %}
-            {% if contract.type.nbHourMin > 0 %}Nombre de heure minimum par cycle : {{contract.type.nbHourMin}} {% endif %}
+            {% if contract.type.nbTimeslotMin > 0 %}Nombre de créneaux minimum par cycle : {{contract.type.nbTimeslotMin|round}} {% endif %}
+            {% if contract.type.nbHourMin > 0 %}Nombre de heure minimum par cycle : {{contract.type.nbHourMin|round}} {% endif %}
         </p>

@@ -14,7 +14,7 @@
                     {% for flashError in app.flashes('reset_password_error') %}
                         <div class="mb-2 alert alert-danger" role="alert">{{ flashError }}</div>
                     {% endfor %}
-
+                    {% form_theme requestForm '_form/_form_theme.html.twig' %}
                     {{ form_start(requestForm) }}
                         <div class="mb-2">
                         {{ form_row(requestForm.email) }}

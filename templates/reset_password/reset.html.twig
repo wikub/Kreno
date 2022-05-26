@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-header text-center">Réinitialiser votre mot de passe</div>
                 <div class="card-body text-center">
-
+                    {% form_theme resetForm '_form/_form_theme.html.twig' %}
                     {{ form_start(resetForm) }}
                     <div class="mb-2">
                         {{ form_row(resetForm.plainPassword) }}

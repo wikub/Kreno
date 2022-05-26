@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="changePasswordForm.label.oldPassword" resname="changePasswordForm.label.oldPassword">
+        <source>Old password</source>
+        <target>Ancien mot de passe</target>
+      </trans-unit>
+      <trans-unit id="changePasswordForm.label.newPassword" resname="changePasswordForm.label.newPassword">
+        <source>New password</source>
+        <target>Nouveau mot de passe</target>
+      </trans-unit>
+      <trans-unit id="changePasswordForm.label.repeatPassword" resname="changePasswordForm.label.repeatPassword">
+        <source>Repeat password</source>
+        <target>Répété le nouveau mot de passe</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -82,7 +82,16 @@
         </table>
     </div>
 
-
+    <div class="card">
+        <div class="card-header fw-bold">Informations</div>
+        <div class="card-body">
+            <p class="card-text">
+            L'inscription à un créneau est possible jusqu'à son heure de début.<br />
+            La desinscription n'est plus possible jusqu'à 48 heures avant le début du créneau.<br />
+            En cas d'empêchement merci de contacter La Source <a href="mailto:contact@cooplasource.fr">contact@cooplasource.fr</a>
+            </p>
+        </div>
+    </div>
     <div class="text-center">
         <div class="btn-group mt-3">
             <a href="{{ path('schedule_show', {'cycle': timeslot.week.cycle.id }) }}" class="btn btn-outline-secondary"><i class="fas fa-calendar-week"></i> Cycle</a>

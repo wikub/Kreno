@@ -28,7 +28,7 @@
                         <td>{{ user.firstname }}</td>
                     </tr>
                     <tr>
-                        <th>Courrier</th>
+                        <th>Email</th>
                         <td>{% if user.email %}<a href="mailto:{{user.email}}">{{ user.email }}</a>{% endif %}</td>
                     </tr>
                     <tr>
@@ -41,12 +41,13 @@
 
         <div class="card">
             <div class="card-header fw-bold">
-                Ajouter mes créneaux sur mon agenda personnel automatiquement
+                Ajouter mes créneaux à mon agenda personnel
             </div>
             <div class="card-body">
-                <p class="card-text">Si vous souhaitez intégrer vos créneaux dans votre agenda personnel (Google Agenda, Android, IOS, ...), 
-                il vous suffit de copier le lien ci-dessous puis d'aller dans votre agenda et ajouter un "calendrier avec abonnement" ou "à partir d'une URL/lien".<br />
-                La mise à jour sur votre agenda peut parfois mettre jusqu'à 24h.
+                <p class="card-text">
+                Pour synchroniser Kreno à votre agenda personnel (Google Agenda, Android, IOS, ...), 
+                copiez le lien ci-dessous puis rendez-vous dans votre agenda et ajoutez un "calendrier avec abonnement" ou "à partir d'une url/un lien". 
+                (Attention : la mise à jour peut parfois prendre jusqu'à 24 heures.)
                 </p>
                 
             </div>

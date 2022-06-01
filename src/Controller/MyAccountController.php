@@ -12,6 +12,7 @@
 namespace App\Controller;
 
 use App\Form\ChangePasswordFormType;
+use App\Service\User\CalendarTokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,5 +78,21 @@ class MyAccountController extends AbstractController
         return $this->render('my_account/change_password.html.twig', [
             'changePasswordForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/new-calendar-token", name="new_calendar_token")
+     */
+    public function generateNewCalendarToken(CalendarTokenGenerator $calendarTokenGenerator): Response
+    {
+        $user = $this->getUser();
+
+        if (!$calendarTokenGenerator->generate($user)) {
+            $this->addFlash('success', 'Un problème s\'est produit à la génération du token');
+        } else {
+            $this->addFlash('success', 'Le token a été regénéré');
+        }
+
+        return $this->redirectToRoute('myaccount_index');
     }
 }

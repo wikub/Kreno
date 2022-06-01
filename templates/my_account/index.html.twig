@@ -24,27 +24,47 @@
                         <td>{{ user.name }}</td>
                     </tr>
                     <tr>
-                        <th>Prenom</th>
+                        <th>Prénom</th>
                         <td>{{ user.firstname }}</td>
                     </tr>
                     <tr>
-                        <th>Courrier</th>
+                        <th>Email</th>
                         <td>{% if user.email %}<a href="mailto:{{user.email}}">{{ user.email }}</a>{% endif %}</td>
                     </tr>
                     <tr>
                         <th>Téléphone</th>
                         <td>{{ user.phonenumber }}</td>
                     </tr>
-                    <tr>
-                        <th>Commentaire</th>
-                        <td>{{ user.comment|nl2br }}</td>
-                    </tr>
-                    <tr>
-                        <th>Mots clés</th>
-                        <td>{% for tag in user.tags %} <span class="bg-info p-2 rounded">{{ tag.name }}</span>{% endfor %}</td>
-                    </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="card">
+            <div class="card-header fw-bold">
+                Ajouter mes créneaux à mon agenda personnel
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                Pour synchroniser Kreno à votre agenda personnel (Google Agenda, Android, IOS, ...), 
+                copiez le lien ci-dessous puis rendez-vous dans votre agenda et ajoutez un "calendrier avec abonnement" ou "à partir d'une url/un lien". 
+                (Attention : la mise à jour peut parfois prendre jusqu'à 24 heures.)
+                </p>
+                
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Agenda personnel (privé : à ne pas partager)</strong> : 
+                    {% if( user.calendarToken ) %}
+                        <a href="{{ url('ical_personnal_calendar', {'token': user.calendarToken}) }}">{{ url('ical_personnal_calendar', {'token': user.calendarToken}) }}</a>
+                    {% else %}
+                        <a href="{{ path('myaccount_new_calendar_token') }}" class="btn btn-sm btn-primary">Générer le lien de votre agenda privé</a>
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    <strong>Agenda créneaux La Source :</strong>
+                    <a href="{{ url('ical_calendar') }}">{{ url('ical_calendar') }}</a>
+                </li>
+            </ul>
         </div>
 
         <div class="text-center">

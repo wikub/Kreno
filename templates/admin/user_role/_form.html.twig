@@ -1,0 +1,22 @@
+{% form_theme form '_form/_form_theme.html.twig' %}
+
+{{ form_start(form) }}
+    
+    {{ form_widget(form) }}
+
+    <div class="text-end mt-3">
+        <div class="btn-group">
+            <a href="{{ path('admin_user_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
+            <button class="btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Enregister') }}</button>
+        </div>
+    </div>
+
+    <div class="alert alert-secondary mt-3">
+        <i class="fas fa-info"></i>
+        <ul>
+            <li><b>Communication :</b> Gestion des actualités</li>
+            <li><b>Administration des créneaux :</b> Gestion et suivi des créneaux et des membres</li>
+            <li><b>Administration : </b> Toutes les fonctionnalités.</li>
+        </ul>
+    </div>
+{{ form_end(form) }}

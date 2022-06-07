@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\WeekTemplate;
 use App\Form\WeekTemplateType;
@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/template", name="week_template_")
+ * @Route("/admin/template", name="admin_week_template_")
  */
 class WeekTemplateController extends AbstractController
 {
@@ -30,7 +30,7 @@ class WeekTemplateController extends AbstractController
      */
     public function index(WeekTemplateRepository $weekTemplateRepository): Response
     {
-        return $this->render('week_template/index.html.twig', [
+        return $this->render('admin/week_template/index.html.twig', [
             'week_templates' => $weekTemplateRepository->findAll(),
         ]);
     }
@@ -48,10 +48,10 @@ class WeekTemplateController extends AbstractController
             $entityManager->persist($weekTemplate);
             $entityManager->flush();
 
-            return $this->redirectToRoute('week_template_show', ['id' => $weekTemplate->getId()]);
+            return $this->redirectToRoute('admin_week_template_show', ['id' => $weekTemplate->getId()]);
         }
 
-        return $this->renderForm('week_template/new.html.twig', [
+        return $this->renderForm('admin/week_template/new.html.twig', [
             'week_template' => $weekTemplate,
             'form' => $form,
         ]);
@@ -86,7 +86,7 @@ class WeekTemplateController extends AbstractController
             ksort($day);
         }
 
-        return $this->render('week_template/show.html.twig', [
+        return $this->render('admin/week_template/show.html.twig', [
             'weekdays' => $weekdays,
             'weekdaysTimeslotTemplates' => $weekdaysTimeslotTemplates,
             'week_template' => $weekTemplate,
@@ -104,10 +104,10 @@ class WeekTemplateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('week_template_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_week_template_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('week_template/edit.html.twig', [
+        return $this->renderForm('admin/week_template/edit.html.twig', [
             'week_template' => $weekTemplate,
             'form' => $form,
         ]);
@@ -123,6 +123,6 @@ class WeekTemplateController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('week_template_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_week_template_index', [], Response::HTTP_SEE_OTHER);
     }
 }

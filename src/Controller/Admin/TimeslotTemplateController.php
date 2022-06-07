@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\TimeslotTemplate;
 use App\Entity\WeekTemplate;
@@ -21,10 +21,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/template/timeslot", name="timeslot_template_")
+ * @Route("/admin/template/timeslot", name="admin_timeslot_template_")
  */
 class TimeslotTemplateController extends AbstractController
 {
+    private $em;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->em = $entityManager;
+    }
+
     /**
      * @Route("/week/{weekTemplate}/new", name="new", methods={"GET", "POST"})
      */
@@ -40,10 +47,10 @@ class TimeslotTemplateController extends AbstractController
             $entityManager->persist($timeslotTemplate);
             $entityManager->flush();
 
-            return $this->redirectToRoute('week_template_show', ['id' => $weekTemplate->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_week_template_show', ['id' => $weekTemplate->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('timeslot_template/new.html.twig', [
+        return $this->renderForm('admin/timeslot_template/new.html.twig', [
             'timeslot_template' => $timeslotTemplate,
             'form' => $form,
         ]);
@@ -59,7 +66,7 @@ class TimeslotTemplateController extends AbstractController
         $entityManager->persist($cloneTimeslotTemplate);
         $entityManager->flush();
 
-        return $this->redirectToRoute('timeslot_template_edit', ['id' => $cloneTimeslotTemplate->getId()]);
+        return $this->redirectToRoute('admin_timeslot_template_edit', ['id' => $cloneTimeslotTemplate->getId()]);
     }
 
     /**
@@ -67,7 +74,7 @@ class TimeslotTemplateController extends AbstractController
      */
     public function show(TimeslotTemplate $timeslotTemplate): Response
     {
-        return $this->render('timeslot_template/show.html.twig', [
+        return $this->render('admin/timeslot_template/show.html.twig', [
             'timeslot_template' => $timeslotTemplate,
         ]);
     }
@@ -83,10 +90,10 @@ class TimeslotTemplateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('week_template_show', ['id' => $timeslotTemplate->getWeekTemplate()->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_week_template_show', ['id' => $timeslotTemplate->getWeekTemplate()->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('timeslot_template/edit.html.twig', [
+        return $this->renderForm('admin/timeslot_template/edit.html.twig', [
             'timeslot_template' => $timeslotTemplate,
             'form' => $form,
         ]);
@@ -103,6 +110,36 @@ class TimeslotTemplateController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('week_template_show', ['id' => $weekTemplateId], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_week_template_show', ['id' => $weekTemplateId], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/{id}/enable", name="enable")
+     */
+    public function enable(TimeslotTemplate $timeslotTemplate, Request $request): Response
+    {
+        $timeslotTemplate->setEnabled(true);
+
+        $this->em->persist($timeslotTemplate);
+        $this->em->flush();
+
+        $this->addFlash('success', 'Créneau modèle activé pour les prochains cycles générés');
+
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
+     * @Route("/{id}/disable", name="disable")
+     */
+    public function disable(TimeslotTemplate $timeslotTemplate, Request $request): Response
+    {
+        $timeslotTemplate->setEnabled(false);
+
+        $this->em->persist($timeslotTemplate);
+        $this->em->flush();
+
+        $this->addFlash('success', 'Créneau modèle desactivé pour les prochains cycles générés');
+
+        return $this->redirect($request->headers->get('referer'));
     }
 }

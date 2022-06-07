@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle actualité{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-users"></i> Nouvelle actualité</h1>
+    </div>
+
+    {% include '_elements/_flash_message.html.twig' %}
+
+    {{ include('admin/post/_form.html.twig') }}
+
+{% endblock %}

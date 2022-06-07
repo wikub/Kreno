@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New TimeslotTemplate{% endblock %}
+{% block title %}Nouveau créneau pour modèle "{{timeslot_template.weekTemplate.name}}{% endblock %}
 
 {% block body %}
     <div class="pt-3 pb-2 mb-3 border-bottom">
@@ -8,6 +8,6 @@
     </div>
 
 
-    {{ include('timeslot_template/_form.html.twig') }}
+    {{ include('admin/timeslot_template/_form.html.twig') }}
 
 {% endblock %}

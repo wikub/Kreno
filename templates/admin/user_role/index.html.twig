@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Droits de {{ user.displayName }}{% endblock %}
+
+{% block body %}
+    {{ include('admin/user/_header.html.twig', {'nav_current': 'role'} ) }}
+
+    {% include '_elements/_flash_message.html.twig' %}
+
+    <ul>
+        {% for role in user.roles %}
+        <li>{{ role }}</li>
+        {% endfor %}
+    </ul>
+
+    <div class="text-center">
+        <div class="btn-group mt-3">
+            <a href="{{ path('admin_user_role_edit', {'user': user.id}) }}" class="btn btn-primary"><i class="far fa-edit"></i> Modifier</a>
+        </div>
+    </div>
+
+{% endblock %}

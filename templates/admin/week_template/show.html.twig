@@ -8,7 +8,7 @@
     </div>
 
     <div class="row mb-3">
-        <a href="{{ path('timeslot_template_new', {'weekTemplate': week_template.id}) }}" class="btn btn-primary btn-sm" role="button"><i class="fas fa-plus"></i> créneaux</a>
+        <a href="{{ path('admin_timeslot_template_new', {'weekTemplate': week_template.id}) }}" class="btn btn-primary btn-sm" role="button"><i class="fas fa-plus"></i> créneaux</a>
     </div>
 
     <div>
@@ -24,8 +24,11 @@
         <div class="col border-end">
             {% for timeslot in day %}
                 <div class="card mb-3 ">
-                    <div class="card-header">
-                        <a href="{{ path('timeslot_template_edit', {'id': timeslot.id}) }}">{{ timeslot.name }}</a>
+                    <div class="card-header
+                        {{ timeslot.enabled==true?'bg-open'}}
+                        {{ timeslot.enabled==false?'bg-closed'}}
+                    ">
+                        <a href="{{ path('admin_timeslot_template_edit', {'id': timeslot.id}) }}">{{ timeslot.name }}</a>
                     </div>
                     <div class="card-body">
                         <div class="card-text">
@@ -34,8 +37,13 @@
                             <i class="fas fa-user"></i>
                             {% endfor %}
                             </br >
-                            <a href="{{ path('timeslot_template_clone_new', {'id': timeslot.id}) }}" title="Dupliquer" class="btn btn-link"><i class="far fa-clone"></i></a>
-                            {% include 'timeslot_template/_mini_delete_form.html.twig' with {'timeslot_template': timeslot} %}
+                            <a href="{{ path('admin_timeslot_template_clone_new', {'id': timeslot.id}) }}" title="Dupliquer" class="btn btn-link"><i class="far fa-clone"></i></a>
+                            {% if timeslot.enabled %}
+                                <a href="{{ path('admin_timeslot_template_disable', {'id': timeslot.id}) }}" title="Desactiver" class="btn btn-link">Desactiver</a>
+                            {% else %}
+                                <a href="{{ path('admin_timeslot_template_enable', {'id': timeslot.id}) }}" title="Activer" class="btn btn-link">Activer</a>
+                            {% endif %}
+                            {% include 'admin/timeslot_template/_mini_delete_form.html.twig' with {'timeslot_template': timeslot} %}
                         </div>
                     </div>
                 </div>

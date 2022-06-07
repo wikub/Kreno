@@ -63,6 +63,10 @@ class CycleGenerator
             $this->em->persist($week);
             // Generate the timeslots
             foreach ($weekTemplate->getTimeslotTemplates() as $timeslotTemplate) {
+                if (false === $timeslotTemplate->isEnabled()) {
+                    continue;
+                }
+
                 $timeslot = new Timeslot();
 
                 $timeslot->setName($timeslotTemplate->getName());

@@ -21,4 +21,7 @@
     <li class="nav-item">
         <a class="nav-link {{ nav_current == 'commitment_log'?'active'}} " href="{{ path('admin_commitment_log_index', {'user': user.id}) }}"><i class="fas fa-balance-scale"></i> Solde Engagements</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link {{ nav_current == 'role'?'active'}} " href="{{ path('admin_user_role_index', {'user': user.id}) }}"><i class="fas fa-key"></i> Droits</a>
+    </li>
 </ul>

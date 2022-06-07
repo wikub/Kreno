@@ -86,9 +86,14 @@ class TimeslotTemplate
     private $regularCommitmentContracts;
 
     /**
-     * @ORM\OneToMany(targetEntity=Timeslot::class, mappedBy="template")
+     * @ORM\OneToMany(targetEntity=Timeslot::class, mappedBy="template", orphanRemoval=true)
      */
     private $timeslots;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $enabled;
 
     public function __construct()
     {
@@ -262,6 +267,18 @@ class TimeslotTemplate
                 $timeslot->setTemplate(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(?bool $enabled): self
+    {
+        $this->enabled = $enabled;
 
         return $this;
     }

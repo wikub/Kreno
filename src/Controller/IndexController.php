@@ -14,6 +14,7 @@ namespace App\Controller;
 use App\Repository\CommitmentContractRepository;
 use App\Repository\CommitmentLogRepository;
 use App\Repository\JobRepository;
+use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,7 +30,8 @@ class IndexController extends AbstractController
     public function index(
         JobRepository $jobRepository,
         CommitmentContractRepository $commitmentContractRepository,
-        CommitmentLogRepository $commitmentLogRepository
+        CommitmentLogRepository $commitmentLogRepository,
+        PostRepository $postRepository
     ): Response {
         // Get the next user jobs for next 45 days
         $nextJobs = $jobRepository->findNextForUser($this->getUser());
@@ -47,6 +49,7 @@ class IndexController extends AbstractController
             'currentCommitmentContract' => $currentCommitmentContract,
             'sumNbTimeslot' => $sumNbTimeslot,
             'sumNbHour' => $sumNbHour,
+            'posts' => $postRepository->findLastPublished(),
         ]);
     }
 }

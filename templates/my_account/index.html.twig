@@ -64,6 +64,16 @@
                     <strong>Agenda créneaux La Source :</strong>
                     <a href="{{ url('ical_calendar') }}">{{ url('ical_calendar') }}</a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                <li class="list-group-item">
+                    <strong>Agenda superviseur (privé : à ne pas partager)</strong> : 
+                    {% if( user.calendarToken ) %}
+                        <a href="{{ url('ical_supervisor_calendar', {'token': user.calendarToken}) }}">{{ url('ical_supervisor_calendar', {'token': user.calendarToken}) }}</a>
+                    {% else %}
+                        <a href="{{ path('myaccount_new_calendar_token') }}" class="btn btn-sm btn-primary">Générer le lien de votre agenda du superviseur</a>
+                    {% endif %}
+                </li>
+                {% endif %}
             </ul>
         </div>
 

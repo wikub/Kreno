@@ -66,7 +66,25 @@ class CalendarGenerator
         return $calendarComponent;
     }
 
-    private function transformToEvent(Timeslot $timeslot): Event
+    public function generateForSupervisor(): string
+    {
+        $events = [];
+        foreach ($this->timeslotRepository->findAllActive() as $timeslot) {
+            $events[] = $this->transformToEvent($timeslot, true);
+        }
+
+        // 2. Create Calendar domain entity
+        $calendar = new Calendar($events);
+
+        // 3. Transform domain entity into an iCalendar component
+        $componentFactory = new CalendarFactory();
+        $calendarComponent = $componentFactory->createCalendar($calendar);
+
+        // 5. Output
+        return $calendarComponent;
+    }
+
+    private function transformToEvent(Timeslot $timeslot, bool $supervisor = false): Event
     {
         $event = new Event();
         $event
@@ -79,10 +97,18 @@ class CalendarGenerator
             )
             ;
 
-        $description = 'Avec ';
-        foreach ($timeslot->getJobs() as $job) {
-            if (null !== $job->getUser()) {
-                $description .= $job->getUser()->getFirstname();
+        if ($supervisor) {
+            $found = false;
+            $description = 'Avec ';
+            foreach ($timeslot->getJobs() as $job) {
+                if (null !== $job->getUser()) {
+                    $description .= '- '.$job->getUser()->getFirstname().' '.$job->getUser()->getName().' ';
+                    $found = true;
+                }
+            }
+
+            if ($found) {
+                $event->setDescription($description);
             }
         }
 

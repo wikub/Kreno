@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}actualité {{ post.id }}{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-users"></i> Actualité #{{ post.id }}</h1>
+    </div>
+
+    <div class="card">
+        <div class="card-header fw-bold">{{ post.title }}</div>
+        <div class="card-body">
+            <div class="card-text">
+            {{ post.content|raw }}
+            </div>
+        </div>
+        <div class="card-footer">Publié le {{ post.publishedAt|date('d/m/Y H:i') }}</div>
+    </div>
+
+
+    <div class="btn-group float-end mt-3">
+        <a href="{{ path('admin_post_index') }}" class="btn btn-secondary"><i class="fas fa-list"></i> retour</a>
+        <a href="{{ path('admin_post_edit', {'id': post.id}) }}" class="btn btn-primary">Modifier</a>
+        {{ include('admin/post/_delete_form.html.twig') }}
+    </div>
+    
+{% endblock %}

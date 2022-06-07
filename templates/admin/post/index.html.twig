@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post index{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-newspaper"></i> Actualités <a href="{{ path('admin_post_new') }}" class="btn btn-primary btn-sm" role="button"><i class="fas fa-plus"></i></a></h1>
+    </div>
+
+    {% include '_elements/_flash_message.html.twig' %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Titre</th>
+                    <th>Création</th>
+                    <th>Mise à jour</th>
+                    <th>Publication</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for post in posts %}
+                <tr>
+                    <td>{{ post.id }}</td>
+                    <td><a href="{{ path('admin_post_show', {'id': post.id}) }}">{{ post.title }}</a></td>
+                    <td>{{ post.createdAt ? post.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                    <td>{{ post.updatedAt ? post.updatedAt|date('d/m/Y H:i:s') : '' }}</td>
+                    <td>{{ post.publishedAt ? post.publishedAt|date('d/m/Y H:i') : '' }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Aucune actualité trouvée</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+{% endblock %}

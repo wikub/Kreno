@@ -177,6 +177,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    public static function getRolesLabel()
+    {
+        return [
+            'ROLE_SUPERVISOR' => 'Administration des créneaux',
+            'ROLE_COMMUNICATION' => 'Communication',
+            'ROLE_ADMIN' => 'Administration',
+        ];
+    }
+
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;

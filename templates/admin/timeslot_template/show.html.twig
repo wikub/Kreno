@@ -38,9 +38,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('timeslot_template_index') }}">back to list</a>
+    <a href="{{ path('admin_timeslot_template_index') }}">back to list</a>
 
-    <a href="{{ path('timeslot_template_edit', {'id': timeslot_template.id}) }}">edit</a>
+    <a href="{{ path('admin_timeslot_template_edit', {'id': timeslot_template.id}) }}">edit</a>
 
-    {{ include('timeslot_template/_delete_form.html.twig') }}
+    {{ include('admin/timeslot_template/_delete_form.html.twig') }}
 {% endblock %}

@@ -7,10 +7,12 @@
     <h1 class="h2">Bienvenue sur <i class="fas fa-user-clock"></i> Kreno</h1>
 </div>
 
+<div class="pt-3 pb-1">
+    <h2 class="h3">Bonjour {{app.user.firstname}} !</h2>
+</div>
+
 <div class="row">
     <div class="col">
-        <h2 class="h3">Bonjour {{app.user.firstname}} !</h2>
-        
         <div class="card mb-3">
             <div class="card-header fw-bold"><i class="fas fa-hard-hat"></i> Mes prochains créneaux</div>
             <div class="card-body">
@@ -32,6 +34,19 @@
                     <li>Sélectionne un créneau de libre</li>
                     <li>Et confirme ton inscription</li>
                 </ol>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header fw-bold"><i class="fas fa-newspaper"></i> Actualités</div>
+            <div class="card-body">
+                <ul>
+                    {% for post in posts %}
+                    <li><a href="{{ path('post_show', {'id': post.id }) }}">{{ post.title }}</a></li>
+                    {% else %}
+                    <li>Aucune actualité pour le moment</li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
 

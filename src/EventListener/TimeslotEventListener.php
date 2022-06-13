@@ -53,6 +53,9 @@ class TimeslotEventListener
     {
         try {
             $this->timeslotWorkflow->apply($timeslot, 'to_commitment_log');
+            // Save here, before job modification else jobs don't save completly
+            $this->em->persist($timeslot);
+            $this->em->flush();
         } catch (LogicException $exception) {
             return;
         }
@@ -69,9 +72,8 @@ class TimeslotEventListener
                 }
             }
             $this->em->persist($job);
+            $this->em->flush();
         }
-
-        $this->em->persist($timeslot);
     }
 
     private function fromCommimentLoggedToOpen(Timeslot $timeslot)

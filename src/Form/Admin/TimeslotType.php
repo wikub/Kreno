@@ -44,6 +44,7 @@ class TimeslotType extends AbstractType
                 'date_widget' => 'single_text',
                 'minutes' => [0, 15, 30, 45],
                 'hours' => range(6, 23),
+                'input' => 'datetime_immutable',
             ])
             ->add('finish', DateTimeType::class, [
                 'label' => 'Fin',
@@ -51,6 +52,7 @@ class TimeslotType extends AbstractType
                 'date_widget' => 'single_text',
                 'minutes' => [0, 15, 30, 45],
                 'hours' => range(6, 23),
+                'input' => 'datetime_immutable',
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',

@@ -139,24 +139,24 @@ class TimeslotTemplate
         return $this;
     }
 
-    public function getStart(): ?\DateTimeImmutable
+    public function getStart(): ?\DateTimeInterface
     {
         return $this->start;
     }
 
-    public function setStart(\DateTimeImmutable $start): self
+    public function setStart(\DateTimeInterface $start): self
     {
         $this->start = $start;
 
         return $this;
     }
 
-    public function getFinish(): ?\DateTimeImmutable
+    public function getFinish(): ?\DateTimeInterface
     {
         return $this->finish;
     }
 
-    public function setFinish(\DateTimeImmutable $finish): self
+    public function setFinish(\DateTimeInterface $finish): self
     {
         $this->finish = $finish;
 

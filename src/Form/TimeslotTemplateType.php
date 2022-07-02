@@ -37,10 +37,12 @@ class TimeslotTemplateType extends AbstractType
             ->add('start', TimeType::class, [
                 'label' => 'Début',
                 'minutes' => [0, 15, 30, 45],
+                'input' => 'datetime_immutable',
             ])
             ->add('finish', TimeType::class, [
                 'label' => 'Fin',
                 'minutes' => [0, 15, 30, 45],
+                'input' => 'datetime_immutable',
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',

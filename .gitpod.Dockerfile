@@ -10,7 +10,7 @@ RUN sudo apt-get install -y --no-install-recommends \
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
 RUN sudo apt install symfony-cli
 
-RUN sudo install-packages php7.4-{zip,bz2,intl,gd,mbstring,mysql,pdo-mysql,pdo-sqlite,pdo-pgsql}
+RUN sudo install-packages php7.4-zip php7.4-bz2 php7.4-intl php7.4-gd php7.4-mbstring php7.4-mysql php7.4-pdo-mysql php7.4-pdo-sqlite php7.4-pdo-pgsql
 
 RUN composer install
 

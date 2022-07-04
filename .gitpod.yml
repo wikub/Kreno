@@ -1,2 +1,9 @@
 image:
   file: .gitpod.Dockerfile
+
+tasks:
+  - name: Composer install
+    command: composer install
+  - name: yarn install
+    command: yarn install
+    

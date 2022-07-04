@@ -11,7 +11,3 @@ RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | s
 RUN sudo apt install symfony-cli
 
 RUN sudo install-packages php7.4-zip php7.4-bz2 php7.4-intl php7.4-gd php7.4-mbstring php7.4-mysql php7.4-pdo-mysql php7.4-pdo-sqlite php7.4-pdo-pgsql
-
-RUN composer install
-
-RUN yarn install

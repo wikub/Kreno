@@ -9,3 +9,9 @@ RUN sudo apt-get install -y --no-install-recommends \
 
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
 RUN sudo apt install symfony-cli
+
+RUN sudo install-packages php7.4-{zip,bz2,intl,gd,mbstring,mysql,pdo-mysql,pdo-sqlite,pdo-pgsql}
+
+RUN composer install
+
+RUN yarn install

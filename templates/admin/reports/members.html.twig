@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rapports{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-chart-bar"></i> Rapport : soldes et engagement des membres</h1>
+    </div>
+
+    <p>Rapport généré le {{ "now"|date('d/m/Y') }} à {{ "now"|date('H:i') }}</p>
+
+    <table class="table table-sm table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Engagement en cours</th>
+                <th class="text-center">Solde créneau</th>
+                <th class="text-center">Solde heure</th>
+            </tr>
+        </thead>
+        {% for member in result %}
+        <tbody>
+            <tr>
+                <td><a href="{{ path('admin_user_show', {'id': member.id}) }}" target="_user">{{ member.name }}</a></td>
+                <td><a href="{{ path('admin_user_show', {'id': member.id}) }}" target="_user">{{ member.firstname }}</a></td>
+                <td>{{ member.c_name }}</td>
+                <td class="{{ (member.nb_timeslot<0)?'text-danger':'text-success' }} text-center">{{ member.nb_timeslot }}</td>
+                <td class="{{ (member.nb_timeslot<0)?'text-danger':'text-success' }} text-center">{{ member.nb_hour }}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table
+    
+{% endblock %}

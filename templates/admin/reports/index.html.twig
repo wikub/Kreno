@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rapports{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-chart-bar"></i> Rapports</h1>
+    </div>
+
+    <ul>
+        <li><a href="{{ path('admin_reports_members') }}">Listes des membres avec soldes et engagegement en cours</a></li>
+    </ul>
+    
+{% endblock %}

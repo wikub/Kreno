@@ -26,7 +26,7 @@
                 <td><a href="{{ path('admin_user_show', {'id': member.id}) }}" target="_user">{{ member.firstname }}</a></td>
                 <td>{{ member.c_name }}</td>
                 <td class="{{ (member.nb_timeslot<0)?'text-danger':'text-success' }} text-center">{{ member.nb_timeslot }}</td>
-                <td class="{{ (member.nb_timeslot<0)?'text-danger':'text-success' }} text-center">{{ member.nb_hour }}</td>
+                <td class="{{ (member.nb_hour<0)?'text-danger':'text-success' }} text-center">{{ member.nb_hour }}</td>
             </tr>
         </tbody>
         {% endfor %}

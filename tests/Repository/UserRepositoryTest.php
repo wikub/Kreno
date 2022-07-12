@@ -52,7 +52,7 @@ class UserRepositoryTest extends KernelTestCase
             ->setName('Test Name')
             ->setFirstname('Test Firstname')
             ->setPhonenumber('Test Phonenumber')
-            ;
+        ;
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -74,7 +74,7 @@ class UserRepositoryTest extends KernelTestCase
             ->setRoles(['ROLE_USER'])
             ->setName('Test 2 nom')
             ->setFirstname('Test 2 prénom')
-            ;
+        ;
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -99,7 +99,7 @@ class UserRepositoryTest extends KernelTestCase
             ->setRoles(['ROLE_USER'])
             ->setName('Test 3 name')
             ->setFirstname('Test 3 firstnamme')
-            ;
+        ;
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

@@ -74,7 +74,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('calendarToken', $calendarToken)
             ->getQuery()
             ->getOneOrNullResult()
-            ;
+        ;
     }
 
     // /**

@@ -57,18 +57,18 @@ class JobRepository extends ServiceEntityRepository
             ->setParameter('template', $template)
                 ->getQuery()
                 ->getResult()
-            ;
+        ;
 
         // $qb = $this->createQueryBuilder('job');
-            // return $qb->where($qb->expr()->In('job.id', $selectJob->getDQL() ))
-            // //->setParameter('contract', $re)
-            // ->setParameter('user', $regular->getCommitmentContract()->getUser())
-            // ->setParameter('now', new \DateTime())
-            // ->setParameter('regular', $regular)
+        // return $qb->where($qb->expr()->In('job.id', $selectJob->getDQL() ))
+        // //->setParameter('contract', $re)
+        // ->setParameter('user', $regular->getCommitmentContract()->getUser())
+        // ->setParameter('now', new \DateTime())
+        // ->setParameter('regular', $regular)
             //     ->delete()
             //     ->getQuery()
             //     ->getResult()
-            // ;
+        // ;
     }
 
     public function findNextForUser(User $user)

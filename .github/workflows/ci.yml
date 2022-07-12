@@ -50,19 +50,19 @@ jobs:
       # PHP CS FIXER
       - name: PHP-CS-Fixer
         run: |
-           composer require friendsofphp/php-cs-fixer
-           ./vendor/bin/php-cs-fixer fix --dry-run
+          composer require friendsofphp/php-cs-fixer
+          ./vendor/bin/php-cs-fixer fix src --dry-run
 
       # PHP STAN
       - name: PHP Stan
         run: |
-           ./vendor/bin/simple-phpunit install
-           composer require phpstan/phpstan
-           composer require phpstan/extension-installer
-           composer config --no-plugins allow-plugins.phpstan/extension-installer true
-           composer require phpstan/phpstan-symfony
-           ./vendor/bin/phpstan analyse src --memory-limit 1G
-           
+          ./vendor/bin/simple-phpunit install
+          composer require phpstan/phpstan
+          composer require phpstan/extension-installer
+          composer config --no-plugins allow-plugins.phpstan/extension-installer true
+          composer require phpstan/phpstan-symfony
+          ./vendor/bin/phpstan analyse src --memory-limit 1G
+          
       - name: Lint YAML files
         run: ./bin/console lint:yaml config --parse-tags
 

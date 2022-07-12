@@ -95,7 +95,7 @@ class CalendarGenerator
                     new DateTime($timeslot->getFinish(), false)
                 )
             )
-            ;
+        ;
 
         if ($supervisor) {
             $found = false;

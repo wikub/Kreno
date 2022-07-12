@@ -100,7 +100,7 @@ class CycleRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->orderBy('c.start', 'ASC')
-            ;
+        ;
     }
 
     public function getLastOpen(): ?Cycle

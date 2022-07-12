@@ -60,7 +60,7 @@ class PostRepository extends ServiceEntityRepository
            ->setMaxResults(3)
            ->getQuery()
            ->getResult()
-       ;
+        ;
     }
 //    /**
 //     * @return Post[] Returns an array of Post objects

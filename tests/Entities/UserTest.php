@@ -68,7 +68,7 @@ class UserTest extends TestCase
              ->setName(self::USER_NAME)
              ->setFirstname(self::USER_FIRSTAME)
              ->setPhonenumber(self::USER_PHONE_NUMBER)
-             ;
+        ;
 
         return $user;
     }

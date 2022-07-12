@@ -43,7 +43,7 @@ class CommitmentContractRepository extends ServiceEntityRepository
             ->setParameter('finishCycle', $finishCycle)
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 
     public function getCurrentContractForUser(User $user)
@@ -57,7 +57,7 @@ class CommitmentContractRepository extends ServiceEntityRepository
             ->setParameter('user', $user->getId())
             ->getQuery()
             ->getOneOrNullResult()
-            ;
+        ;
     }
 
     /**
@@ -74,7 +74,7 @@ class CommitmentContractRepository extends ServiceEntityRepository
             ->setParameter('finishCycle', $cycle->getFinish())
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 
     /**

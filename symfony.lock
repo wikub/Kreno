@@ -1,4 +1,13 @@
 {
+    "behat/behat": {
+        "version": "v3.11.0"
+    },
+    "behat/gherkin": {
+        "version": "v4.9.0"
+    },
+    "behat/mink": {
+        "version": "v1.10.0"
+    },
     "behat/transliterator": {
         "version": "v1.3.0"
     },
@@ -105,6 +114,30 @@
     },
     "fakerphp/faker": {
         "version": "v1.19.0"
+    },
+    "friends-of-behat/mink-browserkit-driver": {
+        "version": "v1.6.1"
+    },
+    "friends-of-behat/mink-extension": {
+        "version": "v2.7.1"
+    },
+    "friends-of-behat/page-object-extension": {
+        "version": "v0.3.2"
+    },
+    "friends-of-behat/symfony-extension": {
+        "version": "2.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.0",
+            "ref": "1e012e04f573524ca83795cd19df9ea690adb604"
+        },
+        "files": [
+            "behat.yml.dist",
+            "config/services_test.yaml",
+            "features/demo.feature",
+            "tests/Behat/DemoContext.php"
+        ]
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"

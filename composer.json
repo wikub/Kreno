@@ -55,6 +55,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "hautelook/alice-bundle": "^2.10",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.6",

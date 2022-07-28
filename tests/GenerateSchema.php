@@ -33,10 +33,10 @@ class GenerateSchema extends KernelTestCase
 
         $application->run($input);
 
-        // $entityManager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
-        // $metadata = $entityManager->getMetadataFactory()->getAllMetadata();
+        $entityManager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+        $metadata = $entityManager->getMetadataFactory()->getAllMetadata();
 
-        // $tool = new SchemaTool($entityManager);
-        // $tool->updateSchema($metadata);
+        $tool = new SchemaTool($entityManager);
+        $tool->updateSchema($metadata);
     }
 }

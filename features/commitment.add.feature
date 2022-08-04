@@ -12,22 +12,21 @@ Feature: Adding commitment credit
         Given I am on the commitment credits monitoring page
         And I am logged with "admin@coop.fr"
         When I go to the add commitment credit form
-        Then I fill in "Libellé" with "administrative work"
+        And I fill in "Libellé" with "administrative work"
         And I fill in "Nombre d'heure" with "2"
         And I fill in "Membres" with "DOE John"
         And I press "Ajouter"
-        And I should be  on the commitment credits monitoring page
-        And the last commiment credit is for Doe John must have 2 hours with the label "administrative work"
+        Then I should be  on the commitment credits monitoring page
+        And I should see the last commiment credit is for "DOE John" must have "2" "hours" with the label "administrative work"
 
     Scenario: adding 1 timeslot commiment credits to cooperators "DOE John" and "PETERS Jane" 
         Given I am on the commitment credits monitoring page
         And I am logged with "admin@coop.fr"
         When I go to the add commitment credit form
-        Then fill the add commitment credit form form with:
-        Then I fill in "Libelle" with "Shop work"
+        And I fill in "Libelle" with "Shop work"
         And I fill in "Nombre de créneaux" with "1"
         And I fill in "Membres" with "PETERS Jane"
         And I press "Ajouter"
-        And I should be  on the commitment credits monitoring page
-        And the last commiment credit is for "PETERS Jane" must have 1 timeslot with the label "shop work"
+        Then I should be  on the commitment credits monitoring page
+        And I should see the last commiment credit is for "PETERS Jane" must have "1" "timeslot" with the label "shop work"
 

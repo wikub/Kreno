@@ -43,42 +43,19 @@ class AddCommitmentLogContext implements Context
     }
 
     /**
-     * @ThenI fill the add commitment credit form with
-     */
-    public function IFillTheAddCommitmentCreditFormWith($data)
-    {
-        $this->commitmentLogIndexPage->goToTheAddForm($data);
-    }
-
-    /**
      * @Then I should be  on the commitment credits monitoring page
      */
     public function iShouldBeOnTheCommitmentCreditsMonitoringPage()
     {
-        throw new PendingException();
+        $this->commitmentLogIndexPage->verify();
     }
 
     /**
-     * @Then the last commiment credit is for Doe John must have :arg2 hours with the label :arg1
+     * @Then I should see the last commiment credit is for :name must have :unit :type with the label :label
      */
-    public function theLastCommimentCreditIsForDoeJohnMustHaveHoursWithTheLabel($arg1, $arg2)
+    public function theLastCommimentCreditIsForDoeJohnMustHaveHoursWithTheLabel($name, $unit, $type, $label)
     {
-        throw new PendingException();
+        $this->commitmentLogIndexPage->iShouldSeeRowInTheTable($name, $unit, $type, $label);
     }
 
-    /**
-     * @Then fill the add commitment credit form form with:
-     */
-    public function fillTheAddCommitmentCreditFormFormWith()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then the last commiment credit is for :arg1 must have :arg3 timeslot with the label :arg2
-     */
-    public function theLastCommimentCreditIsForMustHaveTimeslotWithTheLabel($arg1, $arg2, $arg3)
-    {
-        throw new PendingException();
-    }
 }

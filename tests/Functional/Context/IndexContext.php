@@ -16,7 +16,7 @@ class IndexContext implements Context
     }
 
     /**
-     * @Then je dois être sur ma page d'accueil
+     * @Then I must be on my homepage
      */
     public function jeDoisEtreSurMaPageDaccueil()
     {

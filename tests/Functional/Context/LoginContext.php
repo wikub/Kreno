@@ -15,18 +15,26 @@ class LoginContext implements Context
     }
 
     /**
-     * @Given je suis sur la page de connexion
+     * @Given I am on the login page
      */
-    public function jeSuisSurLaPageDeConnexion()
+    public function IAmOnTheLoginPage()
     {
         $this->loginPage->open();
     }
 
     /**
-     * @When /^je me connecte en tant que "([^"]+)" avec le mot de passe "([^"]+)"$/
+     * @When I log in with my username :username and my password :password
      */
-    public function connexion($email, $password)
+    public function connexion($username, $password)
     {
-        $this->loginPage->login($email, $password);
+        $this->loginPage->login($username, $password);
+    }
+
+    /**
+     * @Given I am logged with :username
+     */
+    public function IAmLoggedWith($username)
+    {
+        $this->loginPage->login($username, $username);
     }
 }

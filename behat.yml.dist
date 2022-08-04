@@ -7,6 +7,8 @@ default:
                 - App\Tests\Functional\Setup\UserContext
                 - App\Tests\Functional\Context\LoginContext
                 - App\Tests\Functional\Context\IndexContext
+                - App\Tests\Functional\Context\AddCommitmentLogContext
+    
 
 
     extensions:

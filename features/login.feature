@@ -1,10 +1,10 @@
-#language: fr
-Fonctionnalité: Connexion à l'application
+Feature: Loggin
 
-Contexte:
-    Etant donné que l'utilisateur "john1@doe.fr" est enregistré avec le mot de passe "0000"
+Context:
+    Given the user "DOE" "John" with "johndoe@coop.fr" is created
 
-Scénario: Connexion
-    Etant donné que je suis sur la page de Connexion
-    Lorsque je me connecte en tant que "john1@doe.fr" avec le mot de passe "0000"
-    Alors je dois être sur ma page d'accueil
+Scenario: log in
+    Given I am on the login page
+    And the user "DOE" "John" with "johndoe@coop.fr" is created
+    When I log in with my username "johndoe@coop.fr" and my password "johndoe@coop.fr"
+    Then I must be on my homepage

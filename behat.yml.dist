@@ -2,14 +2,15 @@ default:
     suites:
         default:
             contexts:
+                - FeatureContext
+                - Behat\MinkExtension\Context\MinkContext
                 - App\Tests\Behat\Hook\DoctrineContext
-                - App\Tests\Behat\Context\DemoContext
                 - App\Tests\Behat\Setup\UserContext
+                
                 - App\Tests\Behat\Context\LoginContext
                 - App\Tests\Behat\Context\IndexContext
-                - App\Tests\Behat\Context\AddCommitmentLogContext
-    
-
+                
+                - App\Tests\Behat\AddCommitmentLogContext
                 - App\Tests\Behat\DemoContext
 
     extensions:

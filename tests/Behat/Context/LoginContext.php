@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Functional\Context;
+namespace App\Tests\Behat\Context;
 
-use App\Tests\Functional\Page\LoginPage;
+use App\Tests\Behat\Page\LoginPage;
 use Behat\Behat\Context\Context;
 
 class LoginContext implements Context

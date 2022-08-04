@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Functional\Context;
+namespace App\Tests\Behat\Context;
 
 use Behat\Behat\Context\Context;
-use App\Tests\Functional\Page\IndexPage;
+use App\Tests\Behat\Page\IndexPage;
 
 class IndexContext implements Context
 {

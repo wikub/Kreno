@@ -6,28 +6,27 @@ services:
     App\Tests\Behat\:
         resource: '../tests/Behat/*'
 
-    # App\Tests\Behat\Page\:
-            
-    #             resource: '../tests/Functional/Page/*'
-    #     parent: 'FriendsOfBehat\PageObjectExtension\Page\SymfonyPage'
-    #     autoconfigure: false
-    #     public: false
-    #     autowire: true
+    App\Tests\Behat\Page\:            
+        resource: '../tests/Behat/Page/*'
+        parent: 'FriendsOfBehat\PageObjectExtension\Page\SymfonyPage'
+        autoconfigure: false
+        public: false
+        autowire: true
     
-    # FriendsOfBehat\PageObjectExtension\Page\Page:
-    #     abstract: true
-    #     autoconfigure: false
-    #     public: false
-    #     autowire: true
-    #     arguments:
-    #         - '@behat.mink.default_session'
-    #         - '@behat.mink.parameters'
+    FriendsOfBehat\PageObjectExtension\Page\Page:
+        abstract: true
+        autoconfigure: false
+        public: false
+        autowire: true
+        arguments:
+            - '@behat.mink.default_session'
+            - '@behat.mink.parameters'
     
-    # FriendsOfBehat\PageObjectExtension\Page\SymfonyPage:
-    #     abstract: true
-    #     autoconfigure: false
-    #     public: false
-    #     autowire: true
-    #     parent: 'FriendsOfBehat\PageObjectExtension\Page\Page'
-    #     arguments:
-    #         - '@router'
+    FriendsOfBehat\PageObjectExtension\Page\SymfonyPage:
+        abstract: true
+        autoconfigure: false
+        public: false
+        autowire: true
+        parent: 'FriendsOfBehat\PageObjectExtension\Page\Page'
+        arguments:
+            - '@router'

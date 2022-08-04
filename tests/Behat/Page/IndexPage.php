@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Functional\Page;
+namespace App\Tests\Behat\Page;
 
 use FriendsOfBehat\PageObjectExtension\Page\SymfonyPage;
 

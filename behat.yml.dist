@@ -2,21 +2,22 @@ default:
     suites:
         default:
             contexts:
-                - App\Tests\Functional\Hook\DoctrineContext
-                - App\Tests\Functional\Context\DemoContext
-                - App\Tests\Functional\Setup\UserContext
-                - App\Tests\Functional\Context\LoginContext
-                - App\Tests\Functional\Context\IndexContext
-                - App\Tests\Functional\Context\AddCommitmentLogContext
+                - App\Tests\Behat\Hook\DoctrineContext
+                - App\Tests\Behat\Context\DemoContext
+                - App\Tests\Behat\Setup\UserContext
+                - App\Tests\Behat\Context\LoginContext
+                - App\Tests\Behat\Context\IndexContext
+                - App\Tests\Behat\Context\AddCommitmentLogContext
     
 
+                - App\Tests\Behat\DemoContext
 
     extensions:
+        FriendsOfBehat\SymfonyExtension:
+            kernel:
+                environment: test
+            bootstrap: tests/bootstrap.php
         Behat\MinkExtension:
-            base_url: "https://localhost/"
-            default_session: symfony
             sessions:
                 symfony:
                     symfony: ~
-        FriendsOfBehat\SymfonyExtension: 
-            bootstrap: tests/bootstrap.php

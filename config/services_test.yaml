@@ -5,6 +5,7 @@ services:
 
     App\Tests\Behat\:
         resource: '../tests/Behat/*'
+        exclude: '../tests/Behat/{Page}'
 
     App\Tests\Behat\Page\:            
         resource: '../tests/Behat/Page/*'

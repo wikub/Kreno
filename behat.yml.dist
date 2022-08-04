@@ -19,6 +19,7 @@ default:
                 environment: test
             bootstrap: tests/bootstrap.php
         Behat\MinkExtension:
+            base_url: "https://127.0.0.1:8000/"
             sessions:
                 symfony:
                     symfony: ~

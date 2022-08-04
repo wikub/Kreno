@@ -18,4 +18,5 @@ class LoginPage extends SymfonyPage
         $this->getDocument()->fillField('password', $password);
         $this->getDocument()->pressButton('Entrer');
     }
+
 }

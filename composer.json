@@ -56,13 +56,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
-        "behat/behat": "^3.11",
-        "doctrine/data-fixtures": "^1.5",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "friends-of-behat/mink-browserkit-driver": "^1.6",
-        "friends-of-behat/mink-extension": "^2.7",
-        "friends-of-behat/page-object-extension": "^0.3.2",
-        "friends-of-behat/symfony-extension": "^2.3",
         "hautelook/alice-bundle": "^2.10",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.6",

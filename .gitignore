@@ -27,7 +27,3 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 .user.ini
-
-###> friends-of-behat/symfony-extension ###
-/behat.yml
-###< friends-of-behat/symfony-extension ###

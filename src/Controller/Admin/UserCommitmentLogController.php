@@ -22,9 +22,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/user/{user}/commitmentlog", name="admin_commitment_log_")
+ * @Route("/admin/user/{user}/commitmentlog", name="admin_user_commitment_log_")
  */
-class CommitmentLogController extends AbstractController
+class UserCommitmentLogController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
@@ -58,7 +58,7 @@ class CommitmentLogController extends AbstractController
             $entityManager->persist($commitmentLog);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_commitment_log_index', ['user' => $user->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_user_commitment_log_index', ['user' => $user->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/commitment_log/new.html.twig', [
@@ -90,7 +90,7 @@ class CommitmentLogController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_commitment_log_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_user_commitment_log_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/commitment_log/edit.html.twig', [
@@ -110,6 +110,6 @@ class CommitmentLogController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_commitment_log_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_user_commitment_log_index', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -8,7 +8,7 @@ class CommitmentLogAddPage extends SymfonyPage
 {
     public function getRouteName(): string
     {
-        return 'admin_commitment_log_add';
+        return 'admin_user_commitment_log_add';
     }
 
     public function fillTheForm(string $label, int $numberHour, int $numberTimeslot, string $cooperators)

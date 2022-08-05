@@ -1,68 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Solde des engagements de {{ user.displayName }}{% endblock %}
+{% block title %}Engagements réalisés{% endblock %}
 
 {% block body %}
-    {{ include('admin/user/_header.html.twig', {'nav_current': 'commitment_log'} ) }}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-users"></i> Engagements <a href="{{ path('admin_commitment_log_add') }}" class="btn btn-primary btn-sm" role="button" title="Ajouter un engagement"><i class="fas fa-plus"></i></a></h1>
+    </div>
 
     {% include '_elements/_flash_message.html.twig' %}
-
-    <div class="row justify-content-md-center mb-3">
-        
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-header text-center">
-                    <b>Solde créneaux</b>
-                </div>
-                <div class="card-body text-center">
-                    {{ sumNbTimeslot }}
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-header text-center">
-                    <b>Solde heures</b>
-                </div>
-                <div class="card-body text-center">
-                    {{ sumNbHour }}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {% if user.isEnabled %}
-    <div class="btn-group mb-3" role="group">
-        <a href="{{ path('admin_user_commitment_log_new', {'user': user.id}) }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-plus"></i> Ajouter</a>
-    </div>
-    {% endif %}
-
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Crée</th>
-                    <th>Nb créneaux</th>
-                    <th>Nb heure</th>
-                    <th>Commentaire</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for commitment_log in commitment_logs %}
-                <tr>
-                    <td class="text-center">{{ commitment_log.createdAt|date('d/m/Y H:i') }}</td>
-                    <td class="text-center">{{ commitment_log.nbTimeslot }}</td>
-                    <td class="text-center">{{ commitment_log.nbHour }}</td>
-                    <td>{{ commitment_log.comment }}</td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">Aucun engagement réalisé</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    
 {% endblock %}

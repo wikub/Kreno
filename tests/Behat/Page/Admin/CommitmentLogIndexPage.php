@@ -12,13 +12,14 @@ class CommitmentLogIndexPage extends SymfonyPage
 {
     public function getRouteName(): string
     {
-        return 'admin_user_commitment_log_index';
+        return 'admin_commitment_log_index';
     }
 
     public function goToTheAddForm()
     {
         $this->open();
-        $this->getDocument()->pressButton('Ajouter');
+        //$this->getDocument()->pressButton('Ajouter');
+        $this->getDocument()->clickLink('Ajouter un engagement');
     }
 
     public function iShouldSeeRowInTheTable($name, $unit, $type, $label )

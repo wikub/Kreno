@@ -37,7 +37,7 @@ class AddCommitmentLogContext implements Context
     /**
      * @When I go to the add commitment credit form
      */
-    public function IGoToTheAddCommitmentCreditForm($username, $password)
+    public function iGoToTheAddCommitmentCreditForm()
     {
         $this->commitmentLogIndexPage->goToTheAddForm();
     }
@@ -51,11 +51,11 @@ class AddCommitmentLogContext implements Context
     }
 
     /**
-     * @Then I should see the last commiment credit is for :name must have :unit :type with the label :label
+     * @Then I should see the last commiment credit is for :name must have :unit :type with the comment :comment
      */
-    public function theLastCommimentCreditIsForDoeJohnMustHaveHoursWithTheLabel($name, $unit, $type, $label)
+    public function theLastCommimentCreditIsForDoeJohnMustHaveHoursWithTheLabel($name, $unit, $type, $comment)
     {
-        $this->commitmentLogIndexPage->iShouldSeeRowInTheTable($name, $unit, $type, $label);
+        $this->commitmentLogIndexPage->iShouldSeeRowInTheTable($name, $unit, $type, $comment);
     }
 
 }

@@ -34,9 +34,8 @@ class CommitmentLogController extends AbstractController
         CommitmentLogRepository $commitmentLogRepository,
         PaginatorInterface $paginator,
         Request $request
-    ): Response
-    {
-        //$commitmentLogs = $commitmentLogRepository->findBy([], ['createdAt' => 'DESC']);
+    ): Response {
+        // $commitmentLogs = $commitmentLogRepository->findBy([], ['createdAt' => 'DESC']);
 
         $commitmentLogs = $paginator->paginate(
             $commitmentLogRepository->getQueryBuilder(),

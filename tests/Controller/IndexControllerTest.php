@@ -4,7 +4,6 @@ namespace App\Tests\Controller;
 
 use App\Tests\FixturesTrait;
 use App\Tests\WebTestCase;
-use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 
 class IndexControllerTest extends WebTestCase
 {

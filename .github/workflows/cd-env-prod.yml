@@ -1,7 +1,5 @@
 name: Pipeline-CD to Production environment
-on:
-  push:
-    branches: [ env-prod ]
+on: workflow_dispatch
 jobs:
   cd:
     runs-on: ubuntu-latest

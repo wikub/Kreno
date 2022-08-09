@@ -1,0 +1,10 @@
+App\Entity\User:
+    user (template):
+        username: John<current()>
+        email: john<current()>\@doe.fr
+        password: <password('0000')>
+        createdAt: <dateTimeThisYear()>
+        name: <name()>
+        firstname: <firstname()>
+        phonenumber: <phonenumber()>
+        enabled: true

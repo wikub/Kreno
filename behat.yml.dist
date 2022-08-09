@@ -1,0 +1,25 @@
+default:
+    suites:
+        default:
+            contexts:
+                - FeatureContext
+                - Behat\MinkExtension\Context\MinkContext
+                - App\Tests\Behat\Hook\DoctrineContext
+                - App\Tests\Behat\Setup\UserContext
+                
+                - App\Tests\Behat\Context\LoginContext
+                - App\Tests\Behat\Context\IndexContext
+                
+                - App\Tests\Behat\AddCommitmentLogContext
+                - App\Tests\Behat\DemoContext
+
+    extensions:
+        FriendsOfBehat\SymfonyExtension:
+            kernel:
+                environment: test
+            bootstrap: tests/bootstrap.php
+        Behat\MinkExtension:
+            base_url: "https://127.0.0.1:8000/"
+            sessions:
+                symfony:
+                    symfony: ~

@@ -1,0 +1,6 @@
+include:
+  - ../../fixtures/templates.yaml
+
+App\Entity\User:
+    user{1..5} (extends user):
+    

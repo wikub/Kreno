@@ -63,11 +63,11 @@ class UserTest extends TestCase
         $user = new User();
 
         $user->setEmail(self::USER_EMAIL)
-             ->setPassword(self::USER_PASSWORD)
-             ->setRoles(self::USER_ROLES)
-             ->setName(self::USER_NAME)
-             ->setFirstname(self::USER_FIRSTAME)
-             ->setPhonenumber(self::USER_PHONE_NUMBER)
+            ->setPassword(self::USER_PASSWORD)
+            ->setRoles(self::USER_ROLES)
+            ->setName(self::USER_NAME)
+            ->setFirstname(self::USER_FIRSTAME)
+            ->setPhonenumber(self::USER_PHONE_NUMBER)
         ;
 
         return $user;

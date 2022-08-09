@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('user-tags', './assets/js/userTags.js')
+    .addEntry('admin-commitmentlog-add', './assets/js/AdminCommitmentLogAddForm.js')
 
     .addEntry('wikubSfCollection', './assets/js/wikubSfCollection.js')
 

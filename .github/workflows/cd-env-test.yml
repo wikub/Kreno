@@ -1,7 +1,5 @@
 name: Pipeline-CD to Test environment
-on:
-  push:
-    branches: [ env-test ]
+on: workflow_dispatch
 jobs:
   cd:
     runs-on: ubuntu-latest

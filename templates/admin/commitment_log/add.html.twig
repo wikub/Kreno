@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveaux engagements{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-balance-scale"></i> Nouveaux engagements</h1>
+    </div>
+
+    {% include '_elements/_flash_message.html.twig' %}
+
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-balance-scale"></i> Nouveaux engagements
+        </div>
+        <div class="card-body">
+
+        {{ include('admin/commitment_log/_form.html.twig') }}
+        </div>
+    </div>
+
+    <div class="card bg-light mt-3">
+        <div class="card-body">
+            <p class="card-title h5"><i class="fas fa-info"></i> Informations</p>
+            <p>Les engagements sont le reflet de la participation et se comptent en créneau ou en heure.</p>
+            <p>Ils ne sont pas modifiable. Si vous souhaitez annuler un ajout, vous pouvez mettre des nombre négatif</p>
+            <p>Il est important de mettre un commentaire explicite sur la nature de l'engagement</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('admin-commitmentlog-add') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin-commitmentlog-add') }}
+{% endblock %}

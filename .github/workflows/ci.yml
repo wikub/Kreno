@@ -2,7 +2,7 @@ name: Pipeline-CI
 on:
   push:
     branches: [ main ]
-  workflow_dispatch
+  workflow_dispatch:
 jobs:
   ci:
     runs-on: ubuntu-latest

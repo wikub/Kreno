@@ -17,9 +17,12 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         parent::setUp();
         $this->client = self::createClient();
         /** @var EntityManagerInterface $em */
-        $em = self::getContainer()->get(EntityManagerInterface::class);
-        $this->em = $em;
+        $this->em = self::getContainer()->get(EntityManagerInterface::class);
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
+        
+        $schema = new GenerateSchema();
+        $schema->generate();
+        
         parent::setUp();
     }
 

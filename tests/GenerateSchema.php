@@ -38,5 +38,6 @@ class GenerateSchema extends KernelTestCase
 
         $tool = new SchemaTool($entityManager);
         $tool->updateSchema($metadata);
+
     }
 }

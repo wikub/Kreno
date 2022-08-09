@@ -4,8 +4,48 @@
 
 {% block body %}
     <div class="pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2"><i class="fas fa-users"></i> Engagements <a href="{{ path('admin_commitment_log_add') }}" class="btn btn-primary btn-sm" role="button" title="Ajouter un engagement"><i class="fas fa-plus"></i></a></h1>
+        <h1 class="h2"><i class="fas fa-balance-scale"></i> Engagements <a href="{{ path('admin_commitment_log_add') }}" class="btn btn-primary btn-sm" role="button" title="Ajouter un engagement"><i class="fas fa-plus"></i></a></h1>
     </div>
 
     {% include '_elements/_flash_message.html.twig' %}
+
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Crée le</th>
+                    <th>Coopérateur</th>
+                    <th>Créneau</th>
+                    <th>Heure</th>
+                    <th>Commentaire</th>
+                    <th>Ajouté par</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for commitmentLog in commitmentLogs %}
+                <tr>
+                    <td>{{ commitmentLog.createdAt|date('d/m/Y H:i') }}</td>
+                    <td><a href="{{ path('admin_user_commitment_log_index', {'user': commitmentLog.user.id }) }}">{{ commitmentLog.user.name }} {{ commitmentLog.user.firstname }}</a></td>
+                    <td>{{ commitmentLog.nbTimeslot }}</td>
+                    <td>{{ commitmentLog.nbHour }}</td>
+                    <td>{{ commitmentLog.comment }}</td>
+                    <td>{% if commitmentLog.createdBy %}
+                        {{ commitmentLog.createdBy.name  }}
+                        {{ commitmentLog.createdBy.firstname }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="navigation text-center">
+            {{ knp_pagination_render(commitmentLogs, null, {}, {
+                'align': 'center',
+            }) }}
+        </div>
+    </div>
 {% endblock %}

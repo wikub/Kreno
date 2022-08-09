@@ -14,7 +14,8 @@ Feature: Adding commitment credit
         When I go to the add commitment credit form
         And I fill in "Commentaire" with "administrative work"
         And I fill in "Nombre d'heure" with "2"
-        And I fill in "Coopérateurs" with "DOE John"
+        And I fill in "Nombre de créneau" with "0"
+        And I select "DOE John" from "Coopérateurs"
         And I press "Ajouter"
         Then I should be  on the commitment credits monitoring page
         And I should see the last commiment credit is for "DOE John" must have "2" "hours" with the comment "administrative work"
@@ -23,9 +24,13 @@ Feature: Adding commitment credit
         Given I am on the commitment credits monitoring page
         When I go to the add commitment credit form
         And I fill in "Commentaire" with "Shop work"
+        And I fill in "Nombre d'heure" with "0"
         And I fill in "Nombre de créneaux" with "1"
-        And I fill in "Coopérateurs" with "PETERS Jane"
+        And I select "PETERS Jane" from "Coopérateurs"
+        And I additionally select "DOE John" from "Coopérateurs"
         And I press "Ajouter"
         Then I should be  on the commitment credits monitoring page
-        And I should see the last commiment credit is for "PETERS Jane" must have "1" "timeslot" with the comment "shop work"
+        And I should see the last commiment credit is for "PETERS Jane" must have "1" "timeslot" with the comment "Shop work"
+        And I should see the last commiment credit is for "DOE John" must have "1" "timeslot" with the comment "Shop work"
+        
 

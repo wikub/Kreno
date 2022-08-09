@@ -12,11 +12,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\CommitmentLog;
-use App\Entity\User;
 use App\Form\Admin\CommitmentLogType;
 use App\Form\Model\AddCommitmentLogFormModel;
 use App\Repository\CommitmentLogRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,12 +30,22 @@ class CommitmentLogController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(CommitmentLogRepository $commitmentLogRepository): Response
+    public function index(
+        CommitmentLogRepository $commitmentLogRepository,
+        PaginatorInterface $paginator,
+        Request $request
+    ): Response
     {
-        $commitmentLogs = $commitmentLogRepository->findBy([], ['createdAt' => 'DESC']);
+        //$commitmentLogs = $commitmentLogRepository->findBy([], ['createdAt' => 'DESC']);
+
+        $commitmentLogs = $paginator->paginate(
+            $commitmentLogRepository->getQueryBuilder(),
+            $request->query->getInt('page', 1),
+            20
+        );
 
         return $this->render('admin/commitment_log/index.html.twig', [
-            'commitment_logs' => $commitmentLogs,
+            'commitmentLogs' => $commitmentLogs,
         ]);
     }
 
@@ -55,6 +65,7 @@ class CommitmentLogController extends AbstractController
                 $commitmentLog->setNbHour($addCommitmentFormModel->nbHour);
                 $commitmentLog->setNbTimeslot($addCommitmentFormModel->nbTimeslot);
                 $commitmentLog->setComment($addCommitmentFormModel->comment);
+                $commitmentLog->setCreatedBy($this->getUser());
 
                 $entityManager->persist($commitmentLog);
             }
@@ -69,50 +80,5 @@ class CommitmentLogController extends AbstractController
         return $this->renderForm('admin/commitment_log/add.html.twig', [
             'form' => $form,
         ]);
-    }
-
-    /**
-     * @Route("/{id}", name="show", methods={"GET"})
-     */
-    public function show(CommitmentLog $commitmentLog, User $user): Response
-    {
-        return $this->render('admin/commitment_log/show.html.twig', [
-            'commitment_log' => $commitmentLog,
-            'user' => $user,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
-     */
-    public function edit(Request $request, CommitmentLog $commitmentLog, EntityManagerInterface $entityManager, User $user): Response
-    {
-        $form = $this->createForm(CommitmentLogType::class, $commitmentLog);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('admin_user_commitment_log_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('admin/commitment_log/edit.html.twig', [
-            'commitment_log' => $commitmentLog,
-            'form' => $form,
-            'user' => $user,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="delete", methods={"POST"})
-     */
-    public function delete(Request $request, CommitmentLog $commitmentLog, EntityManagerInterface $entityManager, User $user): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$commitmentLog->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($commitmentLog);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('admin_user_commitment_log_index', [], Response::HTTP_SEE_OTHER);
     }
 }

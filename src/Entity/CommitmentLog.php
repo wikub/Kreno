@@ -11,9 +11,9 @@
 
 namespace App\Entity;
 
-use App\Repository\CommitmentLogRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CommitmentLogRepository::class)
@@ -58,6 +58,11 @@ class CommitmentLog
      * @ORM\Column(type="json", nullable=true)
      */
     private $reference = [];
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     */
+    private $createdBy;
 
     public function __construct()
     {
@@ -126,6 +131,18 @@ class CommitmentLog
     public function setReference(?array $reference): self
     {
         $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

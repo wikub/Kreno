@@ -14,6 +14,7 @@ namespace App\Repository;
 use App\Entity\CommitmentLog;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -27,6 +28,16 @@ class CommitmentLogRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CommitmentLog::class);
+    }
+
+    public function getQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('cl')
+            ->join('cl.user', 'u')
+            ->leftjoin('cl.createdBy', 'cb')
+            ->orderBy('cl.createdAt', 'DESC')
+            ->addOrderBy('u.name', 'ASC')
+            ->addOrderBy('u.firstname', 'ASC');
     }
 
     public function getSumnbTimeslot(User $user): ?int

@@ -27,35 +27,35 @@ class CommitmentLogType extends AbstractType
     {
         $builder
             ->add('users', EntityType::class,
-            [
-                'label' => 'Coopérateurs',
-                'class' => User::class,
-                'choice_label' => function(User $user) {
-                    return $user->getName().' '.$user->getFirstname();
-                },
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->where('u.enabled = 1')
-                        ->orderBy('u.name', 'ASC')
-                        ->addOrderBy('u.firstname', 'ASC');
-                },
-                'multiple' => true,
-                'attr' => [
-                    'class' => 'js-choice'
-                ]
-            ])
+                [
+                    'label' => 'Coopérateurs',
+                    'class' => User::class,
+                    'choice_label' => function (User $user) {
+                        return $user->getName().' '.$user->getFirstname();
+                    },
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            ->where('u.enabled = 1')
+                            ->orderBy('u.name', 'ASC')
+                            ->addOrderBy('u.firstname', 'ASC');
+                    },
+                    'multiple' => true,
+                    'attr' => [
+                        'class' => 'js-choice',
+                    ],
+                ])
             ->add('nbTimeslot', NumberType::class, [
-                'label' => 'Nombre de créneaux',
-                'scale' => 0,
-                'html5' => true,
+                    'label' => 'Nombre de créneaux',
+                    'scale' => 0,
+                    'html5' => true,
             ])
             ->add('nbHour', NumberType::class, [
-                'label' => 'Nombre d\'heure',
-                'scale' => 1,
-                'html5' => true,
+                    'label' => 'Nombre d\'heure',
+                    'scale' => 1,
+                    'html5' => true,
             ])
             ->add('comment', TextType::class, [
-                'label' => 'Commentaire',
+                    'label' => 'Commentaire',
             ])
         ;
     }

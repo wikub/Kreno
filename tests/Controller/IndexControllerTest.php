@@ -21,6 +21,7 @@ class IndexControllerTest extends WebTestCase
 
         $this->client->request('GET', '/');
         $crawler = $this->client->followRedirect();
+        var_export($crawler->text());
         $this->assertStringContainsString('Identification', $crawler->filter('div.card-header')->text());
         //$this->assertResponseRedirects('/login');
     }

@@ -99,8 +99,10 @@ class CommitmentContractRepository extends ServiceEntityRepository
             ->leftJoin('cc.finishCycle', 'finishCycle')
             ->andWhere('startCycle.start <= :startCycle AND (finishCycle.finish IS NULL OR :startCycle <= finishCycle.finish) ')
             ->andWhere('startCycle.start <= :finishCycle AND (finishCycle.finish IS NULL OR :finishCycle <= finishCycle.finish) ')
+            ->andWhere('cc.user = :user')
             ->setParameter('startCycle', $startCycle)
-            ->setParameter('finishCycle', $finishCycle);
+            ->setParameter('finishCycle', $finishCycle)
+            ->setParameter('user', $commitmentContract->getUser());
 
         if ($commitmentContract->getId()) {
             $qb->andWhere('cc.id <> :id')

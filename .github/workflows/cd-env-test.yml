@@ -28,6 +28,7 @@ jobs:
           port: ${{ secrets.TEST_SSH_PORT }}
           script_stop: true
           script: |
+            echo ${{ secrets.TEST_DIST_PROJECT_DIR }}
             cd ${{ secrets.TEST_DIST_PROJECT_DIR }}
             source ~/.profile
             git pull
@@ -44,3 +45,4 @@ jobs:
           source: "./public/build"
           target: "${{ secrets.TEST_DIST_PROJECT_DIR }}/public/build"
           rm: true
+          overwrite: true

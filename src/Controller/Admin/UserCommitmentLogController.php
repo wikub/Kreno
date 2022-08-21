@@ -51,6 +51,7 @@ class UserCommitmentLogController extends AbstractController
     {
         $commitmentLog = new CommitmentLog();
         $commitmentLog->setUser($user);
+        $commitmentLog->setCreatedBy($this->getUser());
         $form = $this->createForm(UserCommitmentLogType::class, $commitmentLog);
         $form->handleRequest($request);
 

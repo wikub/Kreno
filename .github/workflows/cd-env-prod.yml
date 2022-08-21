@@ -42,4 +42,5 @@ jobs:
           key: ${{ secrets.ENV_PROD_SSH_PRIVATE_KEY }}
           port: ${{ secrets.ENV_PROD_SSH_PORT }}
           source: "./public/build"
-          target: "${{ secrets.ENV_PROD_DIST_PROJECT_DIR }}/public/build"
+          target: "${{ secrets.ENV_PROD_DIST_PROJECT_DIR }}"
+          overwrite: true

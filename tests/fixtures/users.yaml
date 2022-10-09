@@ -2,5 +2,12 @@ include:
   - ../../fixtures/templates.yaml
 
 App\Entity\User:
-    user{1..5} (extends user):
+    user1 (extends user):
+        name: 'admin'
+        firstname: 'admin'
+        email: 'admin@admin.com'
+        username: 'admin@admin.com'
+        roles: ['ROLE_ADMIN']
+    user{2..5} (extends user):
+
     

@@ -99,3 +99,12 @@ $color-validated: $purple-600;
 .border-validated {
     border-color: $color-validated;
 }
+
+table.table form {
+    width: min-content;
+    display: initial;
+
+    .btn {
+        @extend .btn-sm;
+    }
+}

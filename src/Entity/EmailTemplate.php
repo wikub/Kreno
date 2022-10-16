@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use App\Repository\EmailTemplateRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=EmailTemplateRepository::class)
+ * @UniqueEntity("code")
  */
 class EmailTemplate
 {
@@ -31,7 +33,7 @@ class EmailTemplate
     private $label;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank
      * @Assert\Length(
      *      min = 4,

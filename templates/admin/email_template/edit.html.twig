@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification du template email #{{email_template.id}}{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-wrench"></i> Nouveau paramétrage</h1>
+    </div>
+
+    {{ include('admin/email_template/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+
+{% endblock %}

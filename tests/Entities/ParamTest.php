@@ -46,12 +46,10 @@ class ParamTest extends KernelTestCase
     {
         $this->expectException(TypeError::class);
         $this->getEntity()->setCode(null);
-        
     }
-    
+
     public function testInvalidCodeEntity()
     {
-        
         $this->assertHasErrors($this->getEntity()->setCode(0), 1);
         $this->assertHasErrors($this->getEntity()->setCode(123), 1);
         $this->assertHasErrors($this->getEntity()->setCode('123'), 1);

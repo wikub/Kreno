@@ -57,7 +57,6 @@ class EmailSenderTest extends WebTestCase
         $this->assertEmailCount(1);
 
         $emailContent = $this->getMailerMessage();
-        dd($emailContent);
 
         $this->assertEmailHtmlBodyContains($emailContent, 'Hello world');
         $this->assertEmailTextBodyContains($emailContent, 'Hello world');
@@ -65,7 +64,21 @@ class EmailSenderTest extends WebTestCase
 
     public function testSendWithEmailTemplate()
     {
-        $this->assertSame(true, true);
+        $this->assertEmailCount(0);
+
+        $this->emailSender->sendWithEmailTemplate(
+            'TEST',
+            new Address('us@me.com', 'Test'),
+            ['var1' => 'Hello world']
+        );
+
+        $this->assertEmailCount(1);
+
+        $emailContent = $this->getMailerMessage();
+
+        $this->assertEmailHtmlBodyContains($emailContent, 'Hello world');
+        $this->assertEmailTextBodyContains($emailContent, 'Hello world');
+
     }
 
 }

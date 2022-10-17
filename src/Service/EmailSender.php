@@ -61,7 +61,7 @@ class EmailSender
         $email->from($this->addressFrom);
         $email->to($adressTo);
         $email->subject($subject);
-        $email->html($template);
+        $email->htmlTemplate($template);
         $email->context($context);
 
         $this->mailer->send($email);

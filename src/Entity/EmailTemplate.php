@@ -55,7 +55,7 @@ class EmailTemplate
      *      maxMessage = "Le code ne peut avoir que {{ limit }} caractères maximums"
      * )
      */
-    private $title;
+    private $subject;
 
     /**
      * @ORM\Column(type="text")
@@ -96,14 +96,14 @@ class EmailTemplate
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getSubject(): ?string
     {
-        return $this->title;
+        return $this->subject;
     }
 
-    public function setTitle(string $title): self
+    public function setSubject(string $subject): self
     {
-        $this->title = $title;
+        $this->subject = $subject;
 
         return $this;
     }

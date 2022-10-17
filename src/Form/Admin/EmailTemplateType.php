@@ -20,7 +20,7 @@ class EmailTemplateType extends AbstractType
             ->add('code', TextType::class, [
                 'label' => 'Code'
             ])
-            ->add('title', TextType::class, [
+            ->add('subject', TextType::class, [
                 'label' => 'Objet de l\'email'
             ])
             ->add('body', CKEditorType::class, [

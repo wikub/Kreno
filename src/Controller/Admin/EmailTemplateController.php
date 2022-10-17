@@ -5,9 +5,11 @@ namespace App\Controller\Admin;
 use App\Entity\EmailTemplate;
 use App\Form\Admin\EmailTemplateType;
 use App\Repository\EmailTemplateRepository;
+use App\Service\EmailSender;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -18,8 +20,11 @@ class EmailTemplateController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(EmailTemplateRepository $emailTemplateRepository): Response
+    public function index(EmailTemplateRepository $emailTemplateRepository, EmailSender $emailSender): Response
     {
+        //test envoi d'email
+        $emailSender->sendWithEmailTemplate('TEST', new Address('vvm@gusv.net'), ['var1' => 'Valentin']);
+        
         return $this->render('admin/email_template/index.html.twig', [
             'email_templates' => $emailTemplateRepository->findAll(),
         ]);

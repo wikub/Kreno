@@ -60,7 +60,7 @@ class EmailTemplateControllerTest extends WebTestCase
         $this->client->submitForm('Enregistrer', [
             'email_template[label]' => $emailTemplate->getLabel(),
             'email_template[code]' => $emailTemplate->getCode(),
-            'email_template[title]' => $emailTemplate->getTitle(),
+            'email_template[subject]' => $emailTemplate->getSubject(),
             'email_template[body]' => $emailTemplate->getBody(),
         ]);
 
@@ -72,7 +72,7 @@ class EmailTemplateControllerTest extends WebTestCase
 
         self::assertSame($emailTemplate->getLabel(), $paramSaved->getLabel());
         self::assertSame($emailTemplate->getCode(), $paramSaved->getCode());
-        self::assertSame($emailTemplate->getTitle(), $paramSaved->getTitle());
+        self::assertSame($emailTemplate->getSubject(), $paramSaved->getSubject());
         self::assertSame($emailTemplate->getBody(), $paramSaved->getBody());
     }
 
@@ -80,10 +80,10 @@ class EmailTemplateControllerTest extends WebTestCase
     {
         return [
             [
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
             ],
             [
-                (new EmailTemplate())->setLabel('Template 2 - possible test') ->setCode('CODE2ABC')->setTitle('Title of the good {{name}}')->setBody('<html>Bonjour {{ name }}</html>'),
+                (new EmailTemplate())->setLabel('Template 2 - possible test') ->setCode('CODE2ABC')->setSubject('Title of the good {{name}}')->setBody('<html>Bonjour {{ name }}</html>'),
             ],
         ];
     }
@@ -93,21 +93,21 @@ class EmailTemplateControllerTest extends WebTestCase
         $emailTemplate1 = (new EmailTemplate())
             ->setLabel('ABCD')
             ->setCode('CODE_1')
-            ->setTitle('Title')
+            ->setSubject('Title')
             ->setBody('Body email')
             ;
         
         $emailTemplate2 = (new EmailTemplate())
             ->setLabel('ABCD')
             ->setCode('CODE_2')
-            ->setTitle('Title')
+            ->setSubject('Title')
             ->setBody('Body email')
             ;
         
         $emailTemplate3 = (new EmailTemplate())
             ->setLabel('ABCD')
             ->setCode('CODE_2')
-            ->setTitle('Title')
+            ->setSubject('Title')
             ->setBody('Body email')
             ;
         
@@ -121,7 +121,7 @@ class EmailTemplateControllerTest extends WebTestCase
         $this->client->submitForm('Enregistrer', [
             'email_template[label]' => $emailTemplate2->getLabel(),
             'email_template[code]' => $emailTemplate2->getCode(),
-            'email_template[title]' => $emailTemplate2->getTitle(),
+            'email_template[subject]' => $emailTemplate2->getSubject(),
             'email_template[body]' => $emailTemplate2->getBody(),
         ]);
 
@@ -137,7 +137,7 @@ class EmailTemplateControllerTest extends WebTestCase
         $this->client->submitForm('Enregistrer', [
             'email_template[label]' => $emailTemplate3->getLabel(),
             'email_template[code]' => $emailTemplate3->getCode(),
-            'email_template[title]' => $emailTemplate3->getTitle(),
+            'email_template[subject]' => $emailTemplate3->getSubject(),
             'email_template[body]' => $emailTemplate3->getBody(),
         ]);
 
@@ -161,7 +161,7 @@ class EmailTemplateControllerTest extends WebTestCase
         $this->client->submitForm('Enregistrer', [
             'email_template[label]' => $emailTemplate->getLabel(),
             'email_template[code]' => $emailTemplate->getCode(),
-            'email_template[title]' => $emailTemplate->getTitle(),
+            'email_template[subject]' => $emailTemplate->getSubject(),
             'email_template[body]' => $emailTemplate->getBody(),
         ]);
         
@@ -174,16 +174,16 @@ class EmailTemplateControllerTest extends WebTestCase
     {
         return [
             [
-                (new EmailTemplate())->setLabel('') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
             ],
             [
-                (new EmailTemplate())->setLabel('Correct label') ->setCode('')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Correct label') ->setCode('')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
             ],
             [
-                (new EmailTemplate())->setLabel('Correct label') ->setCode('Correct_code')->setTitle('')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Correct label') ->setCode('Correct_code')->setSubject('')->setBody('<html>Bonjour {{ alpha }}</html>'),
             ],
             [
-                (new EmailTemplate())->setLabel('Correct label') ->setCode('Correct_code')->setTitle('with title')->setBody(''),
+                (new EmailTemplate())->setLabel('Correct label') ->setCode('Correct_code')->setSubject('with title')->setBody(''),
             ],
         ];
     }
@@ -200,7 +200,7 @@ class EmailTemplateControllerTest extends WebTestCase
         $this->client->submitForm('Enregistrer', [
             'email_template[label]' => $emailTemplateOut->getLabel(),
             'email_template[code]' => $emailTemplateOut->getCode(),
-            'email_template[title]' => $emailTemplateOut->getTitle(),
+            'email_template[subject]' => $emailTemplateOut->getSubject(),
             'email_template[body]' => $emailTemplateOut->getBody(),
         ]);
 
@@ -210,7 +210,7 @@ class EmailTemplateControllerTest extends WebTestCase
 
         self::assertSame($emailTemplateOut->getLabel(), $emailTemplate->getLabel());
         self::assertSame($emailTemplateOut->getCode(), $emailTemplate->getCode());
-        self::assertSame($emailTemplateOut->getTitle(), $emailTemplate->getTitle());
+        self::assertSame($emailTemplateOut->getSubject(), $emailTemplate->getSubject());
         self::assertSame($emailTemplateOut->getBody(), $emailTemplate->getBody());
     }
 
@@ -219,20 +219,20 @@ class EmailTemplateControllerTest extends WebTestCase
     {
         return [
             [
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
-                (new EmailTemplate())->setLabel('Template 1 updated') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1 updated') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
             ],
             [
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1_UPDATED')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1_UPDATED')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
             ],
             [
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('Title of the killer who was update')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('Title of the killer who was update')->setBody('<html>Bonjour {{ alpha }}</html>'),
             ],
             [
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }} and me</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }} and me</html>'),
             ],
         ];
     }
@@ -249,7 +249,7 @@ class EmailTemplateControllerTest extends WebTestCase
         $this->client->submitForm('Enregistrer', [
             'email_template[label]' => $emailTemplateOut->getLabel(),
             'email_template[code]' => $emailTemplateOut->getCode(),
-            'email_template[title]' => $emailTemplateOut->getTitle(),
+            'email_template[subject]' => $emailTemplateOut->getSubject(),
             'email_template[body]' => $emailTemplateOut->getBody(),
         ]);
 
@@ -258,7 +258,7 @@ class EmailTemplateControllerTest extends WebTestCase
         //Check if Param don't change
         self::assertSame($emailTemplateIn->getLabel(), $emailTemplate->getLabel());
         self::assertSame($emailTemplateIn->getCode(), $emailTemplate->getCode());
-        self::assertSame($emailTemplateIn->getTitle(), $emailTemplate->getTitle());
+        self::assertSame($emailTemplateIn->getSubject(), $emailTemplate->getSubject());
         self::assertSame($emailTemplateIn->getBody(), $emailTemplate->getBody());
     }
 
@@ -266,24 +266,24 @@ class EmailTemplateControllerTest extends WebTestCase
     {
         return [
             [
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
-                (new EmailTemplate())->setLabel('Tem') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Tem') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
             ],
             [
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE 1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE 1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
             ],
             [
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('COD')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('COD')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
             ],
             [
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('ABC')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('ABC')->setBody('<html>Bonjour {{ alpha }}</html>'),
             ],
             [
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
-                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setTitle('Title of the killer')->setBody('Abc'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('<html>Bonjour {{ alpha }}</html>'),
+                (new EmailTemplate())->setLabel('Template 1') ->setCode('CODE_1')->setSubject('Title of the killer')->setBody('Abc'),
             ],
         ];
     }
@@ -293,7 +293,7 @@ class EmailTemplateControllerTest extends WebTestCase
         $fixture = (new EmailTemplate())
             ->setLabel('template to delete')
             ->setCode('CODE_TO_DELETE')
-            ->setTitle('email')
+            ->setSubject('email')
             ->setBody('body')
             ;
         

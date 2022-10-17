@@ -13,6 +13,7 @@ namespace App\Tests\Entities;
 
 use App\Entity\EmailTemplate;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Validator\ConstraintViolation;
 use TypeError;
 
 class EmailTemplateTest extends KernelTestCase
@@ -22,7 +23,7 @@ class EmailTemplateTest extends KernelTestCase
         return (new EmailTemplate())
             ->setLabel('Template 1')
             ->setCode('TEMP_A')
-            ->setTitle('ALPHA zeta MeGA')
+            ->setSubject('ALPHA zeta MeGA')
             ->setBody('<html> {{test}} </html>')
         ;
     }
@@ -70,16 +71,16 @@ class EmailTemplateTest extends KernelTestCase
         $this->getEntity()->setCode(null);
     }
 
-    public function testInvalidTitleEntity()
+    public function testInvalidSubjectEntity()
     {
-        $this->assertHasErrors($this->getEntity()->setTitle(''), 2);
-        $this->assertHasErrors($this->getEntity()->setTitle('Abc'), 1);
+        $this->assertHasErrors($this->getEntity()->setSubject(''), 2);
+        $this->assertHasErrors($this->getEntity()->setSubject('Abc'), 1);
     }
 
-    public function testExceptionTitleEntity()
+    public function testExceptionSubjectEntity()
     {
         $this->expectException(TypeError::class);
-        $this->getEntity()->setTitle(null);
+        $this->getEntity()->setSubject(null);
     }
 
     public function testInvalidBodyEntity()

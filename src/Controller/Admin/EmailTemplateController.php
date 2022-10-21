@@ -21,10 +21,7 @@ class EmailTemplateController extends AbstractController
      * @Route("/", name="index", methods={"GET"})
      */
     public function index(EmailTemplateRepository $emailTemplateRepository, EmailSender $emailSender): Response
-    {
-        //test envoi d'email
-        $emailSender->sendWithEmailTemplate('TEST', new Address('vvm@gusv.net'), ['var1' => 'Valentin']);
-        
+    {   
         return $this->render('admin/email_template/index.html.twig', [
             'email_templates' => $emailTemplateRepository->findAll(),
         ]);

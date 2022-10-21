@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Email logs{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-mail-bulk"></i> Email logs</h1>
+    </div>
+
+    {% include '_elements/_flash_message.html.twig' %}
+    <div class="row">
+        <div class="col">
+            <a href="{{ path('admin_email_template_index') }}" class="btn btn-primary" role="button"><i class="fas fa-envelope-square"></i> Templates</a>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Destinataire</th>
+                    <th>Objet</th>
+                    <th>Envoyé</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for email_log in email_logs %}
+                <tr>
+                    <td>{{ email_log.id }}</td>
+                    <td>{{ email_log.nameTo }} {{ email_log.emailTo }}</td>
+                    <td>{{ email_log.subject }}</td>
+                    <td>{{ email_log.sendedAt|date('d/m/Y H:i:s') }}</td>
+                    <td><a href="{{ path('admin_email_log_show', {'id': email_log.id }) }}" class="btn btn-sm btn-primary">Détails</a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan=""4"" class="text-center">Aucun email envoyé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

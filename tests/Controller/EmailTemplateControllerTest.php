@@ -15,7 +15,6 @@ use App\Entity\EmailTemplate;
 use App\Repository\EmailTemplateRepository;
 use App\Tests\FixturesTrait;
 use App\Tests\WebTestCase;
-use Doctrine\ORM\EntityManagerInterface;
 
 class EmailTemplateControllerTest extends WebTestCase
 {
@@ -23,7 +22,8 @@ class EmailTemplateControllerTest extends WebTestCase
 
     private EmailTemplateRepository $repository;
     private string $path = '/admin/email-template/';
-
+    private array $ref;
+    
     protected function setUp(): void
     {
         parent::setUp();
@@ -34,8 +34,8 @@ class EmailTemplateControllerTest extends WebTestCase
             $this->repository->remove($object, true);
         }
 
-        $users = $this->loadFixtures(['users']);
-        $this->login($users['user1']);
+        $this->ref = $this->loadFixtures(['users', 'params']);
+        $this->login($this->ref['user1']);
     }
 
     public function testIndex(): void
@@ -300,6 +300,7 @@ class EmailTemplateControllerTest extends WebTestCase
         $this->repository->add($fixture, true);
         
         $this->client->request('GET', sprintf($this->path));
+        $this->assertResponseStatusCodeSame(200);
         $this->client->submitForm('Supprimer');
 
         self::assertResponseRedirects($this->path);

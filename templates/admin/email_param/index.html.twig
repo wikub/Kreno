@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EmailParamController!{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-cog"></i> Paramètrages des notifications par email</h1>
+    </div>
+
+    {{ form_start(form) }}
+        <h2 class="h3">Notification début de cycle</h2>
+        <div class="row mb-3" >
+            <div class="col">
+                {{ form_widget(form.EMAIL_NOTIF_START_CYCLE_ENABLE) }}
+                <label class="form-check-label" for="EMAIL_NOTIF_START_CYCLE">Activer la notification</label>
+            </div>
+        </div>
+            <div class="row mb-3">
+                <div class="col alert alert-secondary" role="alert">
+                <p><i class="fas fa-info"></i> Aide</p>
+                <p>Configurer au préalable le template "EMAIL_NOTIF_START_CYCLE"</p>
+            </div>
+        </div>
+        
+
+        <h2 class="h3">Notification de rappel de créneaux</h2>
+        <div class="row mb-3" >
+            <div class="col">
+                {{ form_widget(form.EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE) }}
+                <label class="form-check-label" for="EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE">Activer la notification</label>
+            </div>
+        </div>
+        <div class="row mb-3" >
+            <div class="col">
+                {{ form_widget(form.EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOUR_BEFORE) }}
+                <label class="form-label" for="EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOUR_BEFORE">Nombre d'heure avant le créneau</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col alert alert-secondary" role="alert">
+                <p><i class="fas fa-info"></i> Aide</p>
+                <p>Configurer au préalable le template "EMAIL_NOTIF_REMINDER_TIMESLOT"</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-primary"><i class="far fa-save"></i> Enregistrer</button>
+            </div>
+        </div>
+
+    {{ form_end(form) }}
+{% endblock %}

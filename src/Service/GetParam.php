@@ -14,11 +14,11 @@ class GetParam
         $this->paramRepository = $paramRepository;
     }
 
-    public function get(string $code): string
+    public function get(string $code): ?string
     {
         $param = $this->paramRepository->findOneBy(['code' => $code]);
 
-        if( !isset($param) ) return '';
+        if( !isset($param) ) return null;
 
         return $param->getValue();
     }

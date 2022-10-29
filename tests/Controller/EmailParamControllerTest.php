@@ -11,6 +11,7 @@
 
 namespace App\Test\Controller;
 
+use App\Entity\EmailTemplate;
 use App\Entity\Param;
 use App\Repository\ParamRepository;
 use App\Tests\FixturesTrait;
@@ -77,13 +78,37 @@ class EmailParamControllerTest extends WebTestCase
 
     }
 
-    public function testIndexUpdateValues(): void
+    public function testIndexEnableNotificationWithoutTemplate(): void
     {
         $crawler = $this->client->request('GET', $this->path);
 
         self::assertResponseStatusCodeSame(200);
 
-        $form = $crawler->selectButton('Enregistrer')->form();
+        $inputs = [];
+        $inputs['email_params[EMAIL_NOTIF_START_CYCLE_ENABLE]'] = 1;
+        $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE]'] = 1;
+        $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOUR_BEFORE]'] = 72;
+
+        $this->client->submitForm('Enregistrer', $inputs);
+
+        self::assertResponseStatusCodeSame(200);
+
+        $param1 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_ENABLE'] );
+        $this->assertEquals(null, $param1->getValue());
+
+        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE'] );
+        $this->assertEquals(null, $param2->getValue());
+
+        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOUR_BEFORE'] );
+        $this->assertEquals(72, $param3->getValue());
+    }
+
+    public function testIndexUpdateValues(): void
+    {
+        $this->createFakeTemplate();
+        $crawler = $this->client->request('GET', $this->path);
+
+        self::assertResponseStatusCodeSame(200);
 
         $inputs = [];
         $inputs['email_params[EMAIL_NOTIF_START_CYCLE_ENABLE]'] = 1;
@@ -103,5 +128,25 @@ class EmailParamControllerTest extends WebTestCase
         $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOUR_BEFORE'] );
         $this->assertEquals(72, $param3->getValue());
     }
+
+    private function createFakeTemplate(): void
+    {
+        $templateRepository = static::getContainer()->get('doctrine')->getRepository(EmailTemplate::class);
+
+        $template1 = (new EmailTemplate())
+            ->setCode('EMAIL_NOTIF_START_CYCLE')
+            ->setLabel('EMAIL_NOTIF_START_CYCLE')
+            ->setSubject('EMAIL_NOTIF_START_CYCLE')
+            ->setBody('EMAIL_NOTIF_START_CYCLE');
+        $templateRepository->add($template1, true);
+
+        $template1 = (new EmailTemplate())
+            ->setCode('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE')
+            ->setLabel('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE')
+            ->setSubject('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE')
+            ->setBody('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE');
+        $templateRepository->add($template1, true);
+    }
+
 
 }

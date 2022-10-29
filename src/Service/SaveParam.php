@@ -17,11 +17,13 @@ class SaveParam
     public function __invoke(string $code, string $value): void
     {
         if( !($param = $this->loadParamByCode($code)) ) {
-            $param = (new Param())
-                ->setCode($code)
-                ->setValue($value);
+            $param = new Param();
         }
         
+        $param
+            ->setCode($code)
+            ->setValue($value);
+
         $this->paramRepository->add($param, true);
     }
 

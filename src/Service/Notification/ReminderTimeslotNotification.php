@@ -29,16 +29,12 @@ class ReminderTimeslotNotification
     private TimeslotRepository $timeslotRepository;
 
     public function __construct(
-        UserRepository $userRepository,
         TimeslotRepository $timeslotRepository,
-        MailerInterface $mailer,
         GetParam $getParam,
         LoggerInterface $logger,
         EmailSender $emailSender
     ) {
-        $this->userRepository = $userRepository;
         $this->timeslotRepository = $timeslotRepository;
-        $this->mailer = $mailer;
         $this->logger = $logger;
         $this->emailSender = $emailSender;
 

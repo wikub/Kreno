@@ -14,6 +14,7 @@ namespace App\Controller\Admin;
 use App\Entity\Cycle;
 use App\Repository\CycleRepository;
 use App\Service\CommitmentContratDebitLogApply;
+use App\Service\Notification\StartCycleNotification;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,4 +70,16 @@ class CycleController extends AbstractController
             'cycle' => $cycle,
         ]);
     }
+
+    /**
+     * @Route("/{id}/notification/send", name="send_notification",  methods={"GET","POST"})
+     */
+    public function sendNotification(Cycle $cycle, StartCycleNotification $startCycleNotification): Response
+    {
+        $startCycleNotification->send($cycle);
+        
+        $this->addFlash('success', 'La notification d\'ouverture du créneau a été envoyé');
+        return $this->redirectToRoute('admin_cycle_index');   
+    }
+
 }

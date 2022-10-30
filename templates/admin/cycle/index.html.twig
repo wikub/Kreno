@@ -31,7 +31,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="">Planning</a>
+                        <a href="{{ path('admin_cycle_send_notification', {'id': cycle.id}) }}" class="btn btn-sm btn-primary">Envoyer notification</a>
                     </td>
                 </tr>
             {% else %}

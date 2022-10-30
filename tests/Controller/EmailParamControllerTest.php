@@ -141,10 +141,10 @@ class EmailParamControllerTest extends WebTestCase
         $templateRepository->add($template1, true);
 
         $template1 = (new EmailTemplate())
-            ->setCode('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE')
-            ->setLabel('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE')
-            ->setSubject('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE')
-            ->setBody('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE');
+            ->setCode('EMAIL_NOTIF_REMINDER_TIMESLOT')
+            ->setLabel('EMAIL_NOTIF_REMINDER_TIMESLOT')
+            ->setSubject('EMAIL_NOTIF_REMINDER_TIMESLOT')
+            ->setBody('EMAIL_NOTIF_REMINDER_TIMESLOT');
         $templateRepository->add($template1, true);
     }
 

@@ -64,7 +64,7 @@ class EmailParamController extends AbstractController
 
             if( 
                 $emailParams->EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE == true 
-                && !$this->emailTemplateExist('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE')
+                && !$this->emailTemplateExist('EMAIL_NOTIF_REMINDER_TIMESLOT')
             ) {
                 $emailParams->EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE = false;
                 $this->addFlash('warning', 'La notification de rappel de créneaux ne peut être activé, si le template associé n\'existe pas.');

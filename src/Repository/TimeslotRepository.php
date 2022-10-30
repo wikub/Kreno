@@ -125,6 +125,20 @@ class TimeslotRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findUpcoming(int $startInHour, int $periodHour = 24)
+    {
+        return $this->createQueryBuilder('timeslot')
+            ->join('timeslot.jobs', 'job')
+            ->join('job.user', 'u')
+            ->andWhere('timeslot.start BETWEEN :nDayStart AND :nDayEnd')
+            ->setParameter('nDayStart', (new \DateTime())->modify('+'.$startInHour.' hours'))
+            ->setParameter('nDayEnd', (new \DateTime())->modify('+'.($startInHour + $periodHour).' hours'))
+            ->orderBy('timeslot.start', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Timeslot[] Returns an array of Timeslot objects
     //  */

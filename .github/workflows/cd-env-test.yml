@@ -44,4 +44,4 @@ jobs:
           source: "public/build/*"
           target: "${{ secrets.TEST_DIST_PROJECT_DIR }}/public/build"
           strip_components: 2
-          overwrite: true
+          rm: true

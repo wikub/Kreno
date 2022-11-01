@@ -43,5 +43,5 @@ jobs:
           port: ${{ secrets.TEST_SSH_PORT }}
           source: "public/build/*"
           target: "${{ secrets.TEST_DIST_PROJECT_DIR }}/public/build"
-          strip_components: 1
+          strip_components: 2
           overwrite: true

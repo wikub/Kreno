@@ -14,7 +14,7 @@ class SaveParam
         $this->paramRepository = $paramRepository;
     }
 
-    public function __invoke(string $code, string $value): void
+    public function __invoke(string $code, ?string $value): void
     {
         if( !($param = $this->loadParamByCode($code)) ) {
             $param = new Param();

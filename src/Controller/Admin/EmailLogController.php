@@ -4,7 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\EmailLog;
 use App\Repository\EmailLogRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,9 +25,15 @@ class EmailLogController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $emailLogs = $this->emailLogRepository->findBy([], ['sendedAt' => 'DESC']);
+        //$emailLogs = $this->emailLogRepository->findBy([], ['sendedAt' => 'DESC']);
+        
+        $emailLogs = $paginator->paginate(
+            $this->emailLogRepository->getQueryBuilder(),
+            $request->query->getInt('page', 1),
+            50
+        );
 
         return $this->render('admin/email_log/index.html.twig', [
             'email_logs' => $emailLogs,

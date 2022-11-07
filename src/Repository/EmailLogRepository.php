@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\EmailLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,13 @@ class EmailLogRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('el')
+            ->orderBy('el.sendedAt', 'DESC')
+            ;
     }
 
 //    /**

@@ -7,11 +7,23 @@
         <h1 class="h2"><i class="fas fa-mail-bulk"></i> Email logs</h1>
     </div>
 
-    {% include '_elements/_flash_message.html.twig' %}
+    
+
+
     <div class="row">
         <div class="col">
             <a href="{{ path('admin_email_template_index') }}" class="btn btn-primary" role="button"><i class="fas fa-envelope-square"></i> Templates</a>
             <a href="{{ path('admin_email_param_index') }}" class="btn btn-primary" role="button"><i class="fas fa-cog"></i> Paramètrages</a>
+        </div>
+    </div>
+
+    {% include '_elements/_flash_message.html.twig' %}
+
+    <div class="row">
+        <div class="navigation text-center">
+            {{ knp_pagination_render(email_logs, null, {}, {
+                'align': 'center',
+            }) }}
         </div>
     </div>
     <div class="table-responsive">
@@ -41,6 +53,14 @@
             {% endfor %}
             </tbody>
         </table>
+    </div>
+
+    <div class="row">
+        <div class="navigation text-center">
+            {{ knp_pagination_render(email_logs, null, {}, {
+                'align': 'center',
+            }) }}
+        </div>
     </div>
 
 

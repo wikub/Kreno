@@ -3,6 +3,7 @@ framework:
         dsn: '%env(MAILER_DSN)%'
         envelope:
             sender: '%env(EMAIL_NOTIF_SENDER)%'
+
 when@test:
     framework:
         mailer:

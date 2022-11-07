@@ -6,6 +6,7 @@ use App\Entity\EmailTemplate;
 use App\Repository\EmailTemplateRepository;
 use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Validator\Constraints\Email;
@@ -80,8 +81,9 @@ class EmailSender
         
         $bodyTwigTemplate = $this->twig->createTemplate($emailTemplate->getBody());
         $email->html($bodyTwigTemplate->render($context));
-
+        
         $this->mailer->send($email);
+        
     }
 
 

@@ -16,7 +16,6 @@ use App\Entity\Job;
 use App\Entity\Timeslot;
 use App\Entity\Week;
 use App\Repository\WeekTemplateRepository;
-use App\Service\Notification\StartCycleNotification;
 use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
@@ -28,20 +27,17 @@ class CycleGenerator
     private WeekTemplateRepository $repo;
     private WorkflowInterface $timeslotWorkflow;
     private FlashBagInterface $flash;
-    private StartCycleNotification $startCycleNotification;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         WeekTemplateRepository $weekTemplateRepository,
         FlashBagInterface $flash,
-        WorkflowInterface $timeslotWorkflow,
-        StartCycleNotification $startCycleNotification
+        WorkflowInterface $timeslotWorkflow
     ) {
         $this->em = $entityManager;
         $this->repo = $weekTemplateRepository;
         $this->timeslotWorkflow = $timeslotWorkflow;
         $this->flash = $flash;
-        $this->startCycleNotification = $startCycleNotification;
     }
 
     public function generate(DateTimeInterface $start, DateTimeInterface $finish)
@@ -51,10 +47,7 @@ class CycleGenerator
         $cycle->setStart($start);
         $cycle->setFinish($finish);
 
-        //$this->em->persist($cycle);
-
-        $this->startCycleNotification->send($cycle);
-        return ;
+        $this->em->persist($cycle);
 
         // Get the template at the right cycle
         $weekTemplates = $this->repo->findAll();
@@ -133,6 +126,5 @@ class CycleGenerator
             $weekTemplate = next($weekTemplates);
         }
 
-        $this->startCycleNotification->send($cycle);
     }
 }

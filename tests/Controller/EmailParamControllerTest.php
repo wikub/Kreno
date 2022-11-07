@@ -55,14 +55,19 @@ class EmailParamControllerTest extends WebTestCase
         $this->repository->add($param1, true);
 
         $param2 = (new Param())
-            ->setCode('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE')
-            ->setValue(true);
+            ->setCode('EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE')
+            ->setValue(7);
         $this->repository->add($param2, true);
 
         $param3 = (new Param())
-            ->setCode('EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOUR_BEFORE')
-            ->setValue(48);
+            ->setCode('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE')
+            ->setValue(true);
         $this->repository->add($param3, true);
+
+        $param4 = (new Param())
+            ->setCode('EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE')
+            ->setValue(48);
+        $this->repository->add($param4, true);
 
         $crawler = $this->client->request('GET', $this->path);
 
@@ -73,8 +78,9 @@ class EmailParamControllerTest extends WebTestCase
         $inputs = $crawler->selectButton('Enregistrer')->form()->getValues();
 
         $this->assertEquals(1, $inputs['email_params[EMAIL_NOTIF_START_CYCLE_ENABLE]']);
+        $this->assertEquals(7, $inputs['email_params[EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE]']);
         $this->assertEquals(1, $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE]']);
-        $this->assertEquals(48, $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOUR_BEFORE]']);
+        $this->assertEquals(48, $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE]']);
 
     }
 
@@ -86,8 +92,9 @@ class EmailParamControllerTest extends WebTestCase
 
         $inputs = [];
         $inputs['email_params[EMAIL_NOTIF_START_CYCLE_ENABLE]'] = 1;
+        $inputs['email_params[EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE]'] = 7;
         $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE]'] = 1;
-        $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOUR_BEFORE]'] = 72;
+        $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE]'] = 72;
 
         $this->client->submitForm('Enregistrer', $inputs);
 
@@ -96,11 +103,66 @@ class EmailParamControllerTest extends WebTestCase
         $param1 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_ENABLE'] );
         $this->assertEquals(null, $param1->getValue());
 
-        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE'] );
+        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE'] );
+        $this->assertEquals(7, $param2->getValue());
+
+        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE'] );
+        $this->assertEquals(null, $param3->getValue());
+
+        $param4 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE'] );
+        $this->assertEquals(72, $param4->getValue());
+    }
+
+    public function testIndexEnableCycleNotificationWithoutNbDays(): void
+    {
+        $this->client->request('GET', $this->path);
+
+        self::assertResponseStatusCodeSame(200);
+
+        $inputs = [];
+        $inputs['email_params[EMAIL_NOTIF_START_CYCLE_ENABLE]'] = 1;
+
+        $this->client->submitForm('Enregistrer', $inputs);
+
+        self::assertResponseStatusCodeSame(200);
+
+        $param1 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_ENABLE'] );
+        $this->assertEquals(null, $param1->getValue());
+
+        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE'] );
         $this->assertEquals(null, $param2->getValue());
 
-        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOUR_BEFORE'] );
-        $this->assertEquals(72, $param3->getValue());
+        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE'] );
+        $this->assertEquals(null, $param3->getValue());
+
+        $param4 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE'] );
+        $this->assertEquals(null, $param4->getValue());
+    }
+
+    public function testIndexEnableReminderTimeslotNotificationWithoutNbHours(): void
+    {
+        $this->client->request('GET', $this->path);
+
+        self::assertResponseStatusCodeSame(200);
+
+        $inputs = [];
+        $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE]'] = 1;
+
+        $this->client->submitForm('Enregistrer', $inputs);
+
+        self::assertResponseStatusCodeSame(200);
+
+        $param1 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_ENABLE'] );
+        $this->assertEquals(null, $param1->getValue());
+
+        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE'] );
+        $this->assertEquals(null, $param2->getValue());
+
+        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE'] );
+        $this->assertEquals(null, $param3->getValue());
+
+        $param4 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE'] );
+        $this->assertEquals(null, $param4->getValue());
     }
 
     public function testIndexUpdateValues(): void
@@ -112,8 +174,9 @@ class EmailParamControllerTest extends WebTestCase
 
         $inputs = [];
         $inputs['email_params[EMAIL_NOTIF_START_CYCLE_ENABLE]'] = 1;
+        $inputs['email_params[EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE]'] = 7;
         $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE]'] = 1;
-        $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOUR_BEFORE]'] = 72;
+        $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE]'] = 72;
 
         $this->client->submitForm('Enregistrer', $inputs);
 
@@ -122,11 +185,14 @@ class EmailParamControllerTest extends WebTestCase
         $param1 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_ENABLE'] );
         $this->assertEquals(1, $param1->getValue());
 
-        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE'] );
-        $this->assertEquals(1, $param2->getValue());
+        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE'] );
+        $this->assertEquals(7, $param2->getValue());
 
-        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOUR_BEFORE'] );
-        $this->assertEquals(72, $param3->getValue());
+        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE'] );
+        $this->assertEquals(1, $param3->getValue());
+
+        $param4 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE'] );
+        $this->assertEquals(72, $param4->getValue());
     }
 
     private function createFakeTemplate(): void

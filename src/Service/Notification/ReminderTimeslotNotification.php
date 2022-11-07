@@ -12,12 +12,10 @@
 namespace App\Service\Notification;
 
 use App\Repository\TimeslotRepository;
-use App\Repository\UserRepository;
 use App\Service\EmailSender;
 use App\Service\GetParam;
 use Exception;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 
 class ReminderTimeslotNotification
@@ -40,7 +38,7 @@ class ReminderTimeslotNotification
 
         $this->enable = $getParam->get('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE');
 
-        $this->nbHourBefore = $getParam->get('EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOUR_BEFORE');
+        $this->nbHourBefore = $getParam->get('EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE');
         if( $this->nbHourBefore == null || $this->nbHourBefore <= 0 ) $this->nbHourBefore = 72;
     }
 

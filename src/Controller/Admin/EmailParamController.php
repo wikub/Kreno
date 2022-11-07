@@ -59,7 +59,15 @@ class EmailParamController extends AbstractController
                 && !$this->emailTemplateExist('EMAIL_NOTIF_START_CYCLE')
             ) {
                 $emailParams->EMAIL_NOTIF_START_CYCLE_ENABLE = false;
-                $this->addFlash('warning', 'Notification début de cycle ne peut être activé, si le template associé n\'existe pas.');
+                $this->addFlash('error', 'Notification début de cycle ne peut être activé, si le template associé n\'existe pas.');
+            }
+
+            if( 
+                $emailParams->EMAIL_NOTIF_START_CYCLE_ENABLE == true 
+                && !($emailParams->EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE > 0)
+            ) {
+                $emailParams->EMAIL_NOTIF_START_CYCLE_ENABLE = false;
+                $this->addFlash('error', 'Notification début de cycle ne peut être activé, si nombre de jour n\'est pas supérieur à 0.');
             }
 
             if( 
@@ -67,7 +75,15 @@ class EmailParamController extends AbstractController
                 && !$this->emailTemplateExist('EMAIL_NOTIF_REMINDER_TIMESLOT')
             ) {
                 $emailParams->EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE = false;
-                $this->addFlash('warning', 'La notification de rappel de créneaux ne peut être activé, si le template associé n\'existe pas.');
+                $this->addFlash('error', 'La notification de rappel de créneaux ne peut être activé, si le template associé n\'existe pas.');
+            }
+
+            if( 
+                $emailParams->EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE == true 
+                && !($emailParams->EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE > 0)
+            ) {
+                $emailParams->EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE = false;
+                $this->addFlash('error', 'La notification de rappel de créneaux ne peut être activé, si le nombre d\'heure n\'est pas supérieur à 0.');
             }
 
             $this->saveParams($emailParams);

@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Expression;
 
 class EmailParamsType extends AbstractType
 {
@@ -17,10 +18,15 @@ class EmailParamsType extends AbstractType
             ->add('EMAIL_NOTIF_START_CYCLE_ENABLE', CheckboxType::class, [
                 'required' => false,
             ])
+            ->add('EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE', NumberType::class, [
+                'required' => false,
+                'html5' => true,
+                'scale' => 0,
+            ])
             ->add('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE', CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOUR_BEFORE', NumberType::class, [
+            ->add('EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE', NumberType::class, [
                 'required' => false,
                 'html5' => true,
                 'scale' => 0,

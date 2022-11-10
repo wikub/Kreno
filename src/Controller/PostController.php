@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostController extends AbstractController
 {
     /**
-     * @Route("/post", name="index")
+     * @Route("/", name="index")
      */
     public function index(): Response
     {

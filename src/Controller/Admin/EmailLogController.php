@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller\Admin;
 
 use App\Entity\EmailLog;
@@ -19,7 +28,7 @@ class EmailLogController extends AbstractController
 
     public function __construct(EmailLogRepository $emailLogRepository)
     {
-        $this->emailLogRepository = $emailLogRepository;    
+        $this->emailLogRepository = $emailLogRepository;
     }
 
     /**
@@ -27,8 +36,8 @@ class EmailLogController extends AbstractController
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        //$emailLogs = $this->emailLogRepository->findBy([], ['sendedAt' => 'DESC']);
-        
+        // $emailLogs = $this->emailLogRepository->findBy([], ['sendedAt' => 'DESC']);
+
         $emailLogs = $paginator->paginate(
             $this->emailLogRepository->getQueryBuilder(),
             $request->query->getInt('page', 1),

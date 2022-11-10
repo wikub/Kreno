@@ -17,7 +17,6 @@ use App\Repository\CycleRepository;
 use App\Repository\UserRepository;
 use App\Service\EmailSender;
 use App\Service\GetParam;
-use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mime\Address;
 
@@ -25,7 +24,7 @@ class CycleStartNotification
 {
     private ?bool $enable;
     private ?int $nbDaysBefore;
-    private LoggerInterface $logger; 
+    private LoggerInterface $logger;
     private EmailSender $emailSender;
     private UserRepository $userRepository;
     private CommitmentLogRepository $commitmentLogRepository;
@@ -51,38 +50,39 @@ class CycleStartNotification
 
     public function send(Cycle $cycle = null): void
     {
-        
-        if( !$this->enable ) {
+        if (!$this->enable) {
             $this->logger->info('EMAIL_NOTIF_START_CYCLE_ENABLE is disable. the process is cancel');
-            throw new Exception('EMAIL_NOTIF_START_CYCLE_ENABLE is disable. the process is cancel');
-        }
-        
-        if( !isset($cycle) && !($this->nbDaysBefore > 0) ) {
-            $this->logger->info('Cycle not provides and EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE is not superior to 0. the process is cancel');
-            throw new Exception('Cycle not provides and EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE is not superior to 0. the process is cancel');
+            throw new \Exception('EMAIL_NOTIF_START_CYCLE_ENABLE is disable. the process is cancel');
         }
 
-        if( !isset($cycle) ) {
+        if (!isset($cycle) && !($this->nbDaysBefore > 0)) {
+            $this->logger->info('Cycle not provides and EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE is not superior to 0. the process is cancel');
+            throw new \Exception('Cycle not provides and EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE is not superior to 0. the process is cancel');
+        }
+
+        if (!isset($cycle)) {
             $cycle = $this->getCycle();
         }
 
-        if( !isset($cycle) ) {
+        if (!isset($cycle)) {
             $this->logger->info('Cycle not provides and not found. the process is cancel');
-            throw new Exception('Cycle not provides and not found. the process is cancel');
+            throw new \Exception('Cycle not provides and not found. the process is cancel');
         }
 
         $users = $this->getUsers();
-        
-        foreach($users as $user) {
-            if( $user->getEmail() === null ) continue;
+
+        foreach ($users as $user) {
+            if (null === $user->getEmail()) {
+                continue;
+            }
 
             $balance = $this->commitmentLogRepository->getNbTimeslotAndHourBalance($user);
 
             $adress = new Address($user->getEmail(), $user->getFirstname().' '.$user->getName());
-            
+
             $this->emailSender->sendWithEmailTemplate(
-                'EMAIL_NOTIF_START_CYCLE', 
-                $adress, 
+                'EMAIL_NOTIF_START_CYCLE',
+                $adress,
                 [
                     'user' => $user,
                     'cycle' => $cycle,
@@ -95,7 +95,8 @@ class CycleStartNotification
 
     private function getCycle(): ?Cycle
     {
-        $date = (new \DateTimeImmutable());//->modify('+'.$this->nbDaysBefore.' days');
+        $date = (new \DateTimeImmutable()); // ->modify('+'.$this->nbDaysBefore.' days');
+
         return $this->cycleRepository->findOneBy(['start' => $date]);
     }
 

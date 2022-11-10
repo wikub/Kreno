@@ -11,7 +11,6 @@
 
 namespace App\Controller\Admin;
 
-use App\DTO\EmailParams;
 use App\Form\Admin\EmailParamsType;
 use App\Form\Model\EmailParamsFormModel;
 use App\Repository\EmailTemplateRepository;
@@ -32,12 +31,11 @@ class EmailParamController extends AbstractController
     private EmailTemplateRepository $emailTemplateRepository;
 
     public function __construct(
-        GetParam $getParamService, 
+        GetParam $getParamService,
         SaveParam $saveParamService,
         EmailTemplateRepository $emailTemplateRepository
-    )
-    {
-        $this->getParamService = $getParamService;    
+    ) {
+        $this->getParamService = $getParamService;
         $this->saveParamService = $saveParamService;
         $this->emailTemplateRepository = $emailTemplateRepository;
     }
@@ -46,40 +44,39 @@ class EmailParamController extends AbstractController
      * @Route("/", name="index")
      */
     public function index(Request $request): Response
-    {   
+    {
         $emailParams = $this->loadParams();
 
         $form = $this->createForm(EmailParamsType::class, $emailParams);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            if( 
-                $emailParams->EMAIL_NOTIF_START_CYCLE_ENABLE == true 
+            if (
+                true === $emailParams->EMAIL_NOTIF_START_CYCLE_ENABLE
                 && !$this->emailTemplateExist('EMAIL_NOTIF_START_CYCLE')
             ) {
                 $emailParams->EMAIL_NOTIF_START_CYCLE_ENABLE = false;
                 $this->addFlash('error', 'Notification début de cycle ne peut être activé, si le template associé n\'existe pas.');
             }
 
-            if( 
-                $emailParams->EMAIL_NOTIF_START_CYCLE_ENABLE == true 
+            if (
+                true === $emailParams->EMAIL_NOTIF_START_CYCLE_ENABLE
                 && !($emailParams->EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE > 0)
             ) {
                 $emailParams->EMAIL_NOTIF_START_CYCLE_ENABLE = false;
                 $this->addFlash('error', 'Notification début de cycle ne peut être activé, si nombre de jour n\'est pas supérieur à 0.');
             }
 
-            if( 
-                $emailParams->EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE == true 
+            if (
+                true === $emailParams->EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE
                 && !$this->emailTemplateExist('EMAIL_NOTIF_REMINDER_TIMESLOT')
             ) {
                 $emailParams->EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE = false;
                 $this->addFlash('error', 'La notification de rappel de créneaux ne peut être activé, si le template associé n\'existe pas.');
             }
 
-            if( 
-                $emailParams->EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE == true 
+            if (
+                true === $emailParams->EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE
                 && !($emailParams->EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE > 0)
             ) {
                 $emailParams->EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE = false;
@@ -98,24 +95,26 @@ class EmailParamController extends AbstractController
     private function loadParams(): EmailParamsFormModel
     {
         $emailParams = new EmailParamsFormModel();
-        
-        foreach($emailParams as $key => $param) {
+
+        foreach ($emailParams as $key => $param) {
             $emailParams->$key = $this->getParamService->get($key);
         }
-        
+
         return $emailParams;
     }
 
     private function saveParams(EmailParamsFormModel $emailParams): void
     {
-        foreach($emailParams as $key => $value) {
+        foreach ($emailParams as $key => $value) {
             ($this->saveParamService)($key, $value);
         }
     }
 
     private function emailTemplateExist(string $code): bool
     {
-        if( $this->emailTemplateRepository->count(['code' => $code]) == 1) return true;
+        if (1 === $this->emailTemplateRepository->count(['code' => $code])) {
+            return true;
+        }
 
         return false;
     }

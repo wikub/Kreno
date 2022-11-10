@@ -16,7 +16,6 @@ use App\Form\Admin\TimeslotValidationType;
 use App\Repository\TimeslotRepository;
 use App\Service\TimeslotAutoValidation;
 use Doctrine\ORM\EntityManagerInterface;
-use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,7 +62,7 @@ class TimeslotValidationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->timeslotWorkflow->apply($timeslot, 'to_admin_validated');
-            } catch (LogicException $exception) {
+            } catch (\LogicException $exception) {
                 $this->addFlash('error', 'L\'opération ne peut pas être réalisée [workflow]');
 
                 return $this->redirect($request->headers->get('referer'));

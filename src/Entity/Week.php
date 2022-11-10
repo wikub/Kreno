@@ -12,7 +12,6 @@
 namespace App\Entity;
 
 use App\Repository\WeekRepository;
-use DateInterval;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -193,7 +192,7 @@ class Week
         for ($i = 1; $i <= 7; ++$i) {
             $dayOfweek[$i]['date'] = $curDay;
             $dayOfweek[$i]['timeslots'] = [];
-            $curDay = $curDay->add(new DateInterval('P1D'));
+            $curDay = $curDay->add(new \DateInterval('P1D'));
         }
 
         // Get timeslots for each day of week

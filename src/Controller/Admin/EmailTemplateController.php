@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller\Admin;
 
 use App\Entity\EmailTemplate;
@@ -9,7 +18,6 @@ use App\Service\EmailSender;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -21,7 +29,7 @@ class EmailTemplateController extends AbstractController
      * @Route("/", name="index", methods={"GET"})
      */
     public function index(EmailTemplateRepository $emailTemplateRepository, EmailSender $emailSender): Response
-    {   
+    {
         return $this->render('admin/email_template/index.html.twig', [
             'email_templates' => $emailTemplateRepository->findAll(),
         ]);

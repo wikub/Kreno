@@ -1,8 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Service;
 
-use App\Entity\Param;
 use App\Repository\ParamRepository;
 
 class GetParam
@@ -18,7 +26,9 @@ class GetParam
     {
         $param = $this->paramRepository->findOneBy(['code' => $code]);
 
-        if( !isset($param) ) return null;
+        if (!isset($param)) {
+            return null;
+        }
 
         return $param->getValue();
     }

@@ -16,7 +16,6 @@ use App\Entity\Job;
 use App\Entity\Timeslot;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use LogicException;
 use Symfony\Component\Workflow\WorkflowInterface;
 
 class TimeslotEventListener
@@ -56,7 +55,7 @@ class TimeslotEventListener
             // Save here, before job modification else jobs don't save completly
             $this->em->persist($timeslot);
             $this->em->flush();
-        } catch (LogicException $exception) {
+        } catch (\LogicException $exception) {
             return;
         }
 

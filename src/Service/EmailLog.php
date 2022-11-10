@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Service;
 
 use App\Entity\EmailLog as EntityEmailLog;
@@ -17,7 +26,7 @@ class EmailLog
 
     public function log(Email $email): void
     {
-        $to = ($email->getTo())[0];
+        $to = $email->getTo()[0];
         $emailLog = (new EntityEmailLog())
             ->setEmailTo($to->getAddress())
             ->setNameTo($to->getName())
@@ -25,8 +34,8 @@ class EmailLog
             ->setHtmlContent($email->getHtmlBody())
             ->setTextContent($email->getTextBody())
             ->setSendedAt(new \DateTimeImmutable())
-            ;
-        
+        ;
+
         $this->emailLogRepository->add($emailLog, true);
     }
 }

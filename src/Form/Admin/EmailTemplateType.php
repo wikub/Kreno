@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Form\Admin;
 
 use App\Entity\EmailTemplate;
@@ -15,16 +24,16 @@ class EmailTemplateType extends AbstractType
     {
         $builder
             ->add('label', TextType::class, [
-                'label' => 'Libelle'
+                'label' => 'Libelle',
             ])
             ->add('code', TextType::class, [
-                'label' => 'Code'
+                'label' => 'Code',
             ])
             ->add('subject', TextType::class, [
-                'label' => 'Objet de l\'email'
+                'label' => 'Objet de l\'email',
             ])
             ->add('body', CKEditorType::class, [
-                'label' => 'Contenu de l\'email'
+                'label' => 'Contenu de l\'email',
             ])
         ;
     }

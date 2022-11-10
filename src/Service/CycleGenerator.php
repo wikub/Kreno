@@ -16,7 +16,6 @@ use App\Entity\Job;
 use App\Entity\Timeslot;
 use App\Entity\Week;
 use App\Repository\WeekTemplateRepository;
-use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Workflow\WorkflowInterface;
@@ -40,7 +39,7 @@ class CycleGenerator
         $this->flash = $flash;
     }
 
-    public function generate(DateTimeInterface $start, DateTimeInterface $finish)
+    public function generate(\DateTimeInterface $start, \DateTimeInterface $finish)
     {
         // Cycle creation
         $cycle = new Cycle();
@@ -125,6 +124,5 @@ class CycleGenerator
             $start = $start->modify('+7 days');
             $weekTemplate = next($weekTemplates);
         }
-
     }
 }

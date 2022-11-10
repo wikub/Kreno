@@ -12,7 +12,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -51,6 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string The hashed password
+     *
      * @ORM\Column(type="string")
      */
     private $password;
@@ -302,7 +302,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getPastJobs(): Collection
     {
         return $this->jobs->filter(function ($job) {
-            return $job->getTimeslot()->getStart() < (new DateTime());
+            return $job->getTimeslot()->getStart() < (new \DateTime());
         });
     }
 
@@ -312,7 +312,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getFuturJobs(): Collection
     {
         return $this->jobs->filter(function ($job) {
-            return $job->getTimeslot()->getStart() >= (new DateTime());
+            return $job->getTimeslot()->getStart() >= (new \DateTime());
         });
     }
 
@@ -322,7 +322,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getFuturJobsInDays(int $nbDays = 5): Collection
     {
         return $this->jobs->filter(function ($job) use ($nbDays) {
-            return $job->getTimeslot()->getStart()->format('Ymd') === (new DateTime())->modify('+'.$nbDays.' days')->format('Ymd');
+            return $job->getTimeslot()->getStart()->format('Ymd') === (new \DateTime())->modify('+'.$nbDays.' days')->format('Ymd');
         });
     }
 

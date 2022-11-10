@@ -16,7 +16,6 @@ use App\Entity\Week;
 use App\Form\Admin\TimeslotType;
 use App\Repository\TimeslotRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,7 +60,7 @@ class TimeslotController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->timeslotWorkflow->apply($timeslot, 'to_open');
-            } catch (LogicException $exception) {
+            } catch (\LogicException $exception) {
                 $this->addFlash('error', 'Le workflow n\'a été initialisé');
             }
 
@@ -124,7 +123,7 @@ class TimeslotController extends AbstractController
 
         try {
             $this->timeslotWorkflow->apply($timeslot, 'to_closed');
-        } catch (LogicException $exception) {
+        } catch (\LogicException $exception) {
             $this->addFlash('error', 'L\'opération ne peut pas être réalisée [workflow]');
 
             return $this->redirect($request->headers->get('referer'));
@@ -145,7 +144,7 @@ class TimeslotController extends AbstractController
     {
         try {
             $this->timeslotWorkflow->apply($timeslot, 'to_closed_open');
-        } catch (LogicException $exception) {
+        } catch (\LogicException $exception) {
             $this->addFlash('error', 'L\'opération ne peut pas être réalisée [workflow]');
 
             return $this->redirect($request->headers->get('referer'));
@@ -191,7 +190,7 @@ class TimeslotController extends AbstractController
     {
         try {
             $this->timeslotWorkflow->apply($timeslot, 'commiment_log_to_open');
-        } catch (LogicException $exception) {
+        } catch (\LogicException $exception) {
             $this->addFlash('error', 'L\'opération ne peut pas être réalisée [workflow]');
 
             return $this->redirect($request->headers->get('referer'));

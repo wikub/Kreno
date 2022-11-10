@@ -14,7 +14,6 @@ namespace App\Service;
 use App\Repository\JobDoneTypeRepository;
 use App\Repository\TimeslotRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use LogicException;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Workflow\WorkflowInterface;
 
@@ -83,7 +82,7 @@ class TimeslotAutoValidation
 
             try {
                 $this->timeslotWorkflow->apply($timeslot, 'to_admin_validated');
-            } catch (LogicException $exception) {
+            } catch (\LogicException $exception) {
                 $this->flash->add('error', 'L\'opération ne peut pas être réalisée [workflow]');
                 continue;
             }

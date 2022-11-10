@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Service;
 
 use App\Entity\Param;
@@ -16,10 +25,10 @@ class SaveParam
 
     public function __invoke(string $code, ?string $value): void
     {
-        if( !($param = $this->loadParamByCode($code)) ) {
+        if (!($param = $this->loadParamByCode($code))) {
             $param = new Param();
         }
-        
+
         $param
             ->setCode($code)
             ->setValue($value);

@@ -24,9 +24,9 @@ class AddCommitmentLogFormModel
 {
     public string $comment;
 
-    public int $nbHour;
+    public int $nbHour = 0;
 
-    public int $nbTimeslot;
+    public int $nbTimeslot = 0;
 
     public ArrayCollection $users;
 }

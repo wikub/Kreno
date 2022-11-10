@@ -51,7 +51,7 @@ class CommitmentLogType extends AbstractType
             ])
             ->add('nbHour', NumberType::class, [
                     'label' => 'Nombre d\'heure',
-                    'scale' => 1,
+                    'scale' => 0,
                     'html5' => true,
             ])
             ->add('comment', TextType::class, [

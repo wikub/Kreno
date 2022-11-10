@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Email logs détails #{{email_log.id}} {% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-mail-bulk"></i> Email logs détails #{{email_log.id}} </h1>
+    </div>
+
+    {% include '_elements/_flash_message.html.twig' %}
+
+    <div class="table-responsive">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Destinataire</th>
+                    <td>{{ email_log.nameTo }} : {{ email_log.emailTo }}</td>
+                </tr>
+                </tr>
+                    <th>Objet</th>
+                    <td>{{ email_log.subject }}</td>
+                </tr>
+                <tr>
+                    <th>Contenu HTML</th>
+                    <td>{{ email_log.htmlContent|raw }}</td>
+                </tr>
+                </tr>
+                    <th>Envoyé le </th>
+                    <td>{{ email_log.sendedAt|date('d/m/Y H:i:s') }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

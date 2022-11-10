@@ -59,6 +59,16 @@ class CommitmentLogRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function getNbTimeslotAndHourBalance(User $user): array
+    {
+        return $this->createQueryBuilder('cl')
+            ->select('SUM(cl.nbTimeslot) as sumNbTimeslot, SUM(cl.nbHour) as sumNbHour')
+            ->where('cl.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleResult();
+    }
     // /**
     //  * @return CommitmentLog[] Returns an array of CommitmentLog objects
     //  */

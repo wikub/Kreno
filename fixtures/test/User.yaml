@@ -1,6 +1,14 @@
 App\Entity\User:
-    dummy_{1..5}:
+    user1:
+        name: 'admin'
+        firstname: 'admin'
+        email: 'admin@admin.com'
+        username: 'admin@admin.com'
+        roles: ['ROLE_ADMIN']
+    user{2..5}:
         name: <name()>
         firstname: <firstname()>
         email: <email()>
         username: <username()>
+        roles: ['ROLE_USER']
+    

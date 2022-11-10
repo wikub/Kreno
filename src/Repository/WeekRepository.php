@@ -28,7 +28,7 @@ class WeekRepository extends ServiceEntityRepository
         parent::__construct($registry, Week::class);
     }
 
-    public function findAll()
+    public function findAll(): array
     {
         return $this->findBy([], ['startAt' => 'ASC']);
     }

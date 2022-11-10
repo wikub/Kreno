@@ -8,6 +8,7 @@ fos_ck_editor:
     configs:
         post_edit:
             toolbar: post_edit_toolbar
+            entities: false
     toolbars:
         configs:
             post_edit_toolbar: [ 

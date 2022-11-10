@@ -23,10 +23,10 @@ use Symfony\Component\Workflow\WorkflowInterface;
 
 class CycleGenerator
 {
-    private $em;
-    private $repo;
-    private $timeslotWorkflow;
-    private $flash;
+    private EntityManagerInterface $em;
+    private WeekTemplateRepository $repo;
+    private WorkflowInterface $timeslotWorkflow;
+    private FlashBagInterface $flash;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -125,5 +125,6 @@ class CycleGenerator
             $start = $start->modify('+7 days');
             $weekTemplate = next($weekTemplates);
         }
+
     }
 }

@@ -144,7 +144,7 @@ class TimeslotController extends AbstractController
     public function reopen(Timeslot $timeslot, Request $request): Response
     {
         try {
-            $this->timeslotWorkflow->apply($timeslot, 'to_close');
+            $this->timeslotWorkflow->apply($timeslot, 'to_closed_open');
         } catch (LogicException $exception) {
             $this->addFlash('error', 'L\'opération ne peut pas être réalisée [workflow]');
 

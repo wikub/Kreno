@@ -7,10 +7,16 @@
         <h1 class="h2"><i class="fas fa-hourglass"></i> Cycles</h1>
     </div>
 
+    <div class="row mb-3">
+        <div class="col">
+            <a href="{{ path('admin_cycle_week_generator') }}" class="btn btn-outline-primary">Générer un nouveau cycle</a>
+        </div>
+    </div>
+
     {% include '_elements/_flash_message.html.twig' %}
 
     <div class="table-responsive">
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Début</th>
@@ -31,7 +37,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="">Planning</a>
+                        <a href="{{ path('admin_cycle_send_notification', {'id': cycle.id}) }}" class="btn btn-sm btn-primary">Envoyer notification</a>
                     </td>
                 </tr>
             {% else %}

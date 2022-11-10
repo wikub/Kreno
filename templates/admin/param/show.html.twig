@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Param{% endblock %}
+
+{% block body %}
+    <h1>Param</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ param.id }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ param.code }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ param.value }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_param_index') }}">back to list</a>
+
+    <a href="{{ path('admin_param_edit', {'id': param.id}) }}">edit</a>
+
+    {{ include('admin/param/_delete_form.html.twig') }}
+{% endblock %}

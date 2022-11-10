@@ -21,17 +21,6 @@
             </li>
         </ul>
 
-        {# <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Référent</span>
-        </h6>
-        <ul class="nav flex-column mb-2">
-            <li class="nav-item">
-            <a class="nav-link" href="{{ path('manager_index')}}">
-                <i class="far fa-calendar-alt"></i>
-                Créneaux
-            </a>
-            </li>
-        </ul> #}
         {% if is_granted('ROLE_COMMUNICATION') %}
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Communication</span>
@@ -62,13 +51,7 @@
                     Cycles
                 </a>
             </li>
-            <!--
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('admin_timeslot_index')}}">
-                    <i class="far fa-calendar-alt"></i>
-                    Créneaux
-                </a>
-            </li>-->
+
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('admin_timeslot_validation_index')}}">
                     <i class="fas fa-signature"></i>
@@ -100,9 +83,15 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('admin_task_index')}}">
-                    <i class="fas fa-flask"></i>
-                    Tâches
+                <a class="nav-link" href="{{ path('admin_email_log_index')}}">
+                    <i class="fas fa-mail-bulk"></i>
+                    Emails
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('admin_param_index')}}">
+                    <i class="fas fa-wrench"></i>
+                    Paramétrage
                 </a>
             </li>
             

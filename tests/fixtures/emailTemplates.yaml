@@ -1,0 +1,6 @@
+App\Entity\EmailTemplate:
+    emailTemplate1:
+        code: 'TEST'
+        label: 'Test'
+        subject: 'Test {{var1}}'
+        body: 'Hello {{var1}}'

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Template email{% endblock %}
+
+{% block body %}
+    <div class="pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2"><i class="fas fa-envelope-square"></i> Template email <a href="{{ path('admin_email_template_new') }}" class="btn btn-primary btn-sm" role="button"><i class="fas fa-plus"></i></a></h1>
+    </div>
+
+    {% include '_elements/_flash_message.html.twig' %}
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Libellé</th>
+                    <th>Code</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for email_template in email_templates %}
+                <tr>
+                    <td>{{ email_template.id }}</td>
+                    <td>{{ email_template.label }}</td>
+                    <td>{{ email_template.code }}</td>
+                    <td>
+                        <a href="{{ path('admin_email_template_edit', {'id': email_template.id}) }}" class="btn btn-sm btn-primary">Modifier</a>
+                        {% include('admin/email_template/_delete_form.html.twig') %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">Aucun template email</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

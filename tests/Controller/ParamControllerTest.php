@@ -13,8 +13,6 @@ namespace App\Test\Controller;
 
 use App\Entity\Param;
 use App\Repository\ParamRepository;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-
 use App\Tests\FixturesTrait;
 use App\Tests\WebTestCase;
 
@@ -30,7 +28,7 @@ class ParamControllerTest extends WebTestCase
         parent::setUp();
 
         $this->repository = static::getContainer()->get('doctrine')->getRepository(Param::class);
-        
+
         foreach ($this->repository->findAll() as $object) {
             $this->repository->remove($object, true);
         }
@@ -50,8 +48,8 @@ class ParamControllerTest extends WebTestCase
     }
 
     /**
-    * @dataProvider provideValidParamsToEdit
-    */
+     * @dataProvider provideValidParamsToEdit
+     */
     public function testCreateValid(Param $param): void
     {
         $this->client->request('GET', sprintf('%snew', $this->path));
@@ -66,8 +64,8 @@ class ParamControllerTest extends WebTestCase
         self::assertResponseRedirects($this->path);
 
         self::assertSame(1, $this->repository->count([]));
-        
-        $paramSaved = $this->repository->findOneBy(['code' => $param->getCode()] );
+
+        $paramSaved = $this->repository->findOneBy(['code' => $param->getCode()]);
 
         self::assertSame($param->getCode(), $paramSaved->getCode());
         self::assertSame($param->getValue(), $paramSaved->getValue());
@@ -92,14 +90,13 @@ class ParamControllerTest extends WebTestCase
     {
         $param1 = (new Param())
             ->setCode('CODE_1');
-        
+
         $param2 = (new Param())
             ->setCode('CODE_2');
-        
+
         $param3 = (new Param())
             ->setCode('CODE_2');
-        
-        
+
         $this->repository->add($param1, true);
 
         $this->client->request('GET', sprintf('%snew', $this->path));
@@ -114,8 +111,8 @@ class ParamControllerTest extends WebTestCase
         self::assertResponseRedirects($this->path);
 
         self::assertSame(2, $this->repository->count([]));
-        
-        //Param 3 - doublon
+
+        // Param 3 - doublon
         $this->client->request('GET', sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
@@ -129,13 +126,11 @@ class ParamControllerTest extends WebTestCase
         self::assertSelectorExists('.is-invalid label[for="param_code"]');
 
         self::assertSame(2, $this->repository->count([]));
-        
     }
 
-    
     /**
-    * @dataProvider provideInvalidParamsToCreate
-    */
+     * @dataProvider provideInvalidParamsToCreate
+     */
     public function testCreateInvalid(Param $param): void
     {
         $this->client->request('GET', sprintf('%snew', $this->path));
@@ -146,7 +141,7 @@ class ParamControllerTest extends WebTestCase
             'param[code]' => $param->getCode(),
             'param[value]' => $param->getValue(),
         ]);
-        
+
         self::assertResponseStatusCodeSame(422);
         self::assertSelectorExists('.is-invalid label[for="param_code"]');
 
@@ -166,8 +161,8 @@ class ParamControllerTest extends WebTestCase
     }
 
     /**
-    * @dataProvider provideValidParamsToEdit
-    */
+     * @dataProvider provideValidParamsToEdit
+     */
     public function testEditValid(Param $paramIn, Param $paramOut): void
     {
         $this->repository->add($paramIn, true);
@@ -186,7 +181,6 @@ class ParamControllerTest extends WebTestCase
         self::assertSame($paramOut->getCode(), $param->getCode());
         self::assertSame($paramOut->getValue(), $param->getValue());
     }
-
 
     public function provideValidParamsToEdit(): array
     {
@@ -207,8 +201,8 @@ class ParamControllerTest extends WebTestCase
     }
 
     /**
-    * @dataProvider provideInvalidParamsToEdit
-    */
+     * @dataProvider provideInvalidParamsToEdit
+     */
     public function testEditInvalid(Param $paramIn, Param $paramOut): void
     {
         $this->repository->add($paramIn, true);
@@ -225,7 +219,7 @@ class ParamControllerTest extends WebTestCase
 
         $param = $this->repository->findOneById($paramIn->getId());
 
-        //Check if Param don't change
+        // Check if Param don't change
         self::assertSame($paramIn->getCode(), $param->getCode());
         self::assertSame($paramIn->getValue(), $param->getValue());
     }
@@ -251,12 +245,11 @@ class ParamControllerTest extends WebTestCase
         $fixture->setValue('My Title');
 
         $this->repository->add($fixture, true);
-        
-        $this->client->request('GET', sprintf($this->path));
+
+        $this->client->request('GET', $this->path);
         $this->client->submitForm('Supprimer');
 
         self::assertResponseRedirects($this->path);
         self::assertSame(0, $this->repository->count([]));
     }
-
 }

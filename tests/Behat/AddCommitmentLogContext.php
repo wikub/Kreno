@@ -15,7 +15,6 @@ namespace App\Tests\Behat;
 
 use App\Tests\Behat\Page\Admin\CommitmentLogIndexPage;
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 
 class AddCommitmentLogContext implements Context
 {
@@ -57,5 +56,4 @@ class AddCommitmentLogContext implements Context
     {
         $this->commitmentLogIndexPage->iShouldSeeRowInTheTable($name, $unit, $type, $comment);
     }
-
 }

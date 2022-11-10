@@ -77,11 +77,10 @@ class EmailParamControllerTest extends WebTestCase
 
         $inputs = $crawler->selectButton('Enregistrer')->form()->getValues();
 
-        $this->assertEquals(1, $inputs['email_params[EMAIL_NOTIF_START_CYCLE_ENABLE]']);
-        $this->assertEquals(7, $inputs['email_params[EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE]']);
-        $this->assertEquals(1, $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE]']);
-        $this->assertEquals(48, $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE]']);
-
+        $this->assertSame('1', $inputs['email_params[EMAIL_NOTIF_START_CYCLE_ENABLE]']);
+        $this->assertSame('7', $inputs['email_params[EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE]']);
+        $this->assertSame('1', $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE]']);
+        $this->assertSame('48', $inputs['email_params[EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE]']);
     }
 
     public function testIndexEnableNotificationWithoutTemplate(): void
@@ -100,17 +99,17 @@ class EmailParamControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
 
-        $param1 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_ENABLE'] );
-        $this->assertEquals(null, $param1->getValue());
+        $param1 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_ENABLE']);
+        $this->assertSame('', $param1->getValue());
 
-        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE'] );
-        $this->assertEquals(7, $param2->getValue());
+        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE']);
+        $this->assertSame('7', $param2->getValue());
 
-        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE'] );
-        $this->assertEquals(null, $param3->getValue());
+        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE']);
+        $this->assertSame('', $param3->getValue());
 
-        $param4 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE'] );
-        $this->assertEquals(72, $param4->getValue());
+        $param4 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE']);
+        $this->assertSame('72', $param4->getValue());
     }
 
     public function testIndexEnableCycleNotificationWithoutNbDays(): void
@@ -126,17 +125,17 @@ class EmailParamControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
 
-        $param1 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_ENABLE'] );
-        $this->assertEquals(null, $param1->getValue());
+        $param1 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_ENABLE']);
+        $this->assertSame('', $param1->getValue());
 
-        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE'] );
-        $this->assertEquals(null, $param2->getValue());
+        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE']);
+        $this->assertNull($param2->getValue());
 
-        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE'] );
-        $this->assertEquals(null, $param3->getValue());
+        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE']);
+        $this->assertSame('', $param3->getValue());
 
-        $param4 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE'] );
-        $this->assertEquals(null, $param4->getValue());
+        $param4 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE']);
+        $this->assertNull($param4->getValue());
     }
 
     public function testIndexEnableReminderTimeslotNotificationWithoutNbHours(): void
@@ -152,17 +151,17 @@ class EmailParamControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
 
-        $param1 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_ENABLE'] );
-        $this->assertEquals(null, $param1->getValue());
+        $param1 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_ENABLE']);
+        $this->assertSame('', $param1->getValue());
 
-        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE'] );
-        $this->assertEquals(null, $param2->getValue());
+        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE']);
+        $this->assertNull($param2->getValue());
 
-        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE'] );
-        $this->assertEquals(null, $param3->getValue());
+        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE']);
+        $this->assertSame('', $param3->getValue());
 
-        $param4 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE'] );
-        $this->assertEquals(null, $param4->getValue());
+        $param4 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE']);
+        $this->assertNull($param4->getValue());
     }
 
     public function testIndexUpdateValues(): void
@@ -182,17 +181,17 @@ class EmailParamControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
 
-        $param1 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_ENABLE'] );
-        $this->assertEquals(1, $param1->getValue());
+        $param1 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_ENABLE']);
+        $this->assertSame('1', $param1->getValue());
 
-        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE'] );
-        $this->assertEquals(7, $param2->getValue());
+        $param2 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE']);
+        $this->assertSame('7', $param2->getValue());
 
-        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE'] );
-        $this->assertEquals(1, $param3->getValue());
+        $param3 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE']);
+        $this->assertSame('1', $param3->getValue());
 
-        $param4 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE'] );
-        $this->assertEquals(72, $param4->getValue());
+        $param4 = $this->repository->findOneBy(['code' => 'EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE']);
+        $this->assertSame('72', $param4->getValue());
     }
 
     private function createFakeTemplate(): void
@@ -213,6 +212,4 @@ class EmailParamControllerTest extends WebTestCase
             ->setBody('EMAIL_NOTIF_REMINDER_TIMESLOT');
         $templateRepository->add($template1, true);
     }
-
-
 }

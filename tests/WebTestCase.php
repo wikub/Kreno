@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Kreno package.
+ *
+ * (c) Valentin Van Meeuwen <contact@wikub.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Tests;
 
 use App\Entity\User;
@@ -18,11 +27,11 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         $this->client = self::createClient();
 
         $this->em = self::getContainer()->get(EntityManagerInterface::class);
-        //$this->em->getConnection()->getConfiguration()->setSQLLogger(null);
-        
+        // $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
+
         $schema = new GenerateSchema();
         $schema->generate();
-        
+
         parent::setUp();
     }
 
@@ -37,7 +46,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         $this->client->request($method, $url, [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_ACCEPT' => 'application/json',
-        ], $data ? json_encode($data, JSON_THROW_ON_ERROR) : null);
+        ], $data ? json_encode($data, \JSON_THROW_ON_ERROR) : null);
 
         return $this->client->getResponse()->getContent();
     }
@@ -47,7 +56,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function expectAlert(string $type, ?string $message = null): void
     {
-        $this->assertEquals(1, $this->client->getCrawler()->filter("alert-message[type=\"$type\"], alert-floating[type=\"$type\"]")->count());
+        $this->assertSame(1, $this->client->getCrawler()->filter("alert-message[type=\"$type\"], alert-floating[type=\"$type\"]")->count());
         if ($message) {
             $this->assertStringContainsString($message, $this->client->getCrawler()->filter("alert-message[type=\"$type\"], alert-floating[type=\"$type\"]")->text());
         }
@@ -58,7 +67,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
      */
     public function expectErrorAlert(): void
     {
-        $this->assertEquals(1, $this->client->getCrawler()->filter('alert-message[type="danger"], alert-message[type="error"]')->count());
+        $this->assertSame(1, $this->client->getCrawler()->filter('alert-message[type="danger"], alert-message[type="error"]')->count());
     }
 
     /**
@@ -74,14 +83,14 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         if (null === $expectedErrors) {
             $this->assertTrue($this->client->getCrawler()->filter('.form-error')->count() > 0, 'Form errors missmatch.');
         } else {
-            $this->assertEquals($expectedErrors, $this->client->getCrawler()->filter('.form-error')->count(), 'Form errors missmatch.');
+            $this->assertSame($expectedErrors, $this->client->getCrawler()->filter('.form-error')->count(), 'Form errors missmatch.');
         }
     }
 
     public function expectH1(string $title): void
     {
         $crawler = $this->client->getCrawler();
-        $this->assertEquals(
+        $this->assertSame(
             $title,
             $crawler->filter('h1')->text(),
             '<h1> missmatch'
@@ -91,7 +100,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
     public function expectTitle(string $title): void
     {
         $crawler = $this->client->getCrawler();
-        $this->assertEquals(
+        $this->assertSame(
             $title.' | Grafikart',
             $crawler->filter('title')->text(),
             '<title> missmatch',

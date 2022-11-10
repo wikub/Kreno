@@ -96,7 +96,7 @@ class EmailParamController extends AbstractController
     {
         $emailParams = new EmailParamsFormModel();
 
-        foreach ($emailParams as $key => $param) {
+        foreach (array_keys(get_class_vars(\get_class($emailParams))) as $key) {
             $emailParams->$key = $this->getParamService->get($key);
         }
 
@@ -105,8 +105,8 @@ class EmailParamController extends AbstractController
 
     private function saveParams(EmailParamsFormModel $emailParams): void
     {
-        foreach ($emailParams as $key => $value) {
-            ($this->saveParamService)($key, $value);
+        foreach (array_keys(get_class_vars(\get_class($emailParams))) as $key) {
+            ($this->saveParamService)($key, $emailParams->$key);
         }
     }
 

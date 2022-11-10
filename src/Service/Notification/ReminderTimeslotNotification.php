@@ -35,10 +35,10 @@ class ReminderTimeslotNotification
         $this->logger = $logger;
         $this->emailSender = $emailSender;
 
-        $this->enable = $getParam->get('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE');
+        $this->enable = (bool) $getParam->get('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE');
 
-        $this->nbHourBefore = $getParam->get('EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE');
-        if (null === $this->nbHourBefore || $this->nbHourBefore <= 0) {
+        $this->nbHourBefore = (int) $getParam->get('EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE');
+        if ($this->nbHourBefore <= 0) {
             $this->nbHourBefore = 72;
         }
     }

@@ -31,7 +31,7 @@ class RunTaskController extends AbstractController
     }
 
     /**
-     * @Route("/reminder_timeslot_notification", name="reminder_timeslot_notification")
+     * @Route("/reminder-timeslot-notification", name="reminder_timeslot_notification")
      */
     public function reminderTimeslot(
         ReminderTimeslotNotification $reminderTimeslotNotification
@@ -51,7 +51,7 @@ class RunTaskController extends AbstractController
     }
 
     /**
-     * @Route("/cycle_start_notification", name="start_cycle_notification")
+     * @Route("/cycle-start-notification", name="start_cycle_notification")
      */
     public function startCyle(CycleStartNotification $cycleStartNotification): Response
     {

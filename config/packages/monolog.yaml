@@ -61,6 +61,5 @@ when@prod:
                 path: php://stderr
             error:    
                 type: stream
+                action_level: error
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
-                level: debug
-                channels: ["!event"]

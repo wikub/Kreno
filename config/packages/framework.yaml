@@ -26,4 +26,4 @@ when@test:
 
 when@prod:
     framework:
-        http_cache: true
+        http_cache: false

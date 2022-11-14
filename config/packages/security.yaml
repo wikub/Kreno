@@ -23,6 +23,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         run_task:
+            provider: run_task_provider
             pattern: ^/run
             custom_authenticators:
                 - App\Security\RunTaskAuthenticator

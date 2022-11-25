@@ -1,0 +1,22 @@
+{% extends 'base_noauth.html.twig' %}
+
+{% block body %}
+    <div class="row mt-5 justify-content-md-center">
+        <div class="col-md-auto">
+
+            <div class="card">
+                <div class="card-header">
+                    Une erreur s'est produite
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title"><i class="fas fa-exclamation-triangle"></i> {{exception.message}}</h4>
+                    <p class="card-text">{{ exception.traceAsString|nl2br }} </p>
+                    <div class="text-center">
+                        <a href="{{ path('index_index') }}" class="btn btn-primary"><i class="fas fa-home"></i> Aller à l'accueil</a>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+{% endblock %}

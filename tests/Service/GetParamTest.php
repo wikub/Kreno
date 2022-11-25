@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Tests\Controller;
+namespace App\Tests\Service;
 
 use App\Entity\Param;
 use App\Repository\ParamRepository;

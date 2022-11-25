@@ -21,5 +21,4 @@ class ParamNotFoundException extends \Exception
         $this->parameter = $parameter;
         $this->message = sprintf($this->templateMessage, $parameter);
     }
-    
 }

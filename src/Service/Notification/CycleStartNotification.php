@@ -12,7 +12,6 @@
 namespace App\Service\Notification;
 
 use App\Entity\Cycle;
-use App\Exception\Service\Notification\CycleNotFound;
 use App\Exception\Service\Notification\CycleNotFoundException;
 use App\Exception\Service\Notification\IsDisableException;
 use App\Exception\Service\Notification\ParameterNotValidException;
@@ -99,8 +98,8 @@ class CycleStartNotification
 
     private function getCycle(): ?Cycle
     {
-        $date = (new \DateTimeImmutable())->modify('+'.$this->nbDaysBefore.' days')->setTime(0,0,0,0);
-        
+        $date = (new \DateTimeImmutable())->modify('+'.$this->nbDaysBefore.' days')->setTime(0, 0, 0, 0);
+
         return $this->cycleRepository->findOneBy(['start' => $date]);
     }
 

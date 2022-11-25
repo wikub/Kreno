@@ -11,6 +11,8 @@
 
 namespace App\Service\Notification;
 
+use App\Exception\Service\Notification\IsDisableException;
+use App\Exception\Service\Notification\ParameterNotValidException;
 use App\Repository\TimeslotRepository;
 use App\Service\EmailSender;
 use App\Service\GetParam;
@@ -47,7 +49,12 @@ class ReminderTimeslotNotification
     {
         if (!$this->enable) {
             $this->logger->info('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE is disable. the process is cancel');
-            throw new \Exception('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE is disable. the process is cancel');
+            throw new IsDisableException('EMAIL_NOTIF_REMINDER_TIMESLOT_ENABLE is disable. the process is cancel');
+        }
+
+        if (!($this->nbHourBefore > 0)) {
+            $this->logger->info('EMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE is not superior to 0. the process is cancel');
+            throw new ParameterNotValidException('CEMAIL_NOTIF_REMINDER_TIMESLOT_NB_HOURS_BEFORE is not superior to 0. the process is cancel');
         }
 
         $timeslots = $this->timeslotRepository->findUpcoming($this->nbHourBefore, 24);

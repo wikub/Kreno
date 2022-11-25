@@ -31,7 +31,7 @@ class EmailSenderTest extends WebTestCase
     {
         parent::setUp();
 
-        $test = $this->loadFixtures(['params', 'emailTemplates', 'users']);
+        $this->loadFixtures(['params_email_sender', 'emailTemplates', 'users']);
 
         $this->emailSender = static::getContainer()->get(EmailSender::class);
     }

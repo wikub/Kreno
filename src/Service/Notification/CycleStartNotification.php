@@ -12,6 +12,10 @@
 namespace App\Service\Notification;
 
 use App\Entity\Cycle;
+use App\Exception\Service\Notification\CycleNotFound;
+use App\Exception\Service\Notification\CycleNotFoundException;
+use App\Exception\Service\Notification\IsDisableException;
+use App\Exception\Service\Notification\ParameterNotValidException;
 use App\Repository\CommitmentLogRepository;
 use App\Repository\CycleRepository;
 use App\Repository\UserRepository;
@@ -52,12 +56,12 @@ class CycleStartNotification
     {
         if (!$this->enable) {
             $this->logger->info('EMAIL_NOTIF_START_CYCLE_ENABLE is disable. the process is cancel');
-            throw new \Exception('EMAIL_NOTIF_START_CYCLE_ENABLE is disable. the process is cancel');
+            throw new IsDisableException('EMAIL_NOTIF_START_CYCLE_ENABLE is disable. the process is cancel');
         }
 
         if (!isset($cycle) && !($this->nbDaysBefore > 0)) {
             $this->logger->info('Cycle not provides and EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE is not superior to 0. the process is cancel');
-            throw new \Exception('Cycle not provides and EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE is not superior to 0. the process is cancel');
+            throw new ParameterNotValidException('Cycle not provides and EMAIL_NOTIF_START_CYCLE_NB_DAYS_BEFORE is not superior to 0. the process is cancel');
         }
 
         if (!isset($cycle)) {
@@ -66,7 +70,7 @@ class CycleStartNotification
 
         if (!isset($cycle)) {
             $this->logger->info('Cycle not provides and not found. the process is cancel');
-            throw new \Exception('Cycle not provides and not found. the process is cancel');
+            throw new CycleNotFoundException('Cycle not provides and not found. the process is cancel');
         }
 
         $users = $this->getUsers();
@@ -95,8 +99,8 @@ class CycleStartNotification
 
     private function getCycle(): ?Cycle
     {
-        $date = (new \DateTimeImmutable())->modify('+'.$this->nbDaysBefore.' days');
-
+        $date = (new \DateTimeImmutable())->modify('+'.$this->nbDaysBefore.' days')->setTime(0,0,0,0);
+        
         return $this->cycleRepository->findOneBy(['start' => $date]);
     }
 

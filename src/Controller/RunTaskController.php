@@ -11,6 +11,8 @@
 
 namespace App\Controller;
 
+use App\Exception\Service\Notification\CycleNotFound;
+use App\Exception\WarningException;
 use App\Service\Notification\CycleStartNotification;
 use App\Service\Notification\ReminderTimeslotNotification;
 use Psr\Log\LoggerInterface;
@@ -51,12 +53,18 @@ class RunTaskController extends AbstractController
     }
 
     /**
-     * @Route("/cycle-start-notification", name="start_cycle_notification")
+     * @Route("/cycle-start-notification", name="cycle_start_notification")
      */
     public function startCyle(CycleStartNotification $cycleStartNotification): Response
     {
         try {
             $cycleStartNotification->send();
+        } catch (WarningException $e) {
+            $this->logger->error('Run Task Cycle Start Notification Warning : '.$e->getMessage());
+            
+            return (new Response())
+                ->setContent('Cycle Start Notification Warning : '.$e->getMessage())
+                ->setStatusCode(Response::HTTP_OK);
         } catch (\Exception $e) {
             $this->logger->error('Run Task Cycle Start Notification Error : '.$e->getMessage());
 

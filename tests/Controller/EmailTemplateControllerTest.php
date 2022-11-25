@@ -34,7 +34,7 @@ class EmailTemplateControllerTest extends WebTestCase
             $this->repository->remove($object, true);
         }
 
-        $this->ref = $this->loadFixtures(['users', 'params']);
+        $this->ref = $this->loadFixtures(['users', 'params_email_sender']);
         $this->login($this->ref['user1']);
     }
 

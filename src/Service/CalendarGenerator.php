@@ -103,10 +103,10 @@ class CalendarGenerator
         $componentFactory = new CalendarFactory();
         $calendarComponent = $componentFactory->createCalendar($calendar);
 
-        //4. Refresh
+        // 4. Refresh
         $refreshProperty = new Property('REFRESH-INTERVAL;VALUE=DURATION', new TextValue('PT4H'));
         $calendarComponent = $calendarComponent->withProperty($refreshProperty);
-        
+
         // 5. Output
         return $calendarComponent;
     }

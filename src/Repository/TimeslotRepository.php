@@ -35,7 +35,9 @@ class TimeslotRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->join('t.jobs', 'j')
-            ->leftJoin('j.user', 'user')
+            ->addSelect('j')
+            ->leftJoin('j.user', 'u')
+            ->addSelect('u')
             ->andWhere('t.enabled = true')
             ->orderBy('t.start', 'ASC')
             ->getQuery()
@@ -47,7 +49,9 @@ class TimeslotRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->join('t.jobs', 'j')
-            ->join('j.user', 'user')
+            ->addSelect('j')
+            ->join('j.user', 'u')
+            ->addSelect('u')
             ->andWhere('t.enabled = true')
             ->andWhere('j.user = :user')
             ->setParameter('user', $user)

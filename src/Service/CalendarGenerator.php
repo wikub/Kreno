@@ -18,6 +18,9 @@ use Eluceo\iCal\Domain\Entity\Calendar;
 use Eluceo\iCal\Domain\Entity\Event;
 use Eluceo\iCal\Domain\ValueObject\DateTime;
 use Eluceo\iCal\Domain\ValueObject\TimeSpan;
+use Eluceo\iCal\Presentation\Component;
+use Eluceo\iCal\Presentation\Component\Property;
+use Eluceo\iCal\Presentation\Component\Property\Value\TextValue;
 use Eluceo\iCal\Presentation\Factory\CalendarFactory;
 
 class CalendarGenerator
@@ -37,15 +40,7 @@ class CalendarGenerator
             $events[] = $this->transformToEvent($timeslot);
         }
 
-        // 2. Create Calendar domain entity
-        $calendar = new Calendar($events);
-
-        // 3. Transform domain entity into an iCalendar component
-        $componentFactory = new CalendarFactory();
-        $calendarComponent = $componentFactory->createCalendar($calendar);
-
-        // 5. Output
-        return $calendarComponent;
+        return $this->generateIcal($events);
     }
 
     public function generateForUser(User $user): string
@@ -55,15 +50,7 @@ class CalendarGenerator
             $events[] = $this->transformToEvent($timeslot);
         }
 
-        // 2. Create Calendar domain entity
-        $calendar = new Calendar($events);
-
-        // 3. Transform domain entity into an iCalendar component
-        $componentFactory = new CalendarFactory();
-        $calendarComponent = $componentFactory->createCalendar($calendar);
-
-        // 5. Output
-        return $calendarComponent;
+        return $this->generateIcal($events);
     }
 
     public function generateForSupervisor(): string
@@ -73,15 +60,7 @@ class CalendarGenerator
             $events[] = $this->transformToEvent($timeslot, true);
         }
 
-        // 2. Create Calendar domain entity
-        $calendar = new Calendar($events);
-
-        // 3. Transform domain entity into an iCalendar component
-        $componentFactory = new CalendarFactory();
-        $calendarComponent = $componentFactory->createCalendar($calendar);
-
-        // 5. Output
-        return $calendarComponent;
+        return $this->generateIcal($events);
     }
 
     private function transformToEvent(Timeslot $timeslot, bool $supervisor = false): Event
@@ -108,10 +87,27 @@ class CalendarGenerator
             }
 
             if ($found) {
-                $event->setDescription($description);
+                $event->setDescription(trim($description));
             }
         }
 
         return $event;
+    }
+
+    private function generateIcal(array $events = []): Component
+    {
+        // 2. Create Calendar domain entity
+        $calendar = new Calendar($events);
+
+        // 3. Transform domain entity into an iCalendar component
+        $componentFactory = new CalendarFactory();
+        $calendarComponent = $componentFactory->createCalendar($calendar);
+
+        //4. Refresh
+        $refreshProperty = new Property('REFRESH-INTERVAL;VALUE=DURATION', new TextValue('PT4H'));
+        $calendarComponent = $calendarComponent->withProperty($refreshProperty);
+        
+        // 5. Output
+        return $calendarComponent;
     }
 }

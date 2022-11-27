@@ -104,7 +104,13 @@ class CalendarGenerator
         $calendarComponent = $componentFactory->createCalendar($calendar);
 
         // 4. Refresh
-        $refreshProperty = new Property('REFRESH-INTERVAL;VALUE=DURATION', new TextValue('PT4H'));
+        $refreshProperty = new Property('METHOD', new TextValue('PUBLISH'));
+        $calendarComponent = $calendarComponent->withProperty($refreshProperty);
+
+        $refreshProperty = new Property('REFRESH-INTERVAL;VALUE=DURATION', new TextValue('PT1H'));
+        $calendarComponent = $calendarComponent->withProperty($refreshProperty);
+
+        $refreshProperty = new Property('X-PUBLISHED-TTL', new TextValue('PT1H'));
         $calendarComponent = $calendarComponent->withProperty($refreshProperty);
 
         // 5. Output

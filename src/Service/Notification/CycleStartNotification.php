@@ -98,7 +98,7 @@ class CycleStartNotification
 
     private function getCycle(): ?Cycle
     {
-        $date = (new \DateTimeImmutable())->modify('+'.$this->nbDaysBefore.' days')->setTime(0, 0, 0, 0);
+        $date = (new \DateTimeImmutable())->setTime(0, 0, 0, 0)->modify('+'.$this->nbDaysBefore.' days');
 
         return $this->cycleRepository->findOneBy(['start' => $date]);
     }

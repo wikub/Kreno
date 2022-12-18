@@ -62,6 +62,9 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($this->generatePassword());
 
+            $user->setEmailNotifCycleStart(true);
+            $user->setEmailNotifTimeslotReminder(true);
+            
             $entityManager->persist($user);
             $entityManager->flush();
 

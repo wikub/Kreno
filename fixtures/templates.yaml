@@ -8,3 +8,5 @@ App\Entity\User:
         firstname: <firstname()>
         phonenumber: <phonenumber()>
         enabled: true
+        email_notif_cycle_start: true
+        email_notif_timeslot_reminder: true

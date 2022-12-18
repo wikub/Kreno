@@ -8,6 +8,8 @@ App\Entity\User:
         email: 'admin@admin.com'
         username: 'admin@admin.com'
         roles: ['ROLE_ADMIN']
+        email_notif_cycle_start: true
+        email_notif_timeslot_reminder: true
     user{2..5} (extends user):
 
     

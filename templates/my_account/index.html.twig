@@ -10,9 +10,15 @@
 
 {% include '_elements/_flash_message.html.twig' %}
 
+<div class="row mb-3">
+    <div class="col">
+        <a href="{{ path('myaccount_change_password') }}" class="btn btn-primary"><i class="fas fa-key"></i> Modifier mon mot de passe</a>
+    </div>
+</div>
+
 <div class="row">
     <div class="col">
-        <div class="table-responsive mb-3">
+        <div class="table-responsive">
             <table class="table table-bordered">
                 <tbody>
                     <tr>
@@ -38,10 +44,47 @@
                 </tbody>
             </table>
         </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-header fw-bold">
+                <i class="fas fa-bell"></i> Notification
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    {% if user.emailNotifTimeslotReminder %}
+                        <a href="{{ path('myaccount_notification_timeslot_reminder_disable')}}" class="btn btn-sm btn-success fw-bold" title="Cliquer pour desactiver">
+                            <i class="far fa-check-square"></i> Rappel de début de créneau
+                        </a>
+                    {% else %}
+                        <a href="{{ path('myaccount_notification_timeslot_reminder_enable')}}" class="btn btn-sm btn-danger fw-bold" title="Cliquer pour activer">
+                            <i class="far fa-square"></i> Rappel de début de créneau
+                        </a>
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if user.emailNotifCycleStart %}
+                        <a href="{{ path('myaccount_notification_cycle_start_disable')}}" class="btn btn-sm btn-success fw-bold" title="Cliquer pour desactiver">
+                            <i class="far fa-check-square"></i> Rappel de début de cycle
+                        </a>
+                    {% else %}
+                        <a href="{{ path('myaccount_notification_cycle_start_enable')}}" class="btn btn-sm btn-danger fw-bold" title="Cliquer pour activer">
+                            <i class="far fa-square"></i> Rappel de début de cycle
+                        </a>
+                    {% endif %}
+                    
+                </li>
+            </ul>
+        </div>
 
         <div class="card">
             <div class="card-header fw-bold">
-                Ajouter mes créneaux à mon agenda personnel
+                <i class="fas fa-calendar-alt"></i> Exporter mon agenda personnel
             </div>
             <div class="card-body">
                 <p class="card-text">
@@ -77,11 +120,7 @@
             </ul>
         </div>
 
-        <div class="text-center">
-            <div class="btn-group mt-3">
-                <a href="{{ path('myaccount_change_password') }}" class="btn btn-primary"><i class="fas fa-key"></i> Modifier mon mot de passe</a>
-            </div>
-        </div>
+
     </div>
 </div>
 

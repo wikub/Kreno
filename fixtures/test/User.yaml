@@ -11,4 +11,7 @@ App\Entity\User:
         email: <email()>
         username: <username()>
         roles: ['ROLE_USER']
+        enabled: true
+        email_notif_cycle_start: true
+        email_notif_timeslot_reminder: true
     

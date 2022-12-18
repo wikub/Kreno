@@ -125,6 +125,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $calendarToken;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $emailNotifCycleStart;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $emailNotifTimeslotReminder;
+
     public function __construct()
     {
         $this->jobs = new ArrayCollection();
@@ -529,6 +539,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCalendarToken(?string $calendarToken): self
     {
         $this->calendarToken = $calendarToken;
+
+        return $this;
+    }
+
+    public function getEmailNotifCycleStart(): ?bool
+    {
+        return $this->emailNotifCycleStart;
+    }
+
+    public function setEmailNotifCycleStart(bool $emailNotifCycleStart): self
+    {
+        $this->emailNotifCycleStart = $emailNotifCycleStart;
+
+        return $this;
+    }
+
+    public function getEmailNotifTimeslotReminder(): ?bool
+    {
+        return $this->emailNotifTimeslotReminder;
+    }
+
+    public function setEmailNotifTimeslotReminder(bool $emailNotifTimeslotReminder): self
+    {
+        $this->emailNotifTimeslotReminder = $emailNotifTimeslotReminder;
 
         return $this;
     }

@@ -52,6 +52,8 @@ class UserRepositoryTest extends KernelTestCase
             ->setName('Test Name')
             ->setFirstname('Test Firstname')
             ->setPhonenumber('Test Phonenumber')
+            ->setEmailNotifCycleStart(true)
+            ->setEmailNotifTimeslotReminder(true)
         ;
 
         $this->entityManager->persist($user);
@@ -74,6 +76,8 @@ class UserRepositoryTest extends KernelTestCase
             ->setRoles(['ROLE_USER'])
             ->setName('Test 2 nom')
             ->setFirstname('Test 2 prénom')
+            ->setEmailNotifCycleStart(true)
+            ->setEmailNotifTimeslotReminder(true)
         ;
 
         $this->entityManager->persist($user);
@@ -99,6 +103,8 @@ class UserRepositoryTest extends KernelTestCase
             ->setRoles(['ROLE_USER'])
             ->setName('Test 3 name')
             ->setFirstname('Test 3 firstnamme')
+            ->setEmailNotifCycleStart(true)
+            ->setEmailNotifTimeslotReminder(true)
         ;
 
         $this->entityManager->persist($user);

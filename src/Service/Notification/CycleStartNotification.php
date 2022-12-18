@@ -105,6 +105,9 @@ class CycleStartNotification
 
     private function getUsers(): array
     {
-        return $this->userRepository->findBy(['enabled' => true]);
+        return $this->userRepository->findBy([
+            'enabled' => true,
+            'emailNotifCycleStart' => true,
+        ]);
     }
 }

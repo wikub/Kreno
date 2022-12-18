@@ -68,6 +68,10 @@ class ReminderTimeslotNotification
                     continue;
                 }
 
+                if (false === $job->getUser()->getEmailNotifTimeslotReminder()) {
+                    continue;
+                }
+
                 $adress = new Address($job->getUser()->getEmail(), $job->getUser()->getFirstname().' '.$job->getUser()->getName());
 
                 $this->emailSender->sendWithEmailTemplate(

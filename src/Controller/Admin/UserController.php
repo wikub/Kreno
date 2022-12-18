@@ -64,7 +64,7 @@ class UserController extends AbstractController
 
             $user->setEmailNotifCycleStart(true);
             $user->setEmailNotifTimeslotReminder(true);
-            
+
             $entityManager->persist($user);
             $entityManager->flush();
 

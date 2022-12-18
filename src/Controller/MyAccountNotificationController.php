@@ -61,7 +61,7 @@ class MyAccountNotificationController extends AbstractController
         return $this->redirectToRoute('myaccount_index');
     }
 
-        /**
+    /**
      * @Route("/cycle-start/enable", name="cycle_start_enable")
      */
     public function cycleStartEnable(): Response

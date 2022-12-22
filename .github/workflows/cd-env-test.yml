@@ -30,7 +30,7 @@ jobs:
           script: |
             cd ${{ secrets.TEST_DIST_PROJECT_DIR }}
             source ~/.profile
-            git checkout ${{ github.ref }}
+            git checkout ${{ inputs.deploy_target }}
             git pull
             composer2 install
             php bin/console --no-interaction doctrine:migrations:migrate 

@@ -1,9 +1,12 @@
 version: '3'
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
+  mariadb:
     image: 'mariadb:latest'
+    container_name: kreno_mariadb
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql
     environment:
       MARIADB_ROOT_PASSWORD: kreno
       MARIADB_DATABASE: kreno
@@ -15,9 +18,37 @@ services:
       # "3306" to "3306:3306". Where the first port is exposed to the host and the second is the container port.
       # See https://docs.docker.com/compose/compose-file/#ports for more information.
       - '3306:3306'
-###< doctrine/doctrine-bundle ###
+    networks:
+      - dev
+
+  apache-php:
+    build: docker
+    container_name: kreno_apache-php
+    restart: always
+    ports:
+      - "8000:80"
+    volumes:
+      - ./docker/vhosts:/etc/apache2/sites-enabled
+      - ./:/var/www
+    networks:
+      - dev
+  
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: kreno_phpmyadmin
+    restart: always
+    depends_on:
+      - mariadb
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: mariadb
+    networks:
+      - dev
+
+networks:
+  dev:
 
 volumes:
-###> doctrine/doctrine-bundle ###
   db-data:
-###< doctrine/doctrine-bundle ###
+

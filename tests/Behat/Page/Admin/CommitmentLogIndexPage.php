@@ -50,7 +50,7 @@ class CommitmentLogIndexPage extends SymfonyPage
         assertStringContainsString($comment, $rowComment->getText());
     }
 
-    private function findRowByText($text): ?NodeElement
+    private function findRowByText($text): NodeElement
     {
         $row = $this->getDocument()->find('css', sprintf('table tr:contains("%s")', $text));
 

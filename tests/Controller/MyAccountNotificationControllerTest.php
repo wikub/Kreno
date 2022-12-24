@@ -30,8 +30,8 @@ class MyAccountNotificationControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->userRepository = static::getContainer()->get('doctrine')->getRepository(User::class);
-        $this->entityManager = static::getContainer()->get('doctrine')->getManager();
+        $this->entityManager = static::getContainer()->get('doctrine.orm.entity_manager');
+        $this->userRepository = $this->entityManager->getRepository(User::class);
 
         $this->users = $this->loadFixtures(['users']);
         $this->login($this->users['user1']);
@@ -62,7 +62,7 @@ class MyAccountNotificationControllerTest extends WebTestCase
         $crawler = $this->client->followRedirect();
 
         self::assertResponseStatusCodeSame(200);
-        
+
         $user = $this->userRepository->findOneBy(['id' => $user->getId()]);
 
         $this->assertFalse($user->getEmailNotifTimeslotReminder());
@@ -86,7 +86,7 @@ class MyAccountNotificationControllerTest extends WebTestCase
         $crawler = $this->client->followRedirect();
 
         self::assertResponseStatusCodeSame(200);
-        
+
         $user = $this->userRepository->findOneBy(['id' => $user->getId()]);
 
         $this->assertTrue($user->getEmailNotifTimeslotReminder());
@@ -108,7 +108,7 @@ class MyAccountNotificationControllerTest extends WebTestCase
         $crawler = $this->client->followRedirect();
 
         self::assertResponseStatusCodeSame(200);
-        
+
         $user = $this->userRepository->findOneBy(['id' => $user->getId()]);
 
         $this->assertFalse($user->getEmailNotifCycleStart());
@@ -132,7 +132,7 @@ class MyAccountNotificationControllerTest extends WebTestCase
         $crawler = $this->client->followRedirect();
 
         self::assertResponseStatusCodeSame(200);
-        
+
         $user = $this->userRepository->findOneBy(['id' => $user->getId()]);
 
         $this->assertTrue($user->getEmailNotifCycleStart());
